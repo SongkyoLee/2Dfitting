@@ -69,7 +69,7 @@ struct VariableStruct {
 } ;
 
 bool checkTriggers(const struct VariableStruct Jpsi);
-bool checkAccCut(const TLorentzVector* m1P, const TLorentzVector* m2P);
+bool checkAccCut(const TLorentzVector* Mu);
 bool checkMuID(const struct VariableStruct Jpsi);
 
 int main(int argc, char* argv[]) {
@@ -354,7 +354,8 @@ int main(int argc, char* argv[]) {
         Jpsi.theRapidity > Jpsi_YMin && Jpsi.theRapidity < Jpsi_YMax &&
         Jpsi.theCt > Jpsi_CtMin && Jpsi.theCt < Jpsi_CtMax && 
         Jpsi.theCtErr > Jpsi_CtErrMin && Jpsi.theCtErr < Jpsi_CtErrMax && 
-        checkAccCut(m1P,m2P) &&
+        checkAccCut(m1P) &&
+        checkAccCut(m2P) &&
        	checkTriggers(Jpsi) &&
         checkMuID(Jpsi)
         ) {
@@ -425,57 +426,34 @@ bool checkTriggers(const struct VariableStruct Jpsi){
   		return ( (Jpsi.theHLTrig&trigType)==trigType && (Jpsi.theQQTrig&trigType)==trigType );
 }
 
-bool checkAccCut(const TLorentzVector* m1P, const TLorentzVector* m2P) {
+bool checkAccCut(const TLorentzVector* Mu) {
   if (accCutType == 1) { //old cut
-     return (
-		 	( fabs(m1P->Eta()) < 2.4 &&
-		 	((fabs(m1P->Eta()) < 1.3 && m1P->Pt() >= 3.3) ||
-			(1.3 <= fabs(m1P->Eta()) && fabs(m1P->Eta()) < 2.2 && m1P->P() >= 2.9) ||
-			(2.2 <= fabs(m1P->Eta()) && m1P->Pt() >= 0.8)) ) &&
-		 	( fabs(m2P->Eta()) < 2.4 &&
-		 	((fabs(m2P->Eta()) < 1.3 && m2P->Pt() >= 3.3) ||
-			(1.3 <= fabs(m2P->Eta()) && fabs(m2P->Eta()) < 2.2 && m2P->P() >= 2.9) ||
-			(2.2 <= fabs(m2P->Eta()) && m2P->Pt() >= 0.8)) )
+  	return (
+			(fabs(Mu->Eta())<1.3 && Mu->Pt()>=3.3) ||
+			(1.3<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.2 && Mu->P()>=2.9) ||
+			(2.2<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.4 && Mu->Pt()>=0.8) 
 		);
   }
   else if (accCutType == 2) { // new cut
-     return (
-		 	( fabs(m1P->Eta()) < 2.4 &&
-		 	((fabs(m1P->Eta()) < 1.2 && m1P->Pt() >= 3.3) ||
-			(1.2 <= fabs(m1P->Eta()) && fabs(m1P->Eta()) < 2.1 && m1P->Pt() >= -(1.0/0.9)*fabs(m1P->Eta())+1.2*(1.0/0.9)+2.6) ||
-			//(1.2 <= fabs(m1P->Eta()) && fabs(m1P->Eta()) < 2.1 && m1P->Pt() >= 3.93-1.1*fabs(m1P->Eta())) ||
-			(2.1 <= fabs(m1P->Eta()) && m1P->Pt() >= 1.3)) ) &&
-		 	( fabs(m2P->Eta()) < 2.4 &&
-		 	((fabs(m2P->Eta()) < 1.2 && m2P->Pt() >= 3.3) ||
-			(1.2 <= fabs(m2P->Eta()) && fabs(m2P->Eta()) < 2.1 && m2P->Pt() >= -(1.0/0.9)*fabs(m2P->Eta())+1.2*(1.0/0.9)+2.6) ||
-			//(1.2 <= fabs(m2P->Eta()) && fabs(m2P->Eta()) < 2.1 && m2P->Pt() >= 3.93-1.1*fabs(m2P->Eta())) ||
-			(2.1 <= fabs(m2P->Eta()) && m2P->Pt() >= 1.3)) )
+  	return (
+			(fabs(Mu->Eta())<1.2 && Mu->Pt()>=3.3) ||
+			(1.2<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.1 && Mu->Pt()>=3.93-1.11*fabs(Mu->Eta())) ||
+			(2.1<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.4 && Mu->Pt()>=1.3)
 		);
   }
   else if (accCutType == 3) { //pre-loose cut A on pA data
-     return (
-		 	( fabs(m1P->Eta()) < 2.4 &&
-		 	((fabs(m1P->Eta()) < 1.2 && m1P->Pt() >= 3.3) ||
-			(1.2 <= fabs(m1P->Eta()) && fabs(m1P->Eta()) < 1.6 && m1P->Pt() >= -(1.4/0.4)*fabs(m1P->Eta())+1.2*(1.4/0.4)+2.6) ||
-			(1.6 <= fabs(m1P->Eta()) && fabs(m1P->Eta()) < 2.1 && m1P->Pt() >= -(0.4/0.5)*fabs(m1P->Eta())+1.6*(0.4/0.5)+1.2) ||
-			(2.1 <= fabs(m1P->Eta()) && m1P->Pt() >= 0.8)) ) &&
-		 	( fabs(m2P->Eta()) < 2.4 &&
-		 	((fabs(m2P->Eta()) < 1.2 && m2P->Pt() >= 3.3) ||
-			(1.2 <= fabs(m2P->Eta()) && fabs(m2P->Eta()) < 1.6 && m2P->Pt() >= -(1.4/0.4)*fabs(m2P->Eta())+1.2*(1.4/0.4)+2.6) ||
-			(1.6 <= fabs(m2P->Eta()) && fabs(m2P->Eta()) < 2.1 && m2P->Pt() >= -(0.4/0.5)*fabs(m2P->Eta())+1.6*(0.4/0.5)+1.2) ||
-			(2.1 <= fabs(m2P->Eta()) && m2P->Pt() >= 0.8)) )
+  	return (
+		 	(fabs(Mu->Eta())<1.2 && Mu->Pt()>=3.3) ||
+			(1.2<=fabs(Mu->Eta()) && fabs(Mu->Eta())<1.6 && Mu->Pt() >= 6.8-3.5*fabs(Mu->Eta())) ||
+			(1.6<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.1 && Mu->Pt() >= 2.48-0.8*fabs(Mu->Eta())) ||
+			(2.1<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.4 && Mu->Pt() >= 0.8)
 		);
   }
   else if (accCutType == 4) { // 2015 PbPb GlbTrk muons
-     return (
-		 	( fabs(m1P->Eta()) < 2.4 &&
-		 	((fabs(m1P->Eta()) < 1.2 && m1P->Pt() >= 3.5) ||
-			(1.2 <= fabs(m1P->Eta()) && fabs(m1P->Eta()) < 2.1 && m1P->Pt() >= 5.77-(1.89)*fabs(m1P->Eta())) ||
-			(2.1 <= fabs(m1P->Eta()) && m1P->Pt() >= 1.8)) ) &&
-		 	( fabs(m2P->Eta()) < 2.4 &&
-		 	((fabs(m2P->Eta()) < 1.2 && m2P->Pt() >= 3.5) ||
-			(1.2 <= fabs(m2P->Eta()) && fabs(m2P->Eta()) < 2.1 && m2P->Pt() >= 5.77-(1.89)*fabs(m2P->Eta())) ||
-			(2.1 <= fabs(m2P->Eta()) && m2P->Pt() >= 1.8)) )
+  	return (
+			(fabs(Mu->Eta())<1.2 && Mu->Pt() >=3.5) ||
+			(1.2<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.1 && Mu->Pt()>=5.77-(1.89)*fabs(Mu->Eta())) ||
+			(2.1<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.4 && Mu->Pt()>=1.8)
 		);
 	}
 	else {return false;}

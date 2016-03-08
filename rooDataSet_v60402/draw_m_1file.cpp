@@ -97,7 +97,7 @@ int main (int argc, char* argv[])
 	hGreen->SetMarkerColor(kGreen); hGreen->SetMarkerSize(1.2); hGreen->SetMarkerStyle(kFullCircle);
 	
 	// Open RooDataFile
-	TFile fInData("/home/songkyo/kyo/2Dfitting/rooDataSet_v60402/outRoo_Data_Pbp_newcut_test_v1/outRoo_Data_Pbp_newcut_test_v1.root");
+	TFile fInData("./outRoo_Data_Pbp_newcut_v1/outRoo_Data_Pbp_newcut_v1.root");
 	if (fInData.IsZombie()) { cout << "CANNOT open data root file\n"; return 1; }
 	fInData.cd();
 

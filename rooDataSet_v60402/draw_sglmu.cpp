@@ -91,50 +91,50 @@ int main (int argc, char* argv[])
 	bool isPrompt=0;
 	bool is1stRun=0;
 	int isReprocessed=0;// (only for isData && is1stRun)
-	const char* sampleName;
-	const char* cutName;
 	
-	if (argc!=6) { 
-		cout << "select option ( Usage : ./Executable cutName isData isPrompt is1stRun isReprocessed)" << endl; 
+	if (argc!=5) { 
+		cout << "select option ( Usage : ./Executable isData isPrompt is1stRun isReprocessed)" << endl; 
 		return 0; 
 	}
-	cutName =  argv[1];
-	isData =  atoi(argv[2]);
-	isPrompt =  atoi(argv[3]);
-	is1stRun =  atoi(argv[4]);
-	isReprocessed =  atoi(argv[5]);
+	isData =  atoi(argv[1]);
+	isPrompt =  atoi(argv[2]);
+	is1stRun =  atoi(argv[3]);
+	isReprocessed =  atoi(argv[4]);
 
 	cout << "1" << endl;	
 	// Open RooDataFile
 	TFile *fInData;
+	const char* sampleName;
+//	const char* cutName = "cutG";
+	const char* cutName = "sglmutest";
 	
 	if (isData && is1stRun && !isReprocessed) {
 		sampleName = "Data_Pbp_v1";
-		fInData = new TFile(Form("./outRoo_Data_Pbp_%s_v1/outRoo_Data_Pbp_%s_v1.root",cutName,cutName));
+		fInData = new TFile(Form("/afs/cern.ch/work/k/kyolee/private/pAJpsi_rooDataSet_20150910/outRoo_Data_Pbp_%s_v1/outRoo_Data_Pbp_%s_v1.root",cutName,cutName));
 	}
 	else if (isData && is1stRun && isReprocessed) {
 		sampleName = "Data_Pbp_v2";
-		fInData = new TFile(Form("./outRoo_Data_Pbp_%s_v2/outRoo_Data_Pbp_%s_v2.root",cutName,cutName));
+		fInData = new TFile(Form("/afs/cern.ch/work/k/kyolee/private/pAJpsi_rooDataSet_20150910/outRoo_Data_Pbp_%s_v2/outRoo_Data_Pbp_%s_v2.root",cutName,cutName));
 	}
 	else if (isData && !is1stRun) {
 		sampleName = "Data_pPb";
-		fInData = new TFile(Form("./outRoo_Data_pPb_%s/outRoo_Data_pPb_%s.root",cutName,cutName));
+		fInData = new TFile(Form("/afs/cern.ch/work/k/kyolee/private/pAJpsi_rooDataSet_20150910/outRoo_Data_pPb_%s/outRoo_Data_pPb_%s.root",cutName,cutName));
 	}
 	else if (!isData && isPrompt && is1stRun) {
 		sampleName = "PRMC_Pbp";
-		fInData = new TFile(Form("./outRoo_PRMC_Pbp_%s_off2M/outRoo_PRMC_Pbp_%s_off2M.root",cutName,cutName));
+		fInData = new TFile(Form("/afs/cern.ch/work/k/kyolee/private/pAJpsi_rooDataSet_20150910/outRoo_PRMC_Pbp_mcTwoWay_%s/outRoo_PRMC_Pbp_mcTwoWay_%s.root",cutName,cutName));
 	}
 	else if (!isData && isPrompt && !is1stRun) {
 		sampleName = "PRMC_pPb";
-		fInData = new TFile(Form("./outRoo_PRMC_pPb_%s_off2M/outRoo_PRMC_pPb_%s_off2M.root",cutName,cutName));
+		fInData = new TFile(Form("/afs/cern.ch/work/k/kyolee/private/pAJpsi_rooDataSet_20150910/outRoo_PRMC_pPb_mcTwoWay_%s/outRoo_PRMC_pPb_mcTwoWay_%s.root",cutName,cutName));
 	}
 	else if (!isData && !isPrompt && is1stRun) {
 		sampleName = "NPMC_Pbp";
-		fInData = new TFile(Form("./outRoo_NPMC_Pbp_%s/outRoo_NPMC_Pbp_%s_off2M.root",cutName,cutName));
+		fInData = new TFile(Form("/afs/cern.ch/work/k/kyolee/private/pAJpsi_rooDataSet_20150910/outRoo_NPMC_Pbp_mcTwoWay_%s/outRoo_NPMC_Pbp_mcTwoWay_%s.root",cutName,cutName));
 	}
 	else if (!isData && !isPrompt && !is1stRun) {
 		sampleName = "NPMC_pPb";
-		fInData = new TFile(Form("./outRoo_NPMC_pPb_%s/outRoo_NPMC_pPb_%s_off2M.root",cutName,cutName));
+		fInData = new TFile(Form("/afs/cern.ch/work/k/kyolee/private/pAJpsi_rooDataSet_20150910/outRoo_NPMC_pPb_mcTwoWay_%s/outRoo_NPMC_pPb_mcTwoWay_%s.root",cutName,cutName));
 	}
 
 
@@ -156,8 +156,10 @@ int main (int argc, char* argv[])
 	data->Print();
 
 	// construct plot frame
-	RooBinning rbpt(0.0,40.0);
-	rbpt.addUniform(400,0.0,45.0);
+	//RooBinning rbpt(0.0,45.0);
+	//rbpt.addUniform(45,0.0,45.0);
+	RooBinning rbpt(0.0,5.0);
+	rbpt.addUniform(50,0.0,5.0);
 	RooBinning rby(-2.5,2.5);
 	rby.addUniform(50,-2.5,2.5);
 	RooBinning rbm(2.6,3.5);
@@ -167,8 +169,9 @@ int main (int argc, char* argv[])
 	RooBinning rbntrk(0.,350.);
 	rbntrk.addUniform(60,0.,350.);
 	
-	RooPlot *ptFrame = ws->var("Jpsi_Pt")->frame(Bins(45),Range(0.0,45.0));
-	ws->var("Jpsi_Pt")->setBinning(rbpt);
+	//RooPlot *ptFrame = ws->var("Jpsi_Pt")->frame(Bins(45),Range(0.0,45.0));
+	RooPlot *ptFrame = ws->var("Mupl_Pt")->frame(Bins(50),Range(0.0,5.0));
+	ws->var("Mupl_Pt")->setBinning(rbpt);
 	ptFrame->GetXaxis()->SetTitle("p_{T} (GeV/c)");
 	ptFrame->GetXaxis()->CenterTitle();
 	ptFrame->GetYaxis()->SetTitleOffset(1.5);
@@ -178,14 +181,15 @@ int main (int argc, char* argv[])
 	ptFrame->SetMinimum(1.);
 	//ws->data("data")->plotOn(ptFrame);
 
-	RooPlot *yFrame = ws->var("Jpsi_Y")->frame(Bins(50),Range(-2.5,2.5));
+	//RooPlot *yFrame = ws->var("Jpsi_Y")->frame(Bins(50),Range(-2.5,2.5));
+	RooPlot *yFrame = ws->var("Mupl_Eta")->frame(Bins(50),Range(-2.5,2.5));
 	yFrame->GetXaxis()->SetTitle("y_{lab}");
 	yFrame->GetXaxis()->CenterTitle();
 	yFrame->GetYaxis()->SetTitleOffset(1.9);
 	double ymax = yFrame->GetMaximum();
 	yFrame->SetMaximum(1.1*ymax);
 	ws->data("data")->plotOn(yFrame,DataError(RooAbsData::SumW2),XErrorSize(0),MarkerColor(kBlue),MarkerSize(1),Binning(rby));
-
+/*
 	RooPlot *mFrame = ws ->var("Jpsi_Mass")->frame(Bins(40),Range(2.6,3.5));
 	mFrame->GetXaxis()->SetTitle("m_{#mu#mu} (GeV/c^{2})");
 	mFrame->GetXaxis()->CenterTitle();
@@ -193,8 +197,8 @@ int main (int argc, char* argv[])
 	double mmax = mFrame->GetMaximum();
 	mFrame->SetMaximum(1.1*mmax);
 	ws->data("data")->plotOn(mFrame,DataError(RooAbsData::SumW2),XErrorSize(0),MarkerColor(kBlue),MarkerSize(1),Binning(rbm));
-
-
+*/
+/*
 	//Draw 1D
   gStyle->SetTitleSize(0.048,"xyz");
 	TCanvas* c_pt = new TCanvas("c_pt","c_pt",400,400) ;
@@ -204,23 +208,23 @@ int main (int argc, char* argv[])
 	gPad->SetLogy(1);
 	gPad->SetLeftMargin(0.15) ; 
 	ptFrame->Draw() ;
-	c_pt->SaveAs(Form("dir_var/%s_%s_1D_pT.pdf",sampleName,cutName));	
+	c_pt->SaveAs(Form("dir_var_sglmutest/%s_%s_1D_pT.pdf",sampleName,cutName));	
   c_y->cd() ; 
 	gPad->SetLogy(0);
 	gPad->SetLeftMargin(0.18) ; 
 	yFrame->Draw() ;
-	c_y->SaveAs(Form("dir_var/%s_%s_1D_y.pdf",sampleName,cutName));	
+	c_y->SaveAs(Form("dir_var_sglmutest/%s_%s_1D_y.pdf",sampleName,cutName));	
   c_m->cd() ; 
 	gPad->SetLogy(0);
 	gPad->SetLeftMargin(0.19) ; 
 	mFrame->Draw() ;
-	c_m->SaveAs(Form("dir_var/%s_%s_1D_m.pdf",sampleName,cutName));	
-
+	c_m->SaveAs(Form("dir_var_sglmutest/%s_%s_1D_m.pdf",sampleName,cutName));	
+*/
 
 	// Draw 2D
 
   TCanvas* c_pt_y = new TCanvas("c_pt_y","c_pt_y",600,600) ;
-	TH1* h2D_pt_y = ws->data("data")->createHistogram("h2D_pt_y",*(ws->var("Jpsi_Y")),Binning(rby),YVar(*(ws->var("Jpsi_Pt")),Binning(rbpt)));
+	TH1* h2D_pt_y = ws->data("data")->createHistogram("h2D_pt_y",*(ws->var("Mupl_Eta")),Binning(rby),YVar(*(ws->var("Mupl_Pt")),Binning(rbpt)));
 
 	c_pt_y->cd();
 	gPad->SetRightMargin(0.19) ; 
@@ -230,8 +234,8 @@ int main (int argc, char* argv[])
 	h2D_pt_y -> GetYaxis()->SetTitle("p_{T} (GeV/c)");
 	h2D_pt_y -> GetZaxis()->SetTitle("");
 	h2D_pt_y -> Draw("colz");
-	c_pt_y->SaveAs(Form("dir_var/%s_%s_2D_pT_y.pdf",sampleName,cutName));
-
+	c_pt_y->SaveAs(Form("dir_var_sglmutest/%s_%s_2D_pT_y.pdf",sampleName,cutName));
+/*
   TCanvas* c_m_pt = new TCanvas("c_m_pt","c_m_pt",600,600) ;
 	TH1* h2D_m_pt = ws->data("data")->createHistogram("h2D_m_pt",*(ws->var("Jpsi_Pt")),Binning(rbpt),YVar(*(ws->var("Jpsi_Mass")),Binning(rbm)));
 
@@ -244,7 +248,7 @@ int main (int argc, char* argv[])
 	h2D_m_pt -> GetYaxis()->SetTitle("m_{#mu#mu} (GeV/c^{2})");
 	h2D_m_pt -> GetZaxis()->SetTitle("");
 	h2D_m_pt -> Draw("colz");
-	c_m_pt->SaveAs(Form("dir_var/%s_%s_2D_m_pT.pdf",sampleName,cutName));
+	c_m_pt->SaveAs(Form("dir_var_sglmutest/%s_%s_2D_m_pT.pdf",sampleName,cutName));
 
 	//only for data
   TCanvas* c_ethf_ntrk;
@@ -262,8 +266,9 @@ int main (int argc, char* argv[])
 		h2D_ethf_ntrk -> GetYaxis()->SetTitle("E_{T}^{HF} (GeV/c)");
 		h2D_ethf_ntrk -> GetZaxis()->SetTitle("");
 		h2D_ethf_ntrk -> Draw("colz");
-		c_ethf_ntrk->SaveAs(Form("dir_var/%s_%s_2D_ethf_ntrk.pdf",sampleName,cutName));
+		c_ethf_ntrk->SaveAs(Form("dir_var_sglmutest/%s_%s_2D_ethf_ntrk.pdf",sampleName,cutName));
 	}
+*/
 
 	return 0;	 
 

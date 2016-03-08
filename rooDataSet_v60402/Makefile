@@ -45,18 +45,22 @@ Tree2DatasetsPAMCZvtx:	$(INCLUDEDIR)tree2Datasets_pa_mc_zvtx.cpp
 Tree2DatasetsPP: $(INCLUDEDIR)tree2Datasets_pp.cpp
 	$(CPP) $(CPPFLAGS) -o Tree2DatasetsPP $(GLIBS) $ $<
 
-Tree2DatasetsPPAndre: $(INCLUDEDIR)tree2Datasets_pp_Andre.cpp
-	$(CPP) $(CPPFLAGS) -o Tree2DatasetsPPAndre $(GLIBS) $ $<
-
 Tree2DatasetsPPMC:	$(INCLUDEDIR)tree2Datasets_pp_mc.cpp
 	$(CPP) $(CPPFLAGS) -o Tree2DatasetsPPMC $(GLIBS) $ $<
+
+Tree2DatasetsPPMCZvtx:	$(INCLUDEDIR)tree2Datasets_pp_mc_zvtx.cpp
+	$(CPP) $(CPPFLAGS) -o Tree2DatasetsPPMCZvtx $(GLIBS) $ $<
+
+
+Tree2DatasetsPPAndre: $(INCLUDEDIR)tree2Datasets_pp_Andre.cpp
+	$(CPP) $(CPPFLAGS) -o Tree2DatasetsPPAndre $(GLIBS) $ $<
 
 
 DrawVariables:	$(INCLUDEDIR)draw_variables.cpp
 	$(CPP) $(CPPFLAGS) -o DrawVariables $(GLIBS) $ $<
 
-DrawVariablesSglMuTest:	$(INCLUDEDIR)draw_variables_sglmutest.cpp
-	$(CPP) $(CPPFLAGS) -o DrawVariablesSglMuTest $(GLIBS) $ $<
+DrawSglMu:	$(INCLUDEDIR)draw_sglmu.cpp
+	$(CPP) $(CPPFLAGS) -o DrawSglMu $(GLIBS) $ $<
 
 DrawZvtx1File:	$(INCLUDEDIR)draw_zVtx_1file.cpp
 	$(CPP) $(CPPFLAGS) -o DrawZvtx1File $(GLIBS) $ $<
@@ -66,9 +70,6 @@ DrawM1File:	$(INCLUDEDIR)draw_m_1file.cpp
 
 DrawWeightComp:	$(INCLUDEDIR)draw_weightComp.cpp
 	$(CPP) $(CPPFLAGS) -o DrawWeightComp $(GLIBS) $ $<
-
-DrawWeightCompRatio:	$(INCLUDEDIR)draw_weightComp_ratio.cpp 
-	$(CPP) $(CPPFLAGS) -o DrawWeightCompRatio $(GLIBS) $ $<
 
 
 clean:

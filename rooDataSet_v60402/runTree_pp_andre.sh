@@ -7,10 +7,13 @@
 inputf=root://eoscms//eos/cms
 ### Trk
 #inputfpp=$inputf/store/group/phys_heavyions/dileptons/Data2015/pp502TeV/TTrees/PromptAOD/OniaTree_DoubleMu_Run2015E-PromptReco-v1_Run_262157_262328_noCUT_TRKMU.root
-inputfpp=/home/songkyo/kyo/ppDataSample/OniaTree_DoubleMu_Run2015E-PromptReco-v1_Run_262157_262328_noCUT_TRKMU.root
-### GlbTrk
+#inputfpp=/home/songkyo/kyo/ppDataSample/OniaTree_DoubleMu_Run2015E-PromptReco-v1_Run_262157_262328_noCUT_TRKMU.root
+### GlbTrk NOCUT
 #inputfpp=$inputf/store/group/phys_heavyions/dileptons/Data2015/pp502TeV/TTrees/PromptAOD/OniaTree_DoubleMu_Run2015E-PromptReco-v1_Run_262157_262328_noCUT.root
 #inputfpp=/home/samba/Onia5TeV/ppData/OniaTree_DoubleMu_Run2015E-PromptReco-v1_Run_262157_262328_noCUT.root
+### GlbTrk 
+#inputfpp=$inputf/store/group/phys_heavyions/dileptons/Data2015/pp502TeV/TTrees/PromptAOD/OniaTree_DoubleMu_Run2015E-PromptReco-v1_Run_262157_262328.root
+inputfpp=/home/samba/Onia5TeV/ppData/OniaTree_DoubleMu_Run2015E-PromptReco-v1_Run_262157_262328.root
 
 #-----input MC
 ## 1) official no acc cut // tmp
@@ -26,7 +29,7 @@ inputfppNPMC=/home/songkyo/kyo/pPbDataSample/EfficiencySample/tot_inclBtoJPsiMuM
 
 ##-----other options
 trigType=1 #L1DoubleMuOpen_v1 (bit 1,2,4,8,...) 
-accType=2 # 1=oldAccCut, 2=newAccCut, 3=preLooseCut, 4=2015PbPb
+accType=4 # 1=oldAccCut, 2=newAccCut, 3=preLooseCut, 4=2015PbPb
 zweighting=1 #currently, zVtxWeight!!
 initev=0
 nevt=-1
@@ -40,7 +43,8 @@ function program {
     echo " "
     echo "===== Target directory exists! Check is it okay to delete or not.";
   fi
-  ./Tree2DatasetsPP =t $2 =a $3 =w $4 =m $5 =n $6 $7 =f $8 $1 >& $1/log &
+  #./Tree2DatasetsPP =t $2 =a $3 =w $4 =m $5 =n $6 $7 =f $8 $1 >& $1/log &
+  ./Tree2DatasetsPPAndre =t $2 =a $3 =w $4 =m $5 =n $6 $7 =f $8 $1 >& $1/log &
 }
 
 function programMC {
@@ -55,7 +59,7 @@ function programMC {
 }
 
 ### 1. Data
-program outRoo_Data_pp_newcut $trigType $accType $zweighting 0 $initev $nevt $inputfpp
+program outRoo_Data_pp_andre $trigType $accType $zweighting 0 $initev $nevt $inputfpp
 ### 2. MC
 #programMC outRoo_PRMC_pp_oldcut_off2M $trigType $accType $zweighting 0 $initev $nevt $zppPRMC $inputfppPRMC
 #programMC outRoo_NPMC_pp_oldcut_off2M $trigType $accType $zweighting 0 $initev $nevt $zppNPMC $inputfppNPMC
