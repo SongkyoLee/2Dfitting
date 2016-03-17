@@ -437,7 +437,8 @@ bool checkAccCut(const TLorentzVector* Mu) {
   else if (accCutType == 2) { // new cut
   	return (
 			(fabs(Mu->Eta())<1.2 && Mu->Pt()>=3.3) ||
-			(1.2<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.1 && Mu->Pt()>=3.93-1.11*fabs(Mu->Eta())) ||
+			//(1.2<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.1 && Mu->Pt()>=3.93-1.11*fabs(Mu->Eta())) ||
+			(1.2<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.1 && Mu->Pt()>=-(1.0/0.9)*fabs(Mu->Eta())+(1.2*(1.0/0.9)+2.6)) ||
 			(2.1<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.4 && Mu->Pt()>=1.3)
 		);
   }
