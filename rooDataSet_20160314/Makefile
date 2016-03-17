@@ -9,17 +9,21 @@ SOFLAGS			=	-shared
 
 CPPFLAGS		+= $(ROOTCFLAGS)
 NGLIBS			=	$(ROOTGLIBS)
+#### in LXPLUS
 #NGLIBS      += -L/afs/cern.ch/user/k/kyolee/public/root_v5.28.00h/lib -lMathMore -lMinuit -lRooFit -lRooFitCore -lFoam
+#NGLIBS      += -L/cvmfs/cms.cern.ch/slc6_amd64_gcc493/lcg/root/6.06.00-ikhhed4/lib -lMathMore -lMinuit -lRooFit -lRooFitCore -lFoam
+#### in KUNPL
 #NGLIBS      += -L/data/root-v5.28.00h/lib -lMathMore -lMinuit -lRooFit -lRooFitCore -lFoam
-#NGLIBS      += -L/data/root-v5.34.21/lib -lMathMore -lMinuit -lRooFit -lRooFitCore -lFoam
 NGLIBS      += -L/data/root-v6.04.02/lib -lMathMore -lMinuit -lRooFit -lRooFitCore -lFoam
 GLIBS				= $(filter-out -lNew, $(NGLIBS))
 
 INCLUDEDIR	=	./
 CPP					+= -I$(INCLUDEDIR)
+### in LXPLUS
 #CPP         += -I/afs/cern.ch/user/k/kyolee/public/root_v5.28.00h/include
+#CPP         += -I/cvmfs/cms.cern.ch/slc6_amd64_gcc493/lcg/root/6.06.00-ikhhed4/include
+#### in KUNPL
 #CPP         += -I/data/root-v5.28.00h/include
-#CPP         += -I/data/root-v5.34.21/include
 CPP         += -I/data/root-v6.04.02/include
 OUTLIB			= ./
 
@@ -28,9 +32,6 @@ OUTLIB			= ./
 
 RooHistPdfConv.o: $(INCLUDEDIR)/RooHistPdfConv.cpp
 	$(CPP) $(CPPFLAGS) -c -o $(OUTLIB)/libRooHistPdfConv.o $(NGLIBS) $<
-
-RooExp2.o: $(INCLUDEDIR)/RooExp2.cpp
-	$(CPP) $(CPPFLAGS) -c -o $(OUTLIB)/libRooExp2.o $(NGLIBS) $<
 
 
 Tree2DatasetsPA:	$(INCLUDEDIR)tree2Datasets_pa.cpp

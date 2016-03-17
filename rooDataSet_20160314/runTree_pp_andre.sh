@@ -23,14 +23,14 @@ inputfppPRMC=/home/songkyo/kyo/pPbDataSample/EfficiencySample/tot_JPsiWithFSR_pa
 inputfppNPMC=/home/songkyo/kyo/pPbDataSample/EfficiencySample/tot_inclBtoJPsiMuMu_pa_1st_run_STARTHI53_V27-v1_noAccCut_sglTrig_genMatch-v2.root
 
 ##-----input for Z vertex weight
-## 1) new acc cut && official // tmp
-#zppPRMC=/afs/cern.ch/work/k/kyolee/private/pAJpsi_rooDataSet_20160214/zVtx201602/zVtx_G1_v52800h_is1st1_isPrompt1_isOldAccCut0_isOfficial1.root
-#zppNPMC=/afs/cern.ch/work/k/kyolee/private/pAJpsi_rooDataSet_20160214/zVtx201602/zVtx_G1_v52800h_is1st1_isPrompt0_isOldAccCut0_isOfficial1.root
+### tmp for trk
+#zppPRMC=/home/songkyo/kyo/2Dfitting/rooDataSet_20160314/zVtx201603/zVtx_G1_pp_isPrompt1_isOldAccCut0_isOfficial0.root
+#zppNPMC=/home/songkyo/kyo/2Dfitting/rooDataSet_20160314/zVtx201603/zVtx_G1_pp_isPrompt0_isOldAccCut0_isOfficial0.root
 
 ##-----other options
 trigType=1 #L1DoubleMuOpen_v1 (bit 1,2,4,8,...) 
 accType=4 # 1=oldAccCut, 2=newAccCut, 3=preLooseCut, 4=2015PbPb
-zweighting=1 #currently, zVtxWeight!!
+zweighting=0 # currently, 0 for pp, 1 for pA
 initev=0
 nevt=-1
 #nevt=100000
@@ -43,8 +43,7 @@ function program {
     echo " "
     echo "===== Target directory exists! Check is it okay to delete or not.";
   fi
-  #./Tree2DatasetsPP =t $2 =a $3 =w $4 =m $5 =n $6 $7 =f $8 $1 >& $1/log &
-  ./Tree2DatasetsPPAndre =t $2 =a $3 =w $4 =m $5 =n $6 $7 =f $8 $1 >& $1/log &
+  ./Tree2DatasetsPP =t $2 =a $3 =w $4 =m $5 =n $6 $7 =f $8 $1 >& $1/log &
 }
 
 function programMC {
@@ -59,7 +58,8 @@ function programMC {
 }
 
 ### 1. Data
-program outRoo_Data_pp_andre $trigType $accType $zweighting 0 $initev $nevt $inputfpp
+#program outRoo_Data_pp_newcut_andre $trigType $accType $zweighting 0 $initev $nevt $inputfpp
+program outRoo_Data_pp_newcut_andrecut $trigType $accType $zweighting 0 $initev $nevt $inputfpp
 ### 2. MC
 #programMC outRoo_PRMC_pp_oldcut_off2M $trigType $accType $zweighting 0 $initev $nevt $zppPRMC $inputfppPRMC
 #programMC outRoo_NPMC_pp_oldcut_off2M $trigType $accType $zweighting 0 $initev $nevt $zppNPMC $inputfppNPMC
