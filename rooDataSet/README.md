@@ -10,20 +10,18 @@
  - [draw_zVtx_1file.cpp] requires RooDataSets with Zvtx from [xxx_zvtx.cpp]
  - [draw_singlemu.cpp] requires RooDataSets with SglMu [cpp removed now]
 
-- output files
- - for pA Data 
-   - outRoo_Data_Pbp_xxx_v1
-   - outRoo_Data_Pbp_xxx_v2
-   - outRoo_Data_pPb_xxx 
-   - outRoo_Data_pPbFlip_xxx
- - for pA MC   
-   - outRoo_PRMC_Pbp_xxx
-   - outRoo_NPMC_Pbp_xxx
-   - outRoo_PRMC_pPb_xxx
-   - outRoo_NPMC_pPb_xxx 
-   - outRoo_PRMC_pPbFlip_xxx
-   - outRoo_NPMC_pPbFlip_xxx 
- - for pp
-   - outRoo_Data_pp_xxx 
-   - outRoo_PRMC_pp_xxx
-   - outRoo_NPMC_pp_xxx
+- Total output files needed
+ 
+ - outRoo_Data_Pbp_xxx_v1
+ - outRoo_Data_Pbp_xxx_v2
+ - outRoo_Data_pPb_xxx (not used since 2016) 
+ - outRoo_Data_pPbFlip_xxx
+ - outRoo_PRMC_Pbp_xxx
+ - outRoo_NPMC_Pbp_xxx
+ - outRoo_PRMC_pPb_xxx (not used since 2016)
+ - outRoo_NPMC_pPb_xxx (not used since 2016)
+ - outRoo_PRMC_pPbFlip_xxx
+ - outRoo_NPMC_pPbFlip_xxx 
+ - outRoo_Data_pp_xxx 
+ - outRoo_PRMC_pp_xxx
+ - outRoo_NPMC_pp_xxx
