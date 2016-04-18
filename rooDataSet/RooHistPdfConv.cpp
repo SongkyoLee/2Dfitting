@@ -47,8 +47,8 @@ static std::vector<Double_t> centers;
 
 //_____________________________________________________________________________
 RooHistPdfConv::RooHistPdfConv(const char *name, const char *title, RooAbsReal& _xIn, 
-			     RooAbsReal& _mean, RooAbsReal& _sigma, 
-			     RooDataHist& datahist) :
+           RooAbsReal& _mean, RooAbsReal& _sigma, 
+           RooDataHist& datahist) :
   RooAbsPdf(name,title), 
   xIn(_xIn.GetName(),_xIn.GetTitle(),this,_xIn),
   mean("mean","Mean",this,_mean),
@@ -65,8 +65,8 @@ RooHistPdfConv::RooHistPdfConv(const char *name, const char *title, RooAbsReal& 
 
 //_____________________________________________________________________________
 RooHistPdfConv::RooHistPdfConv(const char *name, const char *title, RooAbsReal& _xIn, 
-			     RooAbsReal& _mean, RooAbsReal& _sigma, 
-			     RooAbsReal& _msSF, RooDataHist& datahist) : 
+           RooAbsReal& _mean, RooAbsReal& _sigma, 
+           RooAbsReal& _msSF, RooDataHist& datahist) : 
   RooAbsPdf(name,title), 
   xIn(_xIn.GetName(),_xIn.GetTitle(),this,_xIn),
   mean("mean","Mean",this,_mean),
@@ -83,8 +83,8 @@ RooHistPdfConv::RooHistPdfConv(const char *name, const char *title, RooAbsReal& 
 
 //_____________________________________________________________________________
 RooHistPdfConv::RooHistPdfConv(const char *name, const char *title, RooAbsReal& _xIn, 
-			     RooAbsReal& _mean, RooAbsReal& _sigma, 
-			     RooAbsReal& _meanSF, RooAbsReal& _sigmaSF,
+           RooAbsReal& _mean, RooAbsReal& _sigma, 
+           RooAbsReal& _meanSF, RooAbsReal& _sigmaSF,
                              RooDataHist& datahist ) : 
   RooAbsPdf(name,title), 
   xIn(_xIn.GetName(),_xIn.GetTitle(),this,_xIn),

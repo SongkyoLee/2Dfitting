@@ -58,8 +58,8 @@ using namespace std;
 struct VariableStruct {
   double theMass, thePt, theRapidity;
   double theVtxProb, theZvtx, theCt, theCtErr, theWeight;
-	double theETHF; //SumET_HFplusEta4 + SumET_HFminusEta4
-	int theNtrk; // Ntracks
+  double theETHF; //SumET_HFplusEta4 + SumET_HFminusEta4
+  int theNtrk; // Ntracks
   int theSign, theHLTrig, theQQTrig;
   bool mupl_TrkMuArb, mumi_TrkMuArb;
   bool mupl_TMOneStaTight, mumi_TMOneStaTight;
@@ -68,7 +68,7 @@ struct VariableStruct {
   int mupl_nPixWMea, mumi_nPixWMea;
   double mupl_dxy, mumi_dxy;
   double mupl_dz, mumi_dz;
-	double theCtTrue; // for_MC
+  double theCtTrue; // for_MC
 } ;
 
 bool checkTriggers(const struct VariableStruct Jpsi);
@@ -78,7 +78,7 @@ bool checkMuID(const struct VariableStruct Jpsi);
 int main(int argc, char* argv[]) {
   
   string fileName, outputDir;
-	string zFileName; //for_MC
+  string zFileName; //for_MC
   int initev = 0;
   int nevt = -1;
 
@@ -95,19 +95,19 @@ int main(int argc, char* argv[]) {
     switch (tmpargv[0]) {
       case '=':{
         switch (tmpargv[1]) {
-					case 't':
-						trigType = atoi(argv[i+1]);
-						break;
-					case 'a':
-						accCutType = atoi(argv[i+1]);
-						break;
+          case 't':
+            trigType = atoi(argv[i+1]);
+            break;
+          case 'a':
+            accCutType = atoi(argv[i+1]);
+            break;
           case 'w':
             if (atoi(argv[i+1]) == 0) doZWeighting = false;
             else doZWeighting =true;
             break;
-					case 'm':
-						mergeData = atoi(argv[i+1]);
-						break;
+          case 'm':
+            mergeData = atoi(argv[i+1]);
+            break;
           case 'n':
             initev = atoi(argv[i+1]);
             nevt = atoi(argv[i+2]);
@@ -125,8 +125,8 @@ int main(int argc, char* argv[]) {
   } // end of option inputs
 
   cout << "* fileName: " << fileName << endl;
-	cout << "* zFileName (for ZWeighting): " << zFileName << endl;  
-	cout << "* output directory: " << outputDir << endl;
+  cout << "* zFileName (for ZWeighting): " << zFileName << endl;  
+  cout << "* output directory: " << outputDir << endl;
   cout << "* trigType: "<< trigType << endl;
   cout << "* accCutType: " << accCutType << endl;
   cout << "* doZWeighting: " << doZWeighting << endl;
@@ -134,7 +134,7 @@ int main(int argc, char* argv[]) {
   cout << "* start event #: " << initev << endl;
   cout << "* end event #: " << nevt << endl;
 
-	//// *** doZweighting // for_MC
+  //// *** doZweighting // for_MC
   TFile* fZvtx = new TFile(zFileName.c_str());
   TF1* gRatio = (TF1*)fZvtx->Get("gRatio");
   fZvtx->Close();
@@ -143,17 +143,17 @@ int main(int argc, char* argv[]) {
   //TTree *myTree=(TTree*)file->Get("myTree"); //for_pa
   TTree *myTree=(TTree*)file->Get("hionia/myTree"); //for_pp
   
-	UInt_t          runNb; // Check run number
-	Int_t 					Ntracks; // multiplicity dependence
-	Float_t 				SumET_HFplusEta4; // multiplicity dependence
-	Float_t 				SumET_HFminusEta4; // multiplicity dependence
+  UInt_t          runNb; // Check run number
+  Int_t           Ntracks; // multiplicity dependence
+  Float_t         SumET_HFplusEta4; // multiplicity dependence
+  Float_t         SumET_HFminusEta4; // multiplicity dependence
   Float_t         zVtx;         //Primary vertex position
   ULong64_t       HLTriggers;  //for_pp
-  //Int_t  			  	HLTriggers; //for_pa
+  //Int_t           HLTriggers; //for_pa
   Int_t           Reco_QQ_size;
   Int_t           Reco_QQ_sign[210];   //[Reco_QQ_size]
- 	ULong64_t       Reco_QQ_trig[210];   //[Reco_QQ_size] //for_pp
- 	//Int_t       		Reco_QQ_trig[210];   //[Reco_QQ_size] //for_pa
+  ULong64_t       Reco_QQ_trig[210];   //[Reco_QQ_size] //for_pp
+  //Int_t           Reco_QQ_trig[210];   //[Reco_QQ_size] //for_pa
   Float_t         Reco_QQ_VtxProb[210];   //[Reco_QQ_size]
   Float_t         Reco_QQ_ctau[210];   //[Reco_QQ_size]
   Float_t         Reco_QQ_ctauErr[210];   //[Reco_QQ_size]
@@ -262,10 +262,10 @@ int main(int argc, char* argv[]) {
   myTree->SetBranchAddress("Reco_QQ_mupl_TMOneStaTight", Reco_QQ_mupl_TMOneStaTight, &b_Reco_QQ_mupl_TMOneStaTight);
   myTree->SetBranchAddress("Reco_QQ_mumi_TMOneStaTight", Reco_QQ_mumi_TMOneStaTight, &b_Reco_QQ_mumi_TMOneStaTight);
   //// for_pp
-	myTree->SetBranchAddress("Reco_QQ_mupl_highPurity", Reco_QQ_mupl_highPurity, &b_Reco_QQ_mupl_highPurity);
+  myTree->SetBranchAddress("Reco_QQ_mupl_highPurity", Reco_QQ_mupl_highPurity, &b_Reco_QQ_mupl_highPurity);
   myTree->SetBranchAddress("Reco_QQ_mumi_highPurity", Reco_QQ_mumi_highPurity, &b_Reco_QQ_mumi_highPurity);
   //// for_pa
-	//myTree->SetBranchAddress("Reco_QQ_mupl_isHighPurity", Reco_QQ_mupl_highPurity, &b_Reco_QQ_mupl_highPurity);
+  //myTree->SetBranchAddress("Reco_QQ_mupl_isHighPurity", Reco_QQ_mupl_highPurity, &b_Reco_QQ_mupl_highPurity);
   //myTree->SetBranchAddress("Reco_QQ_mumi_isHighPurity", Reco_QQ_mumi_highPurity, &b_Reco_QQ_mumi_highPurity);
   myTree->SetBranchAddress("Reco_QQ_mupl_nTrkWMea", Reco_QQ_mupl_nTrkWMea, &b_Reco_QQ_mupl_nTrkWMea);
   myTree->SetBranchAddress("Reco_QQ_mumi_nTrkWMea", Reco_QQ_mumi_nTrkWMea, &b_Reco_QQ_mumi_nTrkWMea);
@@ -303,42 +303,42 @@ int main(int argc, char* argv[]) {
 
     myTree->GetEntry(ev);
 
-		//// *** z vertex weighting
-		//if (TMath::Abs(zVtx) > 10.) continue;
+    //// *** z vertex weighting
+    //if (TMath::Abs(zVtx) > 10.) continue;
     float zWeight =1;
     if (doZWeighting) { zWeight = gRatio -> Eval(zVtx); }
-		//cout<<ev<<"th event zVtx = "<<zVtx<<", and zWeight = "<<zWeight<<endl; 
+    //cout<<ev<<"th event zVtx = "<<zVtx<<", and zWeight = "<<zWeight<<endl; 
 
-		//// **** dataMerge Check!! (only for Pbp 1st run)
-		//// mergeData==1 (v1) : 1st 7 runs excluded, mergeData==2 (v2) : 1st 7 runs only 
-		if (mergeData == 1 && runNb >= 210498 && 210658 >= runNb) { continue; }
-		else if (mergeData == 2 && (! (runNb >= 210498 && 210658 >= runNb))) { continue; }
+    //// **** dataMerge Check!! (only for Pbp 1st run)
+    //// mergeData==1 (v1) : 1st 7 runs excluded, mergeData==2 (v2) : 1st 7 runs only 
+    if (mergeData == 1 && runNb >= 210498 && 210658 >= runNb) { continue; }
+    else if (mergeData == 2 && (! (runNb >= 210498 && 210658 >= runNb))) { continue; }
 
-		for (int i=0; i<Reco_QQ_size; ++i) {
+    for (int i=0; i<Reco_QQ_size; ++i) {
       
-			struct VariableStruct Jpsi; //Contains all condition variables
+      struct VariableStruct Jpsi; //Contains all condition variables
       JP = (TLorentzVector*) Reco_QQ_4mom->At(i);
       m1P = (TLorentzVector*) Reco_QQ_mupl_4mom->At(i);
       m2P = (TLorentzVector*) Reco_QQ_mumi_4mom->At(i);
       
-			Jpsi.theNtrk = Ntracks;
+      Jpsi.theNtrk = Ntracks;
       Jpsi.theETHF = SumET_HFplusEta4 + SumET_HFminusEta4;
       Jpsi.theZvtx = zVtx;
       Jpsi.theHLTrig = HLTriggers;
       Jpsi.theSign = Reco_QQ_sign[i];
       Jpsi.theQQTrig = Reco_QQ_trig[i];
-			Jpsi.theVtxProb = Reco_QQ_VtxProb[i];
-			Jpsi.theCt = Reco_QQ_ctau[i];
+      Jpsi.theVtxProb = Reco_QQ_VtxProb[i];
+      Jpsi.theCt = Reco_QQ_ctau[i];
       Jpsi.theCtErr = Reco_QQ_ctauErr[i];
-			Jpsi.theCtTrue = Reco_QQ_ctauTrue[i]; //for_MC     
+      Jpsi.theCtTrue = Reco_QQ_ctauTrue[i]; //for_MC     
  
-			Jpsi.mupl_TrkMuArb = Reco_QQ_mupl_TrkMuArb[i];
-			Jpsi.mupl_TMOneStaTight = Reco_QQ_mupl_TMOneStaTight[i];
-			Jpsi.mupl_highPurity = Reco_QQ_mupl_highPurity[i];
-			Jpsi.mupl_nTrkWMea = Reco_QQ_mupl_nTrkWMea[i];
+      Jpsi.mupl_TrkMuArb = Reco_QQ_mupl_TrkMuArb[i];
+      Jpsi.mupl_TMOneStaTight = Reco_QQ_mupl_TMOneStaTight[i];
+      Jpsi.mupl_highPurity = Reco_QQ_mupl_highPurity[i];
+      Jpsi.mupl_nTrkWMea = Reco_QQ_mupl_nTrkWMea[i];
       Jpsi.mupl_nPixWMea = Reco_QQ_mupl_nPixWMea[i];
-			Jpsi.mupl_dxy = Reco_QQ_mupl_dxy[i];
-			Jpsi.mupl_dz = Reco_QQ_mupl_dz[i];
+      Jpsi.mupl_dxy = Reco_QQ_mupl_dxy[i];
+      Jpsi.mupl_dz = Reco_QQ_mupl_dz[i];
       Jpsi.mumi_TrkMuArb = Reco_QQ_mumi_TrkMuArb[i];
       Jpsi.mumi_TMOneStaTight = Reco_QQ_mumi_TMOneStaTight[i];
       Jpsi.mumi_highPurity = Reco_QQ_mumi_highPurity[i];
@@ -350,11 +350,11 @@ int main(int argc, char* argv[]) {
       Jpsi.theMass =JP->M();
       Jpsi.thePt=JP->Pt();
       Jpsi.theRapidity=JP->Rapidity();
-      	
-			//Jpsi.theWeight = 1.0; //for_data
-			Jpsi.theWeight = zWeight; //for_MC       
+        
+      //Jpsi.theWeight = 1.0; //for_data
+      Jpsi.theWeight = zWeight; //for_MC       
 
-			/*
+      /*
       //// *** Cowboy or Sailor (get delta Phi between 2 muons)
       double mumuPhi = m1P->Phi() - m2P->Phi();
       while (mumuPhi > TMath::Pi()) mumuPhi -= 2*TMath::Pi();
@@ -364,7 +364,7 @@ int main(int argc, char* argv[]) {
       else sailor = true;
       */
 
-			//// *** Check all cuts (trigger, single mu acc cut, muID..)
+      //// *** Check all cuts (trigger, single mu acc cut, muID..)
       if (Jpsi.theMass > Jpsi_MassMin && Jpsi.theMass < Jpsi_MassMax && 
         Jpsi.thePt > Jpsi_PtMin && Jpsi.thePt < Jpsi_PtMax && 
         Jpsi.theRapidity > Jpsi_YMin && Jpsi.theRapidity < Jpsi_YMax &&
@@ -372,7 +372,7 @@ int main(int argc, char* argv[]) {
         Jpsi.theCtErr > Jpsi_CtErrMin && Jpsi.theCtErr < Jpsi_CtErrMax && 
         checkAccCut(m1P) &&
         checkAccCut(m2P) &&
-       	checkTriggers(Jpsi) &&
+        checkTriggers(Jpsi) &&
         checkMuID(Jpsi)
         ) {
 
@@ -385,8 +385,8 @@ int main(int argc, char* argv[]) {
         Jpsi_ETHF->setVal(Jpsi.theETHF);
         Jpsi_Zvtx->setVal(Jpsi.theZvtx);
         Jpsi_Weight->setVal(Jpsi.theWeight);
-				Jpsi_CtTrue->setVal(Jpsi.theCtTrue);
-				
+        Jpsi_CtTrue->setVal(Jpsi.theCtTrue);
+        
         //// list without a weighting factor
         //RooArgList varlist_tmp(*Jpsi_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_Zvtx,*Jpsi_Ct,*Jpsi_CtErr,*Jpsi_Ntrk,*Jpsi_ETHF);
         RooArgList varlist_tmp(*Jpsi_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_CtTrue,*Jpsi_Ct,*Jpsi_CtErr,*Jpsi_Ntrk,*Jpsi_ETHF);
@@ -406,11 +406,11 @@ int main(int argc, char* argv[]) {
     } // End of Reco_QQ_size loop
   } // End of tree event loop
 
-	//// make new RooDataSet actually weighted!!
+  //// make new RooDataSet actually weighted!!
   if (doZWeighting) {
     dataJpsiWeight = new RooDataSet("dataJpsiWeight","A sample",*dataJpsiWCheck->get(),Import(*dataJpsiWCheck),WeightVar(*Jpsi_Weight));
     dataJpsiSSWeight = new RooDataSet("dataJpsiSSWeight","A sample",*dataJpsiSSWCheck->get(),Import(*dataJpsiSSWCheck),WeightVar(*Jpsi_Weight));
-		cout << " *** weighted! *** " << endl;
+    cout << " *** weighted! *** " << endl;
   }
 
   /// *** Fill TFiles with RooDataSet
@@ -440,58 +440,58 @@ int main(int argc, char* argv[]) {
 ////////////////////////////////////////////////////////////////////
 
 bool checkTriggers(const struct VariableStruct Jpsi){
-  		return ( (Jpsi.theHLTrig&trigType)==trigType && (Jpsi.theQQTrig&trigType)==trigType );
+      return ( (Jpsi.theHLTrig&trigType)==trigType && (Jpsi.theQQTrig&trigType)==trigType );
 }
 
 bool checkAccCut(const TLorentzVector* Mu) {
   if (accCutType == 1) { //old cut
-  	return (
-			(TMath::Abs(Mu->Eta())<1.3 && Mu->Pt()>=3.3) ||
-			(1.3<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.2 && Mu->P()>=2.9) ||
-			(2.2<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.4 && Mu->Pt()>=0.8) 
-		);
+    return (
+      (TMath::Abs(Mu->Eta())<1.3 && Mu->Pt()>=3.3) ||
+      (1.3<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.2 && Mu->P()>=2.9) ||
+      (2.2<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.4 && Mu->Pt()>=0.8) 
+    );
   }
   else if (accCutType == 2) { // new cut
-  	return (
-			(TMath::Abs(Mu->Eta())<1.2 && Mu->Pt()>=3.3) ||
-			(1.2<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.1 && Mu->Pt()>=3.93-1.11*TMath::Abs(Mu->Eta())) ||
-			(2.1<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.4 && Mu->Pt()>=1.3)
-		);
+    return (
+      (TMath::Abs(Mu->Eta())<1.2 && Mu->Pt()>=3.3) ||
+      (1.2<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.1 && Mu->Pt()>=3.93-1.11*TMath::Abs(Mu->Eta())) ||
+      (2.1<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.4 && Mu->Pt()>=1.3)
+    );
   }
   else if (accCutType == 3) { //pre-loose cut A on pA data
-  	return (
-		 	(TMath::Abs(Mu->Eta())<1.2 && Mu->Pt()>=3.3) ||
-			(1.2<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<1.6 && Mu->Pt() >= 6.8-3.5*TMath::Abs(Mu->Eta())) ||
-			(1.6<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.1 && Mu->Pt() >= 2.48-0.8*TMath::Abs(Mu->Eta())) ||
-			(2.1<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.4 && Mu->Pt() >= 0.8)
-		);
+    return (
+      (TMath::Abs(Mu->Eta())<1.2 && Mu->Pt()>=3.3) ||
+      (1.2<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<1.6 && Mu->Pt() >= 6.8-3.5*TMath::Abs(Mu->Eta())) ||
+      (1.6<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.1 && Mu->Pt() >= 2.48-0.8*TMath::Abs(Mu->Eta())) ||
+      (2.1<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.4 && Mu->Pt() >= 0.8)
+    );
   }
   else if (accCutType == 4) { // 2015 PbPb GlbTrk muons
-  	return (
-			(TMath::Abs(Mu->Eta())<1.2 && Mu->Pt() >=3.5) ||
-			(1.2<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.1 && Mu->Pt()>=5.77-(1.89)*TMath::Abs(Mu->Eta())) ||
-			(2.1<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.4 && Mu->Pt()>=1.8)
-		);
-	}
-	else {return false;}
+    return (
+      (TMath::Abs(Mu->Eta())<1.2 && Mu->Pt() >=3.5) ||
+      (1.2<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.1 && Mu->Pt()>=5.77-(1.89)*TMath::Abs(Mu->Eta())) ||
+      (2.1<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.4 && Mu->Pt()>=1.8)
+    );
+  }
+  else {return false;}
 }
 
 bool checkMuID(const struct VariableStruct Jpsi){
-	return (
-					Jpsi.theVtxProb > 0.01 &&
-					Jpsi.mupl_TrkMuArb &&
-					Jpsi.mupl_TMOneStaTight &&
-					Jpsi.mupl_highPurity &&
-					Jpsi.mupl_nTrkWMea > 5 &&
-					Jpsi.mupl_nPixWMea > 0 &&
-					TMath::Abs(Jpsi.mupl_dxy) < 0.3 &&
-					TMath::Abs(Jpsi.mupl_dz) < 20.0 &&
-					Jpsi.mumi_TrkMuArb &&
-					Jpsi.mumi_TMOneStaTight &&
-					Jpsi.mumi_highPurity &&
-					Jpsi.mumi_nTrkWMea > 5 &&
-					Jpsi.mumi_nPixWMea > 0 &&
-					TMath::Abs(Jpsi.mumi_dxy) < 0.3 &&
-					TMath::Abs(Jpsi.mumi_dz) < 20.0
-				);
+  return (
+          Jpsi.theVtxProb > 0.01 &&
+          Jpsi.mupl_TrkMuArb &&
+          Jpsi.mupl_TMOneStaTight &&
+          Jpsi.mupl_highPurity &&
+          Jpsi.mupl_nTrkWMea > 5 &&
+          Jpsi.mupl_nPixWMea > 0 &&
+          TMath::Abs(Jpsi.mupl_dxy) < 0.3 &&
+          TMath::Abs(Jpsi.mupl_dz) < 20.0 &&
+          Jpsi.mumi_TrkMuArb &&
+          Jpsi.mumi_TMOneStaTight &&
+          Jpsi.mumi_highPurity &&
+          Jpsi.mumi_nTrkWMea > 5 &&
+          Jpsi.mumi_nPixWMea > 0 &&
+          TMath::Abs(Jpsi.mumi_dxy) < 0.3 &&
+          TMath::Abs(Jpsi.mumi_dz) < 20.0
+        );
 }
