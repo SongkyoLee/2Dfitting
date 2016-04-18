@@ -349,7 +349,8 @@ int main(int argc, char* argv[]) {
 
       Jpsi.theMass =JP->M();
       Jpsi.thePt=JP->Pt();
-      Jpsi.theRapidity=JP->Rapidity();
+      //Jpsi.theRapidity=JP->Rapidity();
+      Jpsi.theRapidity=(-1)*JP->Rapidity();
       	
 			//Jpsi.theWeight = 1.0; //for_data
 			Jpsi.theWeight = zWeight; //for_MC       

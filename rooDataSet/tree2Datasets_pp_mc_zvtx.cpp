@@ -44,8 +44,10 @@ static const double Jpsi_PtMin=0.0;
 static const double Jpsi_PtMax=100;
 static const double Jpsi_YMin=-2.4;
 static const double Jpsi_YMax=2.4;
-static const double Jpsi_CtMin = -3.0;
-static const double Jpsi_CtMax = 5.0;
+//static const double Jpsi_CtMin = -3.0;
+//static const double Jpsi_CtMax = 5.0;
+static const double Jpsi_CtMin = -1.5;
+static const double Jpsi_CtMax = 3.0;
 static const double Jpsi_CtErrMin = 0.0;
 static const double Jpsi_CtErrMax = 1.0;
 
@@ -229,19 +231,14 @@ int main(int argc, char* argv[]) {
   
   RooRealVar* Jpsi_Mass = new RooRealVar("Jpsi_Mass","J/#psi mass",Jpsi_MassMin,Jpsi_MassMax,"GeV/c^{2}");
   RooRealVar* Jpsi_Pt = new RooRealVar("Jpsi_Pt","J/#psi pt",Jpsi_PtMin,Jpsi_PtMax,"GeV/c");
-  RooRealVar* Jpsi_Y = new RooRealVar("Jpsi_Y","J/#psi y",-Jpsi_YMax,Jpsi_YMax);
+  RooRealVar* Jpsi_Y = new RooRealVar("Jpsi_Y","J/#psi y",Jpsi_YMin,Jpsi_YMax);
   RooRealVar* Jpsi_Ct = new RooRealVar("Jpsi_Ct","J/#psi c#tau",Jpsi_CtMin,Jpsi_CtMax,"mm");
   RooRealVar* Jpsi_CtErr = new RooRealVar("Jpsi_CtErr","J/#psi c#tau error",Jpsi_CtErrMin,Jpsi_CtErrMax,"mm");
   RooRealVar* Jpsi_ETHF = new RooRealVar("SumET_HFEta4","sum of ET in HF plusEta4 and minusEta4",0.,400.);
   RooRealVar* Jpsi_Ntrk = new RooRealVar("Ntracks","number of tracks in the event",0.,400.);
   RooRealVar* Jpsi_Zvtx = new RooRealVar("Jpsi_Zvtx","primary Z vertex for each events",-30.,30.);
   RooRealVar* Jpsi_Weight = new RooRealVar("Jpsi_Weight","J/#psi efficiency weight",0.,100.);
-  RooCategory* Jpsi_Sign = new RooCategory("Jpsi_Sign","Charge combination of Jpsi_");
   RooRealVar* Jpsi_CtTrue = new RooRealVar("Jpsi_CtTrue","J/#psi c#tau true",Jpsi_CtMin,Jpsi_CtMax,"mm");
-
-  Jpsi_Sign->defineType("OS",0);
-  Jpsi_Sign->defineType("PP",1);
-  Jpsi_Sign->defineType("MM",2);
 
   Reco_QQ_4mom = 0;
   Reco_QQ_mupl_4mom = 0;
@@ -336,18 +333,18 @@ int main(int argc, char* argv[]) {
 			Jpsi.theCtTrue = Reco_QQ_ctauTrue[i]; //for_MC     
  
 			Jpsi.mupl_TrkMuArb = Reco_QQ_mupl_TrkMuArb[i];
-      Jpsi.mumi_TrkMuArb = Reco_QQ_mumi_TrkMuArb[i];
 			Jpsi.mupl_TMOneStaTight = Reco_QQ_mupl_TMOneStaTight[i];
-      Jpsi.mumi_TMOneStaTight = Reco_QQ_mumi_TMOneStaTight[i];
 			Jpsi.mupl_highPurity = Reco_QQ_mupl_highPurity[i];
-      Jpsi.mumi_highPurity = Reco_QQ_mumi_highPurity[i];
 			Jpsi.mupl_nTrkWMea = Reco_QQ_mupl_nTrkWMea[i];
-      Jpsi.mumi_nTrkWMea = Reco_QQ_mumi_nTrkWMea[i];
-      Jpsi.mupl_nPixWMea = Reco_QQ_mupl_nTrkWMea[i];
-      Jpsi.mumi_nPixWMea = Reco_QQ_mumi_nTrkWMea[i];
+      Jpsi.mupl_nPixWMea = Reco_QQ_mupl_nPixWMea[i];
 			Jpsi.mupl_dxy = Reco_QQ_mupl_dxy[i];
-      Jpsi.mumi_dxy = Reco_QQ_mumi_dxy[i];
 			Jpsi.mupl_dz = Reco_QQ_mupl_dz[i];
+      Jpsi.mumi_TrkMuArb = Reco_QQ_mumi_TrkMuArb[i];
+      Jpsi.mumi_TMOneStaTight = Reco_QQ_mumi_TMOneStaTight[i];
+      Jpsi.mumi_highPurity = Reco_QQ_mumi_highPurity[i];
+      Jpsi.mumi_nTrkWMea = Reco_QQ_mumi_nTrkWMea[i];
+      Jpsi.mumi_nPixWMea = Reco_QQ_mumi_nPixWMea[i];
+      Jpsi.mumi_dxy = Reco_QQ_mumi_dxy[i];
       Jpsi.mumi_dz = Reco_QQ_mumi_dz[i];
 
       Jpsi.theMass =JP->M();
@@ -390,8 +387,6 @@ int main(int argc, char* argv[]) {
         Jpsi_Weight->setVal(Jpsi.theWeight);
 				Jpsi_CtTrue->setVal(Jpsi.theCtTrue);
 				
-				if(Jpsi.theSign== 0){ Jpsi_Sign->setIndex(Jpsi.theSign,kTRUE); }
-        else { Jpsi_Sign->setIndex(Jpsi.theSign,kTRUE); }
         //// list without a weighting factor
         RooArgList varlist_tmp(*Jpsi_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_Zvtx,*Jpsi_Ct,*Jpsi_CtErr,*Jpsi_Ntrk,*Jpsi_ETHF);
         //RooArgList varlist_tmp(*Jpsi_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_CtTrue,*Jpsi_Ct,*Jpsi_CtErr,*Jpsi_Ntrk,*Jpsi_ETHF);
@@ -451,31 +446,31 @@ bool checkTriggers(const struct VariableStruct Jpsi){
 bool checkAccCut(const TLorentzVector* Mu) {
   if (accCutType == 1) { //old cut
   	return (
-			(fabs(Mu->Eta())<1.3 && Mu->Pt()>=3.3) ||
-			(1.3<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.2 && Mu->P()>=2.9) ||
-			(2.2<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.4 && Mu->Pt()>=0.8) 
+			(TMath::Abs(Mu->Eta())<1.3 && Mu->Pt()>=3.3) ||
+			(1.3<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.2 && Mu->P()>=2.9) ||
+			(2.2<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.4 && Mu->Pt()>=0.8) 
 		);
   }
   else if (accCutType == 2) { // new cut
   	return (
-			(fabs(Mu->Eta())<1.2 && Mu->Pt()>=3.3) ||
-			(1.2<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.1 && Mu->Pt()>=3.93-1.11*fabs(Mu->Eta())) ||
-			(2.1<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.4 && Mu->Pt()>=1.3)
+			(TMath::Abs(Mu->Eta())<1.2 && Mu->Pt()>=3.3) ||
+			(1.2<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.1 && Mu->Pt()>=3.93-1.11*TMath::Abs(Mu->Eta())) ||
+			(2.1<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.4 && Mu->Pt()>=1.3)
 		);
   }
   else if (accCutType == 3) { //pre-loose cut A on pA data
   	return (
-		 	(fabs(Mu->Eta())<1.2 && Mu->Pt()>=3.3) ||
-			(1.2<=fabs(Mu->Eta()) && fabs(Mu->Eta())<1.6 && Mu->Pt() >= 6.8-3.5*fabs(Mu->Eta())) ||
-			(1.6<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.1 && Mu->Pt() >= 2.48-0.8*fabs(Mu->Eta())) ||
-			(2.1<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.4 && Mu->Pt() >= 0.8)
+		 	(TMath::Abs(Mu->Eta())<1.2 && Mu->Pt()>=3.3) ||
+			(1.2<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<1.6 && Mu->Pt() >= 6.8-3.5*TMath::Abs(Mu->Eta())) ||
+			(1.6<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.1 && Mu->Pt() >= 2.48-0.8*TMath::Abs(Mu->Eta())) ||
+			(2.1<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.4 && Mu->Pt() >= 0.8)
 		);
   }
   else if (accCutType == 4) { // 2015 PbPb GlbTrk muons
   	return (
-			(fabs(Mu->Eta())<1.2 && Mu->Pt() >=3.5) ||
-			(1.2<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.1 && Mu->Pt()>=5.77-(1.89)*fabs(Mu->Eta())) ||
-			(2.1<=fabs(Mu->Eta()) && fabs(Mu->Eta())<2.4 && Mu->Pt()>=1.8)
+			(TMath::Abs(Mu->Eta())<1.2 && Mu->Pt() >=3.5) ||
+			(1.2<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.1 && Mu->Pt()>=5.77-(1.89)*TMath::Abs(Mu->Eta())) ||
+			(2.1<=TMath::Abs(Mu->Eta()) && TMath::Abs(Mu->Eta())<2.4 && Mu->Pt()>=1.8)
 		);
 	}
 	else {return false;}
@@ -489,14 +484,14 @@ bool checkMuID(const struct VariableStruct Jpsi){
 					Jpsi.mupl_highPurity &&
 					Jpsi.mupl_nTrkWMea > 5 &&
 					Jpsi.mupl_nPixWMea > 0 &&
-					fabs(Jpsi.mupl_dxy) < 0.3 &&
-					fabs(Jpsi.mupl_dz) < 20.0 &&
+					TMath::Abs(Jpsi.mupl_dxy) < 0.3 &&
+					TMath::Abs(Jpsi.mupl_dz) < 20.0 &&
 					Jpsi.mumi_TrkMuArb &&
 					Jpsi.mumi_TMOneStaTight &&
 					Jpsi.mumi_highPurity &&
 					Jpsi.mumi_nTrkWMea > 5 &&
 					Jpsi.mumi_nPixWMea > 0 &&
-					fabs(Jpsi.mumi_dxy) < 0.3 &&
-					fabs(Jpsi.mumi_dz) < 20.0
+					TMath::Abs(Jpsi.mumi_dxy) < 0.3 &&
+					TMath::Abs(Jpsi.mumi_dz) < 20.0
 				);
 }

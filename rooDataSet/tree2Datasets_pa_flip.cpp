@@ -44,8 +44,6 @@ static const double Jpsi_PtMin=0.0;
 static const double Jpsi_PtMax=100;
 static const double Jpsi_YMin=-2.4;
 static const double Jpsi_YMax=2.4;
-//static const double Jpsi_CtMin = -3.0;
-//static const double Jpsi_CtMax = 5.0;
 static const double Jpsi_CtMin = -1.5;
 static const double Jpsi_CtMax = 3.0;
 static const double Jpsi_CtErrMin = 0.0;
@@ -68,7 +66,6 @@ struct VariableStruct {
   int mupl_nPixWMea, mumi_nPixWMea;
   double mupl_dxy, mumi_dxy;
   double mupl_dz, mumi_dz;
-	double theCtTrue; // for_MC
 } ;
 
 bool checkTriggers(const struct VariableStruct Jpsi);
@@ -78,14 +75,13 @@ bool checkMuID(const struct VariableStruct Jpsi);
 int main(int argc, char* argv[]) {
   
   string fileName, outputDir;
-	string zFileName; //for_MC
   int initev = 0;
   int nevt = -1;
 
   if (argc == 1) {
     cout << "====================================================================\n";
     cout << "Use the program with this commend:" << endl;
-    cout << "./Tree2Datasets =t [trigType] =a [accCutType] =w [doZWeighting] =m [mergeData] =n initev nevt =z [input ZWeighting file] =f [input TTree file] [output directory]" << endl;
+    cout << "./Tree2Datasets =t [trigType] =a [accCutType] =w [doZWeighting] =m [mergeData] =n initev nevt =f [input TTree file] [output directory]" << endl;
     cout << "====================================================================\n";
     return 0;
   }
@@ -112,9 +108,6 @@ int main(int argc, char* argv[]) {
             initev = atoi(argv[i+1]);
             nevt = atoi(argv[i+2]);
             break;
-          case 'z': 
-            zFileName = argv[i+1];
-            break;
           case 'f':
             fileName = argv[i+1];
             outputDir = argv[i+2];
@@ -125,8 +118,7 @@ int main(int argc, char* argv[]) {
   } // end of option inputs
 
   cout << "* fileName: " << fileName << endl;
-	cout << "* zFileName (for ZWeighting): " << zFileName << endl;  
-	cout << "* output directory: " << outputDir << endl;
+  cout << "* output directory: " << outputDir << endl;
   cout << "* trigType: "<< trigType << endl;
   cout << "* accCutType: " << accCutType << endl;
   cout << "* doZWeighting: " << doZWeighting << endl;
@@ -134,10 +126,6 @@ int main(int argc, char* argv[]) {
   cout << "* start event #: " << initev << endl;
   cout << "* end event #: " << nevt << endl;
 
-	//// *** doZweighting // for_MC
-  TFile* fZvtx = new TFile(zFileName.c_str());
-  TF1* gRatio = (TF1*)fZvtx->Get("gRatio");
-  fZvtx->Close();
 
   TFile *file=TFile::Open(fileName.c_str());
   TTree *myTree=(TTree*)file->Get("myTree"); //for_pa
@@ -177,7 +165,7 @@ int main(int argc, char* argv[]) {
   TClonesArray    *Reco_QQ_mupl_4mom;
   TClonesArray    *Reco_QQ_mumi_4mom;
 
-  Float_t         Reco_QQ_ctauTrue[210];   //[Reco_QQ_size] //for_MC
+//  Float_t         Reco_QQ_ctauTrue[210];   //[Reco_QQ_size]
 
   TBranch        *b_runNb;
   TBranch        *b_Ntracks;   //!
@@ -211,7 +199,7 @@ int main(int argc, char* argv[]) {
   TBranch        *b_Reco_QQ_mupl_4mom;   //!
   TBranch        *b_Reco_QQ_mumi_4mom;   //!
 
-  TBranch        *b_Reco_QQ_ctauTrue;   //! //for_MC
+//  TBranch        *b_Reco_QQ_ctauTrue;   //!
 
   TLorentzVector* JP= new TLorentzVector;
   TLorentzVector* m1P= new TLorentzVector;
@@ -238,7 +226,7 @@ int main(int argc, char* argv[]) {
   RooRealVar* Jpsi_Ntrk = new RooRealVar("Ntracks","number of tracks in the event",0.,400.);
   RooRealVar* Jpsi_Zvtx = new RooRealVar("Jpsi_Zvtx","primary Z vertex for each events",-30.,30.);
   RooRealVar* Jpsi_Weight = new RooRealVar("Jpsi_Weight","J/#psi efficiency weight",0.,100.);
-  RooRealVar* Jpsi_CtTrue = new RooRealVar("Jpsi_CtTrue","J/#psi c#tau true",Jpsi_CtMin,Jpsi_CtMax,"mm");
+//  RooRealVar* Jpsi_CtTrue = new RooRealVar("Jpsi_CtTrue","J/#psi c#tau true",Jpsi_CtMin,Jpsi_CtMax,"mm");
 
   Reco_QQ_4mom = 0;
   Reco_QQ_mupl_4mom = 0;
@@ -280,14 +268,12 @@ int main(int argc, char* argv[]) {
   myTree->SetBranchAddress("Reco_QQ_mupl_4mom", &Reco_QQ_mupl_4mom, &b_Reco_QQ_mupl_4mom);
   myTree->SetBranchAddress("Reco_QQ_mumi_4mom", &Reco_QQ_mumi_4mom, &b_Reco_QQ_mumi_4mom);
 
-  myTree->SetBranchAddress("Reco_QQ_ctauTrue", Reco_QQ_ctauTrue, &b_Reco_QQ_ctauTrue);
+//  myTree->SetBranchAddress("Reco_QQ_ctauTrue", Reco_QQ_ctauTrue, &b_Reco_QQ_ctauTrue);
 
   //// list without a weighting factor
-  //RooArgList varlist(*Jpsi_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_Zvtx,*Jpsi_Ct,*Jpsi_CtErr,*Jpsi_Ntrk,*Jpsi_ETHF);
-  RooArgList varlist(*Jpsi_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_CtTrue,*Jpsi_Ct,*Jpsi_CtErr,*Jpsi_Ntrk,*Jpsi_ETHF);
+  RooArgList varlist(*Jpsi_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_Zvtx,*Jpsi_Ct,*Jpsi_CtErr,*Jpsi_Ntrk,*Jpsi_ETHF);
   //// list with a weighting factor
-  //RooArgList varlistW(*Jpsi_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_Zvtx,*Jpsi_Ct,*Jpsi_CtErr,*Jpsi_Ntrk,*Jpsi_ETHF,*Jpsi_Weight);
-  RooArgList varlistW(*Jpsi_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_CtTrue,*Jpsi_Ct,*Jpsi_CtErr,*Jpsi_Ntrk,*Jpsi_ETHF,*Jpsi_Weight);
+  RooArgList varlistW(*Jpsi_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_Zvtx,*Jpsi_Ct,*Jpsi_CtErr,*Jpsi_Ntrk,*Jpsi_ETHF,*Jpsi_Weight);
 
   PassingEvent = new TH1I("NumPassingEvent",";;total number of events",1,1,2); // for counting
   dataJpsi = new RooDataSet("dataJpsi","A sample",varlist); // actual
@@ -302,12 +288,6 @@ int main(int argc, char* argv[]) {
     if (ev%100000==0) cout << ">>>>> EVENT " << ev << " / " << myTree->GetEntries() <<  endl;
 
     myTree->GetEntry(ev);
-
-		//// *** z vertex weighting
-		//if (TMath::Abs(zVtx) > 10.) continue;
-    float zWeight =1;
-    if (doZWeighting) { zWeight = gRatio -> Eval(zVtx); }
-		//cout<<ev<<"th event zVtx = "<<zVtx<<", and zWeight = "<<zWeight<<endl; 
 
 		//// **** dataMerge Check!! (only for Pbp 1st run)
 		//// mergeData==1 (v1) : 1st 7 runs excluded, mergeData==2 (v2) : 1st 7 runs only 
@@ -330,8 +310,7 @@ int main(int argc, char* argv[]) {
 			Jpsi.theVtxProb = Reco_QQ_VtxProb[i];
 			Jpsi.theCt = Reco_QQ_ctau[i];
       Jpsi.theCtErr = Reco_QQ_ctauErr[i];
-			Jpsi.theCtTrue = Reco_QQ_ctauTrue[i]; //for_MC     
- 
+      
 			Jpsi.mupl_TrkMuArb = Reco_QQ_mupl_TrkMuArb[i];
 			Jpsi.mupl_TMOneStaTight = Reco_QQ_mupl_TMOneStaTight[i];
 			Jpsi.mupl_highPurity = Reco_QQ_mupl_highPurity[i];
@@ -349,11 +328,11 @@ int main(int argc, char* argv[]) {
 
       Jpsi.theMass =JP->M();
       Jpsi.thePt=JP->Pt();
-      Jpsi.theRapidity=JP->Rapidity();
-      	
-			//Jpsi.theWeight = 1.0; //for_data
-			Jpsi.theWeight = zWeight; //for_MC       
+      //Jpsi.theRapidity=JP->Rapidity();
+      Jpsi.theRapidity=(-1)*JP->Rapidity();
 
+      Jpsi.theWeight = 1.0;
+        
 			/*
       //// *** Cowboy or Sailor (get delta Phi between 2 muons)
       double mumuPhi = m1P->Phi() - m2P->Phi();
@@ -385,14 +364,11 @@ int main(int argc, char* argv[]) {
         Jpsi_ETHF->setVal(Jpsi.theETHF);
         Jpsi_Zvtx->setVal(Jpsi.theZvtx);
         Jpsi_Weight->setVal(Jpsi.theWeight);
-				Jpsi_CtTrue->setVal(Jpsi.theCtTrue);
-				
+        
         //// list without a weighting factor
-        //RooArgList varlist_tmp(*Jpsi_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_Zvtx,*Jpsi_Ct,*Jpsi_CtErr,*Jpsi_Ntrk,*Jpsi_ETHF);
-        RooArgList varlist_tmp(*Jpsi_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_CtTrue,*Jpsi_Ct,*Jpsi_CtErr,*Jpsi_Ntrk,*Jpsi_ETHF);
+        RooArgList varlist_tmp(*Jpsi_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_Zvtx,*Jpsi_Ct,*Jpsi_CtErr,*Jpsi_Ntrk,*Jpsi_ETHF);
         //// list with a weighting factor
-        //RooArgList varlistW_tmp(*Jpsi_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_Zvtx,*Jpsi_Ct,*Jpsi_CtErr,*Jpsi_Ntrk,*Jpsi_ETHF,*Jpsi_Weight);
-        RooArgList varlistW_tmp(*Jpsi_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_CtTrue,*Jpsi_Ct,*Jpsi_CtErr,*Jpsi_Ntrk,*Jpsi_ETHF,*Jpsi_Weight);
+        RooArgList varlistW_tmp(*Jpsi_Mass,*Jpsi_Pt,*Jpsi_Y,*Jpsi_Zvtx,*Jpsi_Ct,*Jpsi_CtErr,*Jpsi_Ntrk,*Jpsi_ETHF,*Jpsi_Weight);
 
         if (Jpsi.theSign == 0) { // Check opposite sign! (0=+-,1=++,2=+-)
            dataJpsi->add(varlist_tmp);
