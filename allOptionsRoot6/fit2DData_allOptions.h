@@ -40,7 +40,7 @@ using namespace RooFit;
 struct InputOpt {
   string FileName, FileName2, FileNameMC1, FileNameMC2;
   string mBkgFunct, mSigFunct;
-	bool dataMerge;
+  bool dataMerge;
   bool prefitMass;
   bool prefitSignalCTau;
   bool prefitBkg;
@@ -49,13 +49,13 @@ struct InputOpt {
   int isMB; //minBias
   int doWeight;
   int isMultiplicity; // 0: centrality, 1 : Ntracks, 2 : ET^{HF}
-	string prange, lrange, yrange, crange, phirange, errrange;
-	string etrange, ntrrange;
+  string prange, lrange, yrange, crange, phirange, errrange;
+  string etrange, ntrrange;
   string dirPre;
   string rpmethod;
   char cmspre[512], beamEn[512], lumi[512];
   char centString[512], rapString[512], ptString[512], dphiString[512];
-	char etString[512], ntrkString[512];
+  char etString[512], ntrkString[512];
   string psmin_latex, psmax_latex;
  
   bool analyticBlifetime;
@@ -69,8 +69,8 @@ struct InputOpt {
   int is2Widths;
   int ctauBackground;
 
-	int ctErrRange;
-	string ctErrFile;
+  int ctErrRange;
+  string ctErrFile;
 
   double combinedWidth, combinedWidthErr; //CB + Gaus combined width/width error
   double PcombinedWidth, PcombinedWidthErr; //CB + Gaus combined width/width error, scaling for presentation
@@ -142,20 +142,20 @@ void defineMassSig(RooWorkspace *ws, InputOpt &opt) {
   if (opt.is2Widths == 1) {
 //    ws->factory("Gaussian::signalG1(Jpsi_Mass,meanSig1[3.0975,3.05,3.15],sigmaSig1[0.1,0.02,0.2])");
   //  ws->factory("Gaussian::signalG1(Jpsi_Mass,meanSig1[3.0975,3.05,3.15],sigmaSig1[0.02,0.005,0.15])");
-  	  //ws->factory("Gaussian::signalG1(Jpsi_Mass,meanSig1[3.0975,3.05,3.15],sigmaSig1[0.02,0.01,0.15])");
-  	  ws->factory("Gaussian::signalG1(Jpsi_Mass,meanSig1[3.0975,3.05,3.15],sigmaSig1[0.03,0.008,0.075])"); // KYO test02
+      //ws->factory("Gaussian::signalG1(Jpsi_Mass,meanSig1[3.0975,3.05,3.15],sigmaSig1[0.02,0.01,0.15])");
+      ws->factory("Gaussian::signalG1(Jpsi_Mass,meanSig1[3.0975,3.05,3.15],sigmaSig1[0.03,0.008,0.075])"); // KYO test02
   } else if (opt.is2Widths == 0) {
     ws->factory("Gaussian::signalG1(Jpsi_Mass,meanSig1[3.0975,3.05,3.15],sigmaSig1[0.02,0.008,0.2])");
   }
 
   // Crystall Ball
-	// narrow enne
+  // narrow enne
   //ws->factory("CBShape::signalCB(Jpsi_Mass,meanSig1,sigmaSig1,alpha[1.,0.,3.],enne[5.,1.,30.])");
   ws->factory("CBShape::signalCB(Jpsi_Mass,meanSig1,sigmaSig1,alpha[1.9,1.,3.],enne[5.,1.,30.])");//test02
- 	//ws->factory("CBShape::signalCB2(Jpsi_Mass,meanSig1,sigmaSig2[0.03,0.01,0.06],alpha,enne)");
- 	ws->factory("CBShape::signalCB2(Jpsi_Mass,meanSig1,sigmaSig2[0.03,0.008,0.075],alpha,enne)");//test02
+  //ws->factory("CBShape::signalCB2(Jpsi_Mass,meanSig1,sigmaSig2[0.03,0.01,0.06],alpha,enne)");
+  ws->factory("CBShape::signalCB2(Jpsi_Mass,meanSig1,sigmaSig2[0.03,0.008,0.075],alpha,enne)");//test02
   //ws->factory("CBShape::signalCBWN(Jpsi_Mass,meanSig1,sigmaSig1,alpha,enneW[5.,1.,50.])");
-	// wide enneW
+  // wide enneW
   //ws->factory("CBShape::signalCBWN(Jpsi_Mass,meanSig1,sigmaSig1,alpha,enneW[5.,1.,70.])");
   ws->factory("CBShape::signalCBWN(Jpsi_Mass,meanSig1,sigmaSig1,alpha,enneW[2.5,1.0,4.0])");
   ws->factory("CBShape::signalCB2WN(Jpsi_Mass,meanSig1,sigmaSig2,alpha,enneW)");
@@ -223,7 +223,7 @@ void defineCTResol(RooWorkspace *ws, InputOpt &opt) {
       ws->factory("GaussModel::resGW(Jpsi_Ct,meanResSigW[0.,-0.01,0.01],sigmaResSigW[2.3,1.2,3.0],one[1.0],Jpsi_CtErr)");
      // ws->factory("GaussModel::resGN(Jpsi_Ct,meanResSigW,sigmaResSigN[0.8,0.6,1.1],one,Jpsi_CtErr)");
      //KYO
-		  ws->factory("GaussModel::resGN(Jpsi_Ct,meanResSigN[0.,-0.01,0.01],sigmaResSigN[0.8,0.6,1.1],one,Jpsi_CtErr)");
+      ws->factory("GaussModel::resGN(Jpsi_Ct,meanResSigN[0.,-0.01,0.01],sigmaResSigN[0.8,0.6,1.1],one,Jpsi_CtErr)");
       //ws->factory("AddModel::sigPR({resGW,resGN},{fracRes[0.05,0.001,0.3]})");
       ws->factory("AddModel::sigPR({resGW,resGN},{fracRes[0.05,0.005,0.4]})");
     }
@@ -436,7 +436,7 @@ void defineCTSig(RooWorkspace *ws, RooDataSet *redMCCutNP, string titlestr, doub
 
         getMCTrueLifetime(ws, redMCCutNP, titlestr, lmax, opt);
        
-			 	// KYO gmc -> Gmc 
+        // KYO gmc -> Gmc 
         //float GmcVal = ws->var("Gmc")->getVal();
         //RooRealVar gmc("gmc","Sigma of MC Gaussian",GmcVal);  ws->import(gmc);
         float bTauVal1 = ws->var("bTau1")->getVal();

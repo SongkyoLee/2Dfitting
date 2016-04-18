@@ -9,31 +9,31 @@ int main (int argc, char* argv[]) {
   RooMsgService::instance().getStream(1).removeTopic(Minimization);
   RooMsgService::instance().getStream(1).removeTopic(Caching);
   
-	///// for lxplus
-	//gROOT->Macro("/afs/cern.ch/work/k/kyolee/private/CMSSW_5_3_19_Fit/src/JpsiStyle.C");
-	gROOT->Macro("/home/songkyo/kyo/2Dfitting/JpsiStyle.C");
-	
-	////////////////////////////////////// KYO 0316
-	// 1) for mass distributions
-	double UnNormChi2_mass = 0; // un normalized chi2
-	int nFitParam_mass = 0; // # of floating fit parameters
-	int nFullBinsPull_mass = 0; // # of bins in pull dist
-	int Dof_mass = 0; //ndf = nFullBinsPull - nFitPram
-	double Chi2_mass = 0; //chi2/ndf
+  ///// for lxplus
+  //gROOT->Macro("/afs/cern.ch/work/k/kyolee/private/CMSSW_5_3_19_Fit/src/JpsiStyle.C");
+  gROOT->Macro("/home/songkyo/kyo/2Dfitting/JpsiStyle.C");
+  
+  ////////////////////////////////////// KYO 0316
+  // 1) for mass distributions
+  double UnNormChi2_mass = 0; // un normalized chi2
+  int nFitParam_mass = 0; // # of floating fit parameters
+  int nFullBinsPull_mass = 0; // # of bins in pull dist
+  int Dof_mass = 0; //ndf = nFullBinsPull - nFitPram
+  double Chi2_mass = 0; //chi2/ndf
   double theChi2Prob_mass = 0; // check the chi2 fit probability
-	// 2) for time distributions
-	double UnNormChi2_time = 0; // un normalized chi2
-	int nFitParam_time = 0; // # of floating fit parameters
-	int nFullBinsPull_time = 0; // # of bins in pull dist
-	int Dof_time = 0; //ndf = nFullBinsPull - nFitPram
-	double Chi2_time = 0; //chi2/ndf
+  // 2) for time distributions
+  double UnNormChi2_time = 0; // un normalized chi2
+  int nFitParam_time = 0; // # of floating fit parameters
+  int nFullBinsPull_time = 0; // # of bins in pull dist
+  int Dof_time = 0; //ndf = nFullBinsPull - nFitPram
+  double Chi2_time = 0; //chi2/ndf
   double theChi2Prob_time = 0; // check the chi2 fit probability
-	// 3) for time side distributions - KYO 0316
-	double UnNormChi2_side = 0; // un normalized chi2
-	int nFitParam_side = 0; // # of floating fit parameters
-	int nFullBinsPull_side = 0; // # of bins in pull dist
-	int Dof_side = 0; //ndf = nFullBinsPull - nFitPram
-	double Chi2_side = 0; //chi2/ndf
+  // 3) for time side distributions - KYO 0316
+  double UnNormChi2_side = 0; // un normalized chi2
+  int nFitParam_side = 0; // # of floating fit parameters
+  int nFullBinsPull_side = 0; // # of bins in pull dist
+  int Dof_side = 0; //ndf = nFullBinsPull - nFitPram
+  double Chi2_side = 0; //chi2/ndf
   double theChi2Prob_side = 0; // check the chi2 fit probability
   
   
@@ -42,7 +42,7 @@ int main (int argc, char* argv[]) {
 
   float pmin=0, pmax=0, ymin=0, ymax=0, lmin=0, lmax=0, cmin=0, cmax=0, psmax=0, psmin=0, errmin=0, errmax=0;
   float etmin=0, etmax=0, ntrmin=0, ntrmax=0; // ETHF & Ntrk
-	getOptRange(inOpt.prange,&pmin,&pmax);
+  getOptRange(inOpt.prange,&pmin,&pmax);
   getOptRange(inOpt.lrange,&lmin,&lmax);
   getOptRange(inOpt.errrange,&errmin,&errmax);
   getOptRange(inOpt.crange,&cmin,&cmax);
@@ -50,15 +50,15 @@ int main (int argc, char* argv[]) {
   getOptRange(inOpt.phirange,&psmin,&psmax);
   getOptRange(inOpt.etrange,&etmin,&etmax);
   getOptRange(inOpt.ntrrange,&ntrmin,&ntrmax);
-	
+  
   if (!inOpt.prange.compare("0.0-3.0") || !inOpt.prange.compare("0.0-1.5") || !inOpt.prange.compare("1.5-3.0") || !inOpt.prange.compare("2.0-3.0") ){ lmin = 3.0; lmax = 5.0; } // KYO
 
   // *** Strings for plot formatting
   formTitle(inOpt, cmin, cmax);
   formRapidity(inOpt, ymin, ymax);
   formPt(inOpt, pmin, pmax);
-	formEt(inOpt, etmin, etmax);
-	formNtrk(inOpt, ntrmin, ntrmax);
+  formEt(inOpt, etmin, etmax);
+  formNtrk(inOpt, ntrmin, ntrmax);
   formPhi(inOpt, psmin, psmax);
 
   TLatex *t = new TLatex();  t->SetNDC();  t->SetTextAlign(12);
@@ -83,7 +83,7 @@ int main (int argc, char* argv[]) {
   cout << inOpt.FileNameMC1.c_str() << endl;
   if (fInMC.IsZombie()) { cout << "CANNOT open MC1(NP) root file\n"; return 1; }
   fInMC.cd();
-	//RooDataSet *dataMC = (RooDataSet*)fInMC.Get("dataJpsi");
+  //RooDataSet *dataMC = (RooDataSet*)fInMC.Get("dataJpsi");
   RooDataSet *dataMC;
   if (inOpt.doWeight == 1) {
     dataMC = (RooDataSet*)fInMC.Get("dataJpsiWeight");  //Weighted
@@ -91,7 +91,7 @@ int main (int argc, char* argv[]) {
   } else {
     dataMC = (RooDataSet*)fInMC.Get("dataJpsi");  //Unweighted
     cout << "## UN-WEIGHTED MC1(NP) is used!\n";
- 	} 
+  } 
   dataMC->SetName("dataMC");
 
   TFile fInMC2(inOpt.FileNameMC2.c_str());  //Prompt J/psi MC
@@ -106,7 +106,7 @@ int main (int argc, char* argv[]) {
   } else {
     dataMC2 = (RooDataSet*)fInMC2.Get("dataJpsi");  //Unweighted
     cout << "## UN-WEIGHTED MC2(PR) is used!\n";
- 	} 
+  } 
   dataMC2->SetName("dataMC2");
 
   TFile fInData(inOpt.FileName.c_str());
@@ -123,24 +123,24 @@ int main (int argc, char* argv[]) {
   }
   data->SetName("data");
 
-	TFile* fInData2;
-	if (inOpt.dataMerge) {
-		fInData2 = new TFile(inOpt.FileName2.c_str());
-		cout << "## NOTICE : 2nd data to be merged\n";
-		cout << inOpt.FileName2.c_str() << endl;
-  	if (fInData2->IsZombie()) { cout << "CANNOT open data root file 2\n"; return 1; }
-  	fInData2->cd();
-  	RooDataSet *data2;
-		if (inOpt.doWeight == 1 ) {
-			data2 = (RooDataSet*)fInData2->Get("dataJpsiWeight");  //Weighted
-	    cout << "## WEIGHTED dataset is used\n";
-	 	 } else {
-	 	   data2 = (RooDataSet*)fInData2->Get("dataJpsi");  //Unweighted
- 		   cout << "## UN-WEIGHTED dataset is used!\n";
- 		 }
- 	 data2->SetName("data2");
-	 data->append(*data2);
-	}
+  TFile* fInData2;
+  if (inOpt.dataMerge) {
+    fInData2 = new TFile(inOpt.FileName2.c_str());
+    cout << "## NOTICE : 2nd data to be merged\n";
+    cout << inOpt.FileName2.c_str() << endl;
+    if (fInData2->IsZombie()) { cout << "CANNOT open data root file 2\n"; return 1; }
+    fInData2->cd();
+    RooDataSet *data2;
+    if (inOpt.doWeight == 1 ) {
+      data2 = (RooDataSet*)fInData2->Get("dataJpsiWeight");  //Weighted
+      cout << "## WEIGHTED dataset is used\n";
+     } else {
+       data2 = (RooDataSet*)fInData2->Get("dataJpsi");  //Unweighted
+       cout << "## UN-WEIGHTED dataset is used!\n";
+     }
+   data2->SetName("data2");
+   data->append(*data2);
+  }
 
   // Create workspace to play with
   RooWorkspace *ws = new RooWorkspace("workspace");
@@ -155,13 +155,13 @@ int main (int argc, char* argv[]) {
         "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && Jpsi_Y>=%.2f && Jpsi_Y<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f && Jpsi_dPhi>=%.3f && Jpsi_dPhi<%.3f",
         pmin,pmax,ymin,ymax,-lmin,lmax,psmin,psmax);
 
-		if (inOpt.ctErrRange == 0) {
-			if (readCtauErrRange(inOpt, &errmin, &errmax)<0) return -1;
-		} else if (inOpt.ctErrRange == 2) {
-			errmin = 0.008; errmax = 1.0;
-		} else {
-			getCtauErrRange(data, inOpt, reduceDS2, lmin, lmax, &errmin, &errmax);
-		}
+    if (inOpt.ctErrRange == 0) {
+      if (readCtauErrRange(inOpt, &errmin, &errmax)<0) return -1;
+    } else if (inOpt.ctErrRange == 2) {
+      errmin = 0.008; errmax = 1.0;
+    } else {
+      getCtauErrRange(data, inOpt, reduceDS2, lmin, lmax, &errmin, &errmax);
+    }
  
     sprintf(reduceDS,
         "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && Jpsi_Y>=%.2f && Jpsi_Y<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f && Jpsi_CtErr>=%.3f && Jpsi_CtErr<%.3f && Jpsi_dPhi>=%.3f && Jpsi_dPhi<%.3f && Ntracks >=%.1f && Ntracks < %.1f && SumET_HFEta4 >=%.2f && SumET_HFEta4 < %.2f",
@@ -177,13 +177,13 @@ int main (int argc, char* argv[]) {
         "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && Jpsi_Y>=%.2f && Jpsi_Y<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f && Jpsi_dPhi>=%.3f && Jpsi_dPhi<%.3f",
         pmin,pmax,-ymax,-ymin,-lmin,lmax,psmin,psmax);
  
-		if (inOpt.ctErrRange == 0) {
-			if (readCtauErrRange(inOpt, &errmin, &errmax)<0) return -1;
-		} else if (inOpt.ctErrRange == 2) {
-			errmin = 0.008; errmax = 1.0;
-		} else {
-			getCtauErrRange(data, inOpt, reduceDS2, lmin, lmax, &errmin, &errmax);
-		}
+    if (inOpt.ctErrRange == 0) {
+      if (readCtauErrRange(inOpt, &errmin, &errmax)<0) return -1;
+    } else if (inOpt.ctErrRange == 2) {
+      errmin = 0.008; errmax = 1.0;
+    } else {
+      getCtauErrRange(data, inOpt, reduceDS2, lmin, lmax, &errmin, &errmax);
+    }
  
     sprintf(reduceDS,
         "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && Jpsi_Y>=%.2f && Jpsi_Y<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f && Jpsi_CtErr>=%.3f && Jpsi_CtErr<%.3f && Jpsi_dPhi>=%.3f && Jpsi_dPhi<%.3f && Ntracks >=%.1f && Ntracks < %.1f && SumET_HFEta4 >=%.2f && SumET_HFEta4 < %.2f",
@@ -199,13 +199,13 @@ int main (int argc, char* argv[]) {
         "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && TMath::Abs(Jpsi_Y)>=%.2f && TMath::Abs(Jpsi_Y)<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f && Jpsi_dPhi>=%.3f && Jpsi_dPhi<%.3f",
         pmin,pmax,ymin,ymax,-lmin,lmax,psmin,psmax);
 
-		if (inOpt.ctErrRange == 0) {
-			if (readCtauErrRange(inOpt, &errmin, &errmax)<0) return -1;
-		} else if (inOpt.ctErrRange == 2) {
-			errmin = 0.008; errmax = 1.0;
-		} else {
-			getCtauErrRange(data, inOpt, reduceDS2, lmin, lmax, &errmin, &errmax);
-		}
+    if (inOpt.ctErrRange == 0) {
+      if (readCtauErrRange(inOpt, &errmin, &errmax)<0) return -1;
+    } else if (inOpt.ctErrRange == 2) {
+      errmin = 0.008; errmax = 1.0;
+    } else {
+      getCtauErrRange(data, inOpt, reduceDS2, lmin, lmax, &errmin, &errmax);
+    }
 
     sprintf(reduceDS,
         "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && TMath::Abs(Jpsi_Y)>=%.2f && TMath::Abs(Jpsi_Y)<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f && Jpsi_CtErr>=%.3f && Jpsi_CtErr<%.3f && Jpsi_dPhi>=%.3f && Jpsi_dPhi<%.3f && Ntracks >=%.1f && Ntracks < %.1f && SumET_HFEta4 >=%.2f && SumET_HFEta4 < %.2f",
@@ -282,7 +282,7 @@ int main (int argc, char* argv[]) {
 //  ws->var("Jpsi_Ct")->setBins(90);  //original
   ws->var("Jpsi_Ct")->setBinning(rb2);  //original
 //  ws->var("Jpsi_Ct")->setBinning(rbCorser);  //corser
-	if (!inOpt.prange.compare("0.0-3.0") || !inOpt.prange.compare("0.0-1.5") || !inOpt.prange.compare("1.5-3.0") || !inOpt.prange.compare("2.0-3.0")){ws->var("Jpsi_Ct")->setBins(100);}  // KYO
+  if (!inOpt.prange.compare("0.0-3.0") || !inOpt.prange.compare("0.0-1.5") || !inOpt.prange.compare("1.5-3.0") || !inOpt.prange.compare("2.0-3.0")){ws->var("Jpsi_Ct")->setBins(100);}  // KYO
   
   // Define ctau binning for plotting (coarser bin)
 /*
@@ -586,7 +586,7 @@ int main (int argc, char* argv[]) {
 //    if (inOpt.isPbPb == 1 || inOpt.isPbPb == 2) {
       double initBkg = redDataSB->sumEntries()*9.0/5.0;
       double initSig = redDataCut->sumEntries() - initBkg;
-			initBkg = initBkg+10000; // KYO
+      initBkg = initBkg+10000; // KYO
       sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
 /*    } else {
       // 2010 setting in pp
@@ -594,579 +594,579 @@ int main (int argc, char* argv[]) {
     }
 */
 
-			// Special bin variable settings
+      // Special bin variable settings
     // sys03 : Remove fracRes, meanResSigW, sigmaResSigW!!!
     // sys04 : Remove Gmc!!!
 //    ws->var("alpha")->setVal(1.9);
 //    ws->var("alpha")->setConstant(kTRUE);
     ws->var("enneW")->setVal(2.1);
     ws->var("enneW")->setConstant(kTRUE);
-		sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+    sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
 #if 0
-			if (inOpt.isMultiplicity == 0) { // no multiplicity
-				if (inOpt.isPbPb == 2) {
-					if (!inOpt.yrange.compare("-2.4--1.97")) {
-						if (!inOpt.prange.compare("0.0-1.5")){
-							ws->var("meanSig1")->setRange(3.05,3.087);
-							ws->var("meanSig1")->setVal(3.086);
-							ws->var("coefExp")->setRange(1.0,2.5);
-							ws->var("coefExp")->setVal(1.3);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("2.0-3.0")){
-							ws->var("coeffGaus")->setRange(0.29,0.85);
-							ws->var("coeffGaus")->setVal(0.6);	
-							ws->var("sigmaSig1")->setRange(0.025,0.055);
-							ws->var("sigmaSig1")->setVal(0.040);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("3.0-4.0")){
-							ws->var("sigmaSig1")->setRange(0.025,0.050);
-							ws->var("sigmaSig1")->setVal(0.040);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("5.0-6.5")){
-							ws->var("alpha")->setRange(1.3,2.3);
-							ws->var("alpha")->setVal(1.9);
-							ws->var("sigmaResSigW")->setRange(1.01,2.2);
-							ws->var("sigmaResSigW")->setVal(1.2);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("6.5-7.5")){
-							ws->var("alpha")->setRange(1.9,3.0);
-							ws->var("alpha")->setVal(2.5);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("8.5-10.0")){
-							ws->var("alpha")->setRange(1.3,2.0);
-							ws->var("alpha")->setVal(1.9);
-							ws->var("sigmaResSigW")->setRange(1.01,2.2);
-							ws->var("sigmaResSigW")->setVal(1.2);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("10.0-14.0")){
-							ws->var("meanSig1")->setRange(3.091,3.15);
-							ws->var("meanSig1")->setVal(3.097);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("14.0-30.0")){
-							ws->var("alpha")->setRange(1.5,2.5);
-							ws->var("alpha")->setVal(1.9);
-							ws->var("meanSig1")->setRange(3.091,3.15);
-							ws->var("meanSig1")->setVal(3.097);
-//							ws->var("coefExp")->setRange(-0.485,-0.475);//sys01_01
-//							ws->var("coefExp")->setVal(-0.481);	
-							ws->var("sigmaSig1")->setRange(0.025,0.055);
-							ws->var("sigmaSig1")->setVal(0.040);
-							ws->var("sigmaSig2")->setRange(0.025,0.055);
-							ws->var("sigmaSig2")->setVal(0.040);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-					}
-					else if (!inOpt.yrange.compare("-1.97--1.37")) {
-						if (!inOpt.prange.compare("3.0-4.0")){
-							ws->var("alpha")->setRange(1.3,2.3);
-							ws->var("alpha")->setVal(1.9);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("5.0-6.5")){
-							//ws->var("lambdam")->setRange(0.05,1.5);
-							ws->var("lambdam")->setRange(0.55,1.5);
-							ws->var("lambdam")->setVal(0.79);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("7.5-8.5")){
-							ws->var("coeffGaus")->setRange(0.29,0.85);
-							ws->var("coeffGaus")->setVal(0.6);	
-							ws->var("sigmaSig2")->setRange(0.025,0.053);
-							ws->var("sigmaSig2")->setVal(0.040);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("14.0-30.0")){
-							ws->var("meanSig1")->setRange(3.091,3.15);
-							ws->var("meanSig1")->setVal(3.097);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-					}
-					else if (!inOpt.yrange.compare("-1.37--0.47")) {
-						if (!inOpt.prange.compare("7.5-8.5")){
-							ws->var("coeffGaus")->setRange(0.29,0.85);
-							ws->var("coeffGaus")->setVal(0.6);	
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("14.0-30.0")){
-        			ws->var("sigmaResSigW")->setRange(1.001,2.0);
-        			ws->var("sigmaResSigW")->setVal(1.2);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-					}
-					else if (!inOpt.yrange.compare("-0.47-0.43")) {
-						if (!inOpt.prange.compare("14.0-30.0")){
-							ws->var("alpha")->setRange(1.5,2.5);
-							ws->var("alpha")->setVal(1.9);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-					}
-					else if (!inOpt.yrange.compare("0.43-1.03")) {
-						if (!inOpt.prange.compare("7.5-8.5")){
-							initBkg = initBkg+10000; // KYO
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[800,1.0,1050.0]*%s,NBkg[%f,290.0,500000.0]*%s)",initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("8.5-10.0")){
-							ws->var("alpha")->setRange(1.3,2.5);
-							ws->var("alpha")->setVal(1.9);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("6.5-10.0")){
-							ws->var("coeffGaus")->setRange(0.21,0.69);
-							ws->var("coeffGaus")->setVal(0.5);	
-        			ws->var("sigmaSig1")->setRange(0.010,0.055);
-        			ws->var("sigmaSig1")->setVal(0.030);
-        			ws->var("sigmaSig2")->setRange(0.010,0.055);
-        			ws->var("sigmaSig2")->setVal(0.030);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-					}
-					else if (!inOpt.yrange.compare("1.03-1.46")) {
-						if (!inOpt.prange.compare("6.5-7.5")){
-        			ws->var("sigmaResSigW")->setRange(1.01,2.3);
-        			ws->var("sigmaResSigW")->setVal(1.2);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("10.0-30.0")){
-							ws->var("coeffGaus")->setRange(0.21,0.79);
-							ws->var("coeffGaus")->setVal(0.5);	
-        			ws->var("sigmaSig1")->setRange(0.010,0.045);
-        			ws->var("sigmaSig1")->setVal(0.030);
-        			ws->var("sigmaSig2")->setRange(0.010,0.045);
-        			ws->var("sigmaSig2")->setVal(0.030);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-					}
-					else if (!inOpt.yrange.compare("1.46-1.93")) {
-						if (!inOpt.prange.compare("3.0-4.0")){
-//        			ws->var("sigmaResSigW")->setRange(1.1,1.8);
-        			ws->var("sigmaResSigW")->setRange(1.1,1.3);
-        			ws->var("sigmaResSigW")->setVal(1.2);
-							ws->var("lambdam")->setRange(0.14,1.5);
-							ws->var("lambdam")->setVal(0.79);
-							ws->var("alpha")->setRange(1.3,2.3);
-							ws->var("alpha")->setVal(1.9);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("6.5-7.5")){
-							ws->var("alpha")->setRange(1.3,2.3);
-							ws->var("alpha")->setVal(1.9);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("8.5-10.0")){
-        			ws->var("sigmaSig1")->setRange(0.010,0.055);
-        			ws->var("sigmaSig1")->setVal(0.040);
-        			ws->var("sigmaSig2")->setRange(0.010,0.055);
-        			ws->var("sigmaSig2")->setVal(0.040);
-							ws->var("coeffGaus")->setRange(0.29,0.85);
-							ws->var("coeffGaus")->setVal(0.6);	
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("14.0-30.0")){ 
-							ws->var("alpha")->setRange(1.3,2.3);
-							ws->var("alpha")->setVal(1.9);
-//        			ws->var("sigmaSig1")->setRange(0.020,0.055); //sys01-01
-//        			ws->var("sigmaSig1")->setVal(0.040);
-//        			ws->var("sigmaSig2")->setRange(0.020,0.055);
-//        			ws->var("sigmaSig2")->setVal(0.040);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-					}
-					else if (!inOpt.yrange.compare("1.93-2.4")){
-						if (!inOpt.prange.compare("0.0-1.5")){
-							ws->var("coefExp")->setRange(1.0,2.0);
-							ws->var("coefExp")->setVal(1.3);
-//        			ws->var("sigmaResSigW")->setRange(1.7,3.0);
-        			ws->var("sigmaResSigW")->setRange(2.3,3.0);
-        			ws->var("sigmaResSigW")->setVal(2.8);
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("1.5-3.0")){
-							ws->var("coeffGaus")->setRange(0.29,0.85);
-							ws->var("coeffGaus")->setVal(0.6);	
-        			ws->var("sigmaSig2")->setRange(0.030,0.055);
-        			ws->var("sigmaSig2")->setVal(0.040);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("2.0-3.0")){
-							//ws->var("coeffGaus")->setRange(0.29,0.80);
-							ws->var("coeffGaus")->setRange(0.38,0.73);
-							ws->var("coeffGaus")->setVal(0.6);	
-        			ws->var("sigmaSig1")->setRange(0.020,0.055);
-        			ws->var("sigmaSig1")->setVal(0.040);
-        			ws->var("sigmaSig2")->setRange(0.020,0.055);
-        			ws->var("sigmaSig2")->setVal(0.040);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-//						else if (!inOpt.prange.compare("4.0-5.0")){//sys01_01
-//							ws->var("coeffGaus")->setRange(0.29,0.63);
-//							ws->var("coeffGaus")->setVal(0.6);	
- //  	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-//						}
-						else if (!inOpt.prange.compare("8.5-10.0")){
-							ws->var("coeffGaus")->setRange(0.29,0.85);
-							ws->var("coeffGaus")->setVal(0.6);	
-        			ws->var("sigmaSig1")->setRange(0.010,0.055);
-        			ws->var("sigmaSig1")->setVal(0.040);
-        			ws->var("sigmaSig2")->setRange(0.010,0.055);
-        			ws->var("sigmaSig2")->setVal(0.040);
-							//ws->var("fracRes")->setRange(0.18,0.35);
-							//ws->var("fracRes")->setVal(0.25);
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("14.0-30.0")){
-							ws->var("alpha")->setRange(1.65,2.7);
-							ws->var("alpha")->setVal(1.9);
-        			ws->var("sigmaResSigW")->setRange(1.001,2.3);
-        			ws->var("sigmaResSigW")->setVal(1.5);
-//							ws->var("meanSig1")->setRange(3.091,3.15);
-							ws->var("meanSig1")->setRange(3.088,3.099);
-							ws->var("meanSig1")->setVal(3.097);
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-					}
-				} // isPbPb==2
-				else if (inOpt.isPbPb==3) {
-					if (!inOpt.yrange.compare("1.97-2.4")) {
-						if (!inOpt.prange.compare("0.0-1.5")){
-							ws->var("coefExp")->setRange(1.0,2.5);
-							ws->var("coefExp")->setVal(1.3);
-							ws->var("lambdasym")->setRange(1.1,5.0);
-							ws->var("lambdasym")->setVal(1.5);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("2.0-3.0")){
-							ws->var("coeffGaus")->setRange(0.29,0.85);
-							ws->var("coeffGaus")->setVal(0.6);	
-        			ws->var("sigmaSig1")->setRange(0.020,0.055);
-        			ws->var("sigmaSig1")->setVal(0.040);
-        			ws->var("sigmaSig2")->setRange(0.020,0.055);
-        			ws->var("sigmaSig2")->setVal(0.040);
-							ws->var("lambdam")->setRange(0.12,1.2);
-							ws->var("lambdam")->setVal(0.79);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("3.0-4.0")) {
-							ws->var("alpha")->setRange(1.65,2.5);
-							ws->var("alpha")->setVal(1.9);
-							ws->var("coeffGaus")->setRange(0.25,0.50);
-							ws->var("coeffGaus")->setVal(0.3);	
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("5.0-6.5")) {
-							ws->var("coeffGaus")->setRange(0.39,0.85);
-							ws->var("coeffGaus")->setVal(0.6);	
-							ws->var("alpha")->setRange(1.5,2.7);
-							ws->var("alpha")->setVal(1.9);
-        			ws->var("sigmaResSigW")->setRange(1.01,1.85);
-        			ws->var("sigmaResSigW")->setVal(1.5);
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("7.5-8.5")) {
-							ws->var("meanSig1")->setRange(3.087,3.093);
-							ws->var("meanSig1")->setVal(3.09);	
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("8.5-10.0")) {
-							initBkg = initBkg+1000; 
-							ws->var("alpha")->setRange(1.5,2.5);
-							ws->var("alpha")->setVal(1.9);
-							ws->var("coeffGaus")->setRange(0.25,0.75);
-							ws->var("coeffGaus")->setVal(0.5);	
-							ws->var("sigmaSig1")->setRange(0.03,0.059);
-							ws->var("sigmaSig1")->setVal(0.04);
-							ws->var("sigmaSig2")->setRange(0.015,0.059);
-							ws->var("sigmaSig2")->setVal(0.02);
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("10.0-14.0")) {
-							ws->var("meanSig1")->setRange(3.089,3.095);
-							ws->var("meanSig1")->setVal(3.091);	
-							ws->var("sigmaSig1")->setRange(0.03,0.055);
-							ws->var("sigmaSig1")->setVal(0.04);
-							ws->var("sigmaSig2")->setRange(0.015,0.045);
-							ws->var("sigmaSig2")->setVal(0.02);
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("14.0-30.0")) {
-							ws->var("alpha")->setRange(1.65,2.5);
-							ws->var("alpha")->setVal(1.9);
-							ws->var("coeffGaus")->setRange(0.28,0.85);
-							ws->var("coeffGaus")->setVal(0.5);	
-							ws->var("sigmaSig1")->setRange(0.03,0.055);
-							ws->var("sigmaSig1")->setVal(0.04);
-							ws->var("sigmaSig2")->setRange(0.015,0.045);
-							ws->var("sigmaSig2")->setVal(0.02);
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("6.5-10.0")) {
-							ws->var("coeffGaus")->setRange(0.40,0.70);
-							ws->var("coeffGaus")->setVal(0.55);	
-							ws->var("sigmaSig1")->setRange(0.02,0.062);
-							ws->var("sigmaSig1")->setVal(0.04);
-							ws->var("sigmaSig2")->setRange(0.02,0.062);
-							ws->var("sigmaSig2")->setVal(0.02);
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-					}
-					else if (!inOpt.yrange.compare("1.37-1.97")) {
-						if (!inOpt.prange.compare("5.0-6.5")) {
-//							ws->var("coeffGaus")->setRange(0.39,0.85);
-//							ws->var("coeffGaus")->setVal(0.6);	
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("7.5-8.5")) {
-		//					ws->var("sigmaSig1")->setRange(0.015,0.045);
-		//					ws->var("sigmaSig1")->setVal(0.02);
-		//					ws->var("sigmaSig2")->setRange(0.03,0.055);
-		//					ws->var("sigmaSig2")->setVal(0.04);
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("10.0-14.0")) {
-//							ws->var("coeffGaus")->setRange(0.39,0.85);
-//							ws->var("coeffGaus")->setVal(0.6);	
-							ws->var("alpha")->setRange(1.65,2.7);
-							ws->var("alpha")->setVal(1.9);
-        			ws->var("sigmaResSigW")->setRange(1.01,2.3);
-        			ws->var("sigmaResSigW")->setVal(1.8);
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("14.0-30.0")) {
-//							ws->var("coeffGaus")->setRange(0.39,0.78);
-//							ws->var("coeffGaus")->setVal(0.5);	
-							ws->var("alpha")->setRange(1.65,2.7);
-							ws->var("alpha")->setVal(1.9);
-        			ws->var("sigmaResSigW")->setRange(1.01,2.3);
-        			ws->var("sigmaResSigW")->setVal(1.8);
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("10.0-30.0")) {
-							ws->var("coeffGaus")->setRange(0.29,0.86);
-							ws->var("coeffGaus")->setVal(0.5);	
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-					}
-					else if (!inOpt.yrange.compare("0.47-1.37")) {
-						if (!inOpt.prange.compare("6.5-7.5")) {
-        			ws->var("sigmaResSigW")->setRange(1.01,2.3);
-        			ws->var("sigmaResSigW")->setVal(1.8);
-//							ws->var("coeffGaus")->setRange(0.39,0.85);
-//							ws->var("coeffGaus")->setVal(0.6);	
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("14.0-30.0")) {
-//							ws->var("coeffGaus")->setRange(0.39,0.85);
-//							ws->var("coeffGaus")->setVal(0.6);	
-							ws->var("alpha")->setRange(1.3,2.7);
-							ws->var("alpha")->setVal(1.9);
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-					}
-					else if (!inOpt.yrange.compare("-0.43-0.47")) {
-						if (!inOpt.prange.compare("6.5-7.5")) {
-        			ws->var("sigmaResSigW")->setRange(1.01,2.3);
-        			ws->var("sigmaResSigW")->setVal(1.8);
-//							ws->var("coeffGaus")->setRange(0.39,0.85);
-//							ws->var("coeffGaus")->setVal(0.6);	
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-					}
-					else if (!inOpt.yrange.compare("-1.03--0.43")) {
-						if (!inOpt.prange.compare("7.5-8.5")) {
-							ws->var("alpha")->setRange(1.65,2.7);
-							ws->var("alpha")->setVal(1.9);
-//							ws->var("sigmaResSigW")->setRange(1.01,2.2);
-							ws->var("sigmaResSigW")->setRange(1.01,1.7);
-							ws->var("sigmaResSigW")->setVal(1.2);
-//							ws->var("sigmaSig1")->setRange(0.03,0.055); //sys01_01
-//							ws->var("sigmaSig1")->setVal(0.04);
-//							ws->var("sigmaSig2")->setRange(0.015,0.045);
-//							ws->var("sigmaSig2")->setVal(0.02);
-//							ws->var("coefExp")->setRange(-0.38,-0.37);//sys01_01
-//							ws->var("coefExp")->setVal(-0.376);	
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("14.0-30.0")) {
-							ws->var("sigmaResSigW")->setRange(1.01,2.2);
-							ws->var("sigmaResSigW")->setVal(1.2);
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("6.5-10.0")) {
-							ws->var("coeffGaus")->setRange(0.48,0.86);
-							ws->var("coeffGaus")->setVal(0.5);	
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-					}
-					else if (!inOpt.yrange.compare("-1.46--1.03")) {
-						if (!inOpt.prange.compare("5.0-6.5")) {
-							//ws->var("sigmaResSigW")->setRange(1.01,2.2);
-							ws->var("sigmaResSigW")->setRange(1.01,1.8);
-							ws->var("sigmaResSigW")->setVal(1.2);
-							ws->var("alpha")->setRange(1.5,2.3);
-							ws->var("alpha")->setVal(1.9);
-							ws->var("coeffGaus")->setRange(0.48,0.86);
-							ws->var("coeffGaus")->setVal(0.5);	
-							ws->var("sigmaSig1")->setRange(0.035,0.055);
-							ws->var("sigmaSig1")->setVal(0.04);
-							ws->var("sigmaSig2")->setRange(0.015,0.045);
-							ws->var("sigmaSig2")->setVal(0.02);
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("6.5-7.5")) {
-							ws->var("alpha")->setRange(1.3,2.3);
-							ws->var("alpha")->setVal(1.9);
-//							ws->var("coeffGaus")->setRange(0.28,0.86);
-//							ws->var("coeffGaus")->setVal(0.5);	
-		//					ws->var("sigmaSig1")->setRange(0.03,0.055);
-		//					ws->var("sigmaSig1")->setVal(0.04);
-		//					ws->var("sigmaSig2")->setRange(0.015,0.045);
-		//					ws->var("sigmaSig2")->setVal(0.02);
-    	 	     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("7.5-8.5")) {
-							ws->var("alpha")->setRange(1.3,2.3);
-							ws->var("alpha")->setVal(1.9);
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("14.0-30.0")) {
-							ws->var("coefExp")->setRange(-2.2,-0.8);
-							ws->var("coefExp")->setVal(-1.5);	
-							ws->var("alpha")->setRange(1.5,2.6);
-							ws->var("alpha")->setVal(1.9);
-							sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-					}
-					else if (!inOpt.yrange.compare("-1.93--1.46")) {
-						if (!inOpt.prange.compare("3.0-4.0")) {
-							ws->var("meanSig1")->setRange(3.0855,3.097);
-							ws->var("meanSig1")->setVal(3.087);	
-							ws->var("sigmaSig1")->setRange(0.020,0.055);
-							ws->var("sigmaSig1")->setVal(0.040);
-							ws->var("sigmaSig2")->setRange(0.020,0.055);
-							ws->var("sigmaSig2")->setVal(0.040);
-    	 	     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("6.5-7.5")) {
-							ws->var("alpha")->setRange(1.3,2.6);
-							ws->var("alpha")->setVal(1.9);
-    	 	     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("7.5-8.5")) {
-							ws->var("alpha")->setRange(1.3,2.6);
-							ws->var("alpha")->setVal(1.9);
-							//ws->var("meanSig1")->setRange(3.0865,3.097);
-							//ws->var("meanSig1")->setVal(3.089);	
-							ws->var("meanSig1")->setRange(3.0885,3.095);
-							ws->var("meanSig1")->setVal(3.0895);	
-							ws->var("coeffGaus")->setRange(0.38,0.86);
-							ws->var("coeffGaus")->setVal(0.6);	
-							ws->var("sigmaSig1")->setRange(0.020,0.055);
-							ws->var("sigmaSig1")->setVal(0.040);
-							ws->var("sigmaSig2")->setRange(0.020,0.055);
-							ws->var("sigmaSig2")->setVal(0.040);
-    	 	     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("8.5-10.0")) { //sys01_01
-							ws->var("sigmaResSigW")->setRange(1.01,2.4);
-							ws->var("sigmaResSigW")->setVal(1.2);
-							ws->var("sigmaSig1")->setRange(0.020,0.055);
-							ws->var("sigmaSig1")->setVal(0.040);
-							ws->var("sigmaSig2")->setRange(0.020,0.055);
-							ws->var("sigmaSig2")->setVal(0.040);
-    	 	     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("14.0-30.0")) {
-//							ws->var("coeffGaus")->setRange(0.28,0.86);
-//							ws->var("coeffGaus")->setVal(0.5);	
-							ws->var("coefExp")->setRange(-2.0,-0.05);
-							ws->var("coefExp")->setVal(-1.);
-							ws->var("meanSig1")->setRange(3.091,3.097);
-							ws->var("meanSig1")->setVal(3.095);	
-    	 	     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-					}
-					else if (!inOpt.yrange.compare("-2.4--1.93")) {
-						if (!inOpt.prange.compare("0.0-1.5")){
-							ws->var("coefExp")->setRange(1.0,2.5);
-							ws->var("coefExp")->setVal(1.3);
-							ws->var("lambdam")->setRange(0.20,1.5);
-							ws->var("lambdam")->setVal(0.79);
-							ws->var("lambdap")->setRange(0.38,1.5);
-							ws->var("lambdap")->setVal(0.79);
-							//ws->var("lambdasym")->setRange(0.30,1.98);
-							//ws->var("lambdasym")->setVal(1.9);
-    	 	     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("2.0-3.0")){
-							ws->var("alpha")->setRange(1.3,2.6);
-							ws->var("alpha")->setVal(1.9);
-							ws->var("coeffGaus")->setRange(0.29,0.85);
-							ws->var("coeffGaus")->setVal(0.6);	
-        			ws->var("sigmaSig2")->setRange(0.030,0.055);
-        			ws->var("sigmaSig2")->setVal(0.040);
-   	 		     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("3.0-4.0")) {
-							ws->var("sigmaSig1")->setRange(0.03,0.055);
-							ws->var("sigmaSig1")->setVal(0.04);
-							ws->var("sigmaSig2")->setRange(0.015,0.045);
-							ws->var("sigmaSig2")->setVal(0.02);
-							ws->var("lambdam")->setRange(0.12,1.5);
-							ws->var("lambdam")->setVal(0.79);
-    	 	     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("5.0-6.5")) {
-							ws->var("meanSig1")->setRange(3.087,3.097);
-							ws->var("meanSig1")->setVal(3.095);	
-							ws->var("coeffGaus")->setRange(0.28,0.86);
-							ws->var("coeffGaus")->setVal(0.5);	
-							ws->var("sigmaSig1")->setRange(0.03,0.055);
-							ws->var("sigmaSig1")->setVal(0.04);
-							ws->var("sigmaSig2")->setRange(0.015,0.045);
-							ws->var("sigmaSig2")->setVal(0.02);
-    	 	     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("6.5-7.5")) {
-							ws->var("sigmaResSigW")->setRange(1.001,2.2);
-							ws->var("sigmaResSigW")->setVal(1.2);
-    	 	     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("8.5-10.0")) {
-							ws->var("alpha")->setRange(1.23,2.6);
-							ws->var("alpha")->setVal(1.9);
-//							ws->var("coeffGaus")->setRange(0.28,0.66);
-							ws->var("coeffGaus")->setRange(0.28,0.86);
-							ws->var("coeffGaus")->setVal(0.4);	
-							ws->var("sigmaSig1")->setRange(0.02,0.055);
-							ws->var("sigmaSig1")->setVal(0.04);
-							ws->var("sigmaSig2")->setRange(0.02,0.045);
-							ws->var("sigmaSig2")->setVal(0.04);
-//							ws->var("meanSig1")->setRange(3.087,3.097);
-							ws->var("meanSig1")->setRange(3.0885,3.097);
-							ws->var("meanSig1")->setVal(3.095);	
-    	 	     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-						else if (!inOpt.prange.compare("14.0-30.0")) {
-//							ws->var("meanSig1")->setRange(3.091,3.095);
-							ws->var("meanSig1")->setRange(3.088,3.093);
-							ws->var("meanSig1")->setVal(3.092);	
-							ws->var("sigmaSig1")->setRange(0.03,0.055);
-							ws->var("sigmaSig1")->setVal(0.04);
-		//					ws->var("sigmaSig2")->setRange(0.015,0.045);
-		//					ws->var("sigmaSig2")->setVal(0.02);
-    	 	     	sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
-						}
-					}
-				} //isPbPb==3
-			} // isMultiplicity==0
+      if (inOpt.isMultiplicity == 0) { // no multiplicity
+        if (inOpt.isPbPb == 2) {
+          if (!inOpt.yrange.compare("-2.4--1.97")) {
+            if (!inOpt.prange.compare("0.0-1.5")){
+              ws->var("meanSig1")->setRange(3.05,3.087);
+              ws->var("meanSig1")->setVal(3.086);
+              ws->var("coefExp")->setRange(1.0,2.5);
+              ws->var("coefExp")->setVal(1.3);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("2.0-3.0")){
+              ws->var("coeffGaus")->setRange(0.29,0.85);
+              ws->var("coeffGaus")->setVal(0.6);  
+              ws->var("sigmaSig1")->setRange(0.025,0.055);
+              ws->var("sigmaSig1")->setVal(0.040);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("3.0-4.0")){
+              ws->var("sigmaSig1")->setRange(0.025,0.050);
+              ws->var("sigmaSig1")->setVal(0.040);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("5.0-6.5")){
+              ws->var("alpha")->setRange(1.3,2.3);
+              ws->var("alpha")->setVal(1.9);
+              ws->var("sigmaResSigW")->setRange(1.01,2.2);
+              ws->var("sigmaResSigW")->setVal(1.2);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("6.5-7.5")){
+              ws->var("alpha")->setRange(1.9,3.0);
+              ws->var("alpha")->setVal(2.5);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("8.5-10.0")){
+              ws->var("alpha")->setRange(1.3,2.0);
+              ws->var("alpha")->setVal(1.9);
+              ws->var("sigmaResSigW")->setRange(1.01,2.2);
+              ws->var("sigmaResSigW")->setVal(1.2);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("10.0-14.0")){
+              ws->var("meanSig1")->setRange(3.091,3.15);
+              ws->var("meanSig1")->setVal(3.097);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("14.0-30.0")){
+              ws->var("alpha")->setRange(1.5,2.5);
+              ws->var("alpha")->setVal(1.9);
+              ws->var("meanSig1")->setRange(3.091,3.15);
+              ws->var("meanSig1")->setVal(3.097);
+//              ws->var("coefExp")->setRange(-0.485,-0.475);//sys01_01
+//              ws->var("coefExp")->setVal(-0.481); 
+              ws->var("sigmaSig1")->setRange(0.025,0.055);
+              ws->var("sigmaSig1")->setVal(0.040);
+              ws->var("sigmaSig2")->setRange(0.025,0.055);
+              ws->var("sigmaSig2")->setVal(0.040);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+          }
+          else if (!inOpt.yrange.compare("-1.97--1.37")) {
+            if (!inOpt.prange.compare("3.0-4.0")){
+              ws->var("alpha")->setRange(1.3,2.3);
+              ws->var("alpha")->setVal(1.9);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("5.0-6.5")){
+              //ws->var("lambdam")->setRange(0.05,1.5);
+              ws->var("lambdam")->setRange(0.55,1.5);
+              ws->var("lambdam")->setVal(0.79);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("7.5-8.5")){
+              ws->var("coeffGaus")->setRange(0.29,0.85);
+              ws->var("coeffGaus")->setVal(0.6);  
+              ws->var("sigmaSig2")->setRange(0.025,0.053);
+              ws->var("sigmaSig2")->setVal(0.040);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("14.0-30.0")){
+              ws->var("meanSig1")->setRange(3.091,3.15);
+              ws->var("meanSig1")->setVal(3.097);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+          }
+          else if (!inOpt.yrange.compare("-1.37--0.47")) {
+            if (!inOpt.prange.compare("7.5-8.5")){
+              ws->var("coeffGaus")->setRange(0.29,0.85);
+              ws->var("coeffGaus")->setVal(0.6);  
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("14.0-30.0")){
+              ws->var("sigmaResSigW")->setRange(1.001,2.0);
+              ws->var("sigmaResSigW")->setVal(1.2);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+          }
+          else if (!inOpt.yrange.compare("-0.47-0.43")) {
+            if (!inOpt.prange.compare("14.0-30.0")){
+              ws->var("alpha")->setRange(1.5,2.5);
+              ws->var("alpha")->setVal(1.9);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+          }
+          else if (!inOpt.yrange.compare("0.43-1.03")) {
+            if (!inOpt.prange.compare("7.5-8.5")){
+              initBkg = initBkg+10000; // KYO
+              sprintf(funct,"SUM::sigMassPDF(NSig[800,1.0,1050.0]*%s,NBkg[%f,290.0,500000.0]*%s)",initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("8.5-10.0")){
+              ws->var("alpha")->setRange(1.3,2.5);
+              ws->var("alpha")->setVal(1.9);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("6.5-10.0")){
+              ws->var("coeffGaus")->setRange(0.21,0.69);
+              ws->var("coeffGaus")->setVal(0.5);  
+              ws->var("sigmaSig1")->setRange(0.010,0.055);
+              ws->var("sigmaSig1")->setVal(0.030);
+              ws->var("sigmaSig2")->setRange(0.010,0.055);
+              ws->var("sigmaSig2")->setVal(0.030);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+          }
+          else if (!inOpt.yrange.compare("1.03-1.46")) {
+            if (!inOpt.prange.compare("6.5-7.5")){
+              ws->var("sigmaResSigW")->setRange(1.01,2.3);
+              ws->var("sigmaResSigW")->setVal(1.2);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("10.0-30.0")){
+              ws->var("coeffGaus")->setRange(0.21,0.79);
+              ws->var("coeffGaus")->setVal(0.5);  
+              ws->var("sigmaSig1")->setRange(0.010,0.045);
+              ws->var("sigmaSig1")->setVal(0.030);
+              ws->var("sigmaSig2")->setRange(0.010,0.045);
+              ws->var("sigmaSig2")->setVal(0.030);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+          }
+          else if (!inOpt.yrange.compare("1.46-1.93")) {
+            if (!inOpt.prange.compare("3.0-4.0")){
+//              ws->var("sigmaResSigW")->setRange(1.1,1.8);
+              ws->var("sigmaResSigW")->setRange(1.1,1.3);
+              ws->var("sigmaResSigW")->setVal(1.2);
+              ws->var("lambdam")->setRange(0.14,1.5);
+              ws->var("lambdam")->setVal(0.79);
+              ws->var("alpha")->setRange(1.3,2.3);
+              ws->var("alpha")->setVal(1.9);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("6.5-7.5")){
+              ws->var("alpha")->setRange(1.3,2.3);
+              ws->var("alpha")->setVal(1.9);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("8.5-10.0")){
+              ws->var("sigmaSig1")->setRange(0.010,0.055);
+              ws->var("sigmaSig1")->setVal(0.040);
+              ws->var("sigmaSig2")->setRange(0.010,0.055);
+              ws->var("sigmaSig2")->setVal(0.040);
+              ws->var("coeffGaus")->setRange(0.29,0.85);
+              ws->var("coeffGaus")->setVal(0.6);  
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("14.0-30.0")){ 
+              ws->var("alpha")->setRange(1.3,2.3);
+              ws->var("alpha")->setVal(1.9);
+//              ws->var("sigmaSig1")->setRange(0.020,0.055); //sys01-01
+//              ws->var("sigmaSig1")->setVal(0.040);
+//              ws->var("sigmaSig2")->setRange(0.020,0.055);
+//              ws->var("sigmaSig2")->setVal(0.040);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+          }
+          else if (!inOpt.yrange.compare("1.93-2.4")){
+            if (!inOpt.prange.compare("0.0-1.5")){
+              ws->var("coefExp")->setRange(1.0,2.0);
+              ws->var("coefExp")->setVal(1.3);
+//              ws->var("sigmaResSigW")->setRange(1.7,3.0);
+              ws->var("sigmaResSigW")->setRange(2.3,3.0);
+              ws->var("sigmaResSigW")->setVal(2.8);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("1.5-3.0")){
+              ws->var("coeffGaus")->setRange(0.29,0.85);
+              ws->var("coeffGaus")->setVal(0.6);  
+              ws->var("sigmaSig2")->setRange(0.030,0.055);
+              ws->var("sigmaSig2")->setVal(0.040);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("2.0-3.0")){
+              //ws->var("coeffGaus")->setRange(0.29,0.80);
+              ws->var("coeffGaus")->setRange(0.38,0.73);
+              ws->var("coeffGaus")->setVal(0.6);  
+              ws->var("sigmaSig1")->setRange(0.020,0.055);
+              ws->var("sigmaSig1")->setVal(0.040);
+              ws->var("sigmaSig2")->setRange(0.020,0.055);
+              ws->var("sigmaSig2")->setVal(0.040);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+//            else if (!inOpt.prange.compare("4.0-5.0")){//sys01_01
+//              ws->var("coeffGaus")->setRange(0.29,0.63);
+//              ws->var("coeffGaus")->setVal(0.6);  
+ //             sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+//            }
+            else if (!inOpt.prange.compare("8.5-10.0")){
+              ws->var("coeffGaus")->setRange(0.29,0.85);
+              ws->var("coeffGaus")->setVal(0.6);  
+              ws->var("sigmaSig1")->setRange(0.010,0.055);
+              ws->var("sigmaSig1")->setVal(0.040);
+              ws->var("sigmaSig2")->setRange(0.010,0.055);
+              ws->var("sigmaSig2")->setVal(0.040);
+              //ws->var("fracRes")->setRange(0.18,0.35);
+              //ws->var("fracRes")->setVal(0.25);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("14.0-30.0")){
+              ws->var("alpha")->setRange(1.65,2.7);
+              ws->var("alpha")->setVal(1.9);
+              ws->var("sigmaResSigW")->setRange(1.001,2.3);
+              ws->var("sigmaResSigW")->setVal(1.5);
+//              ws->var("meanSig1")->setRange(3.091,3.15);
+              ws->var("meanSig1")->setRange(3.088,3.099);
+              ws->var("meanSig1")->setVal(3.097);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+          }
+        } // isPbPb==2
+        else if (inOpt.isPbPb==3) {
+          if (!inOpt.yrange.compare("1.97-2.4")) {
+            if (!inOpt.prange.compare("0.0-1.5")){
+              ws->var("coefExp")->setRange(1.0,2.5);
+              ws->var("coefExp")->setVal(1.3);
+              ws->var("lambdasym")->setRange(1.1,5.0);
+              ws->var("lambdasym")->setVal(1.5);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("2.0-3.0")){
+              ws->var("coeffGaus")->setRange(0.29,0.85);
+              ws->var("coeffGaus")->setVal(0.6);  
+              ws->var("sigmaSig1")->setRange(0.020,0.055);
+              ws->var("sigmaSig1")->setVal(0.040);
+              ws->var("sigmaSig2")->setRange(0.020,0.055);
+              ws->var("sigmaSig2")->setVal(0.040);
+              ws->var("lambdam")->setRange(0.12,1.2);
+              ws->var("lambdam")->setVal(0.79);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("3.0-4.0")) {
+              ws->var("alpha")->setRange(1.65,2.5);
+              ws->var("alpha")->setVal(1.9);
+              ws->var("coeffGaus")->setRange(0.25,0.50);
+              ws->var("coeffGaus")->setVal(0.3);  
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("5.0-6.5")) {
+              ws->var("coeffGaus")->setRange(0.39,0.85);
+              ws->var("coeffGaus")->setVal(0.6);  
+              ws->var("alpha")->setRange(1.5,2.7);
+              ws->var("alpha")->setVal(1.9);
+              ws->var("sigmaResSigW")->setRange(1.01,1.85);
+              ws->var("sigmaResSigW")->setVal(1.5);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("7.5-8.5")) {
+              ws->var("meanSig1")->setRange(3.087,3.093);
+              ws->var("meanSig1")->setVal(3.09);  
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("8.5-10.0")) {
+              initBkg = initBkg+1000; 
+              ws->var("alpha")->setRange(1.5,2.5);
+              ws->var("alpha")->setVal(1.9);
+              ws->var("coeffGaus")->setRange(0.25,0.75);
+              ws->var("coeffGaus")->setVal(0.5);  
+              ws->var("sigmaSig1")->setRange(0.03,0.059);
+              ws->var("sigmaSig1")->setVal(0.04);
+              ws->var("sigmaSig2")->setRange(0.015,0.059);
+              ws->var("sigmaSig2")->setVal(0.02);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("10.0-14.0")) {
+              ws->var("meanSig1")->setRange(3.089,3.095);
+              ws->var("meanSig1")->setVal(3.091); 
+              ws->var("sigmaSig1")->setRange(0.03,0.055);
+              ws->var("sigmaSig1")->setVal(0.04);
+              ws->var("sigmaSig2")->setRange(0.015,0.045);
+              ws->var("sigmaSig2")->setVal(0.02);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("14.0-30.0")) {
+              ws->var("alpha")->setRange(1.65,2.5);
+              ws->var("alpha")->setVal(1.9);
+              ws->var("coeffGaus")->setRange(0.28,0.85);
+              ws->var("coeffGaus")->setVal(0.5);  
+              ws->var("sigmaSig1")->setRange(0.03,0.055);
+              ws->var("sigmaSig1")->setVal(0.04);
+              ws->var("sigmaSig2")->setRange(0.015,0.045);
+              ws->var("sigmaSig2")->setVal(0.02);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("6.5-10.0")) {
+              ws->var("coeffGaus")->setRange(0.40,0.70);
+              ws->var("coeffGaus")->setVal(0.55); 
+              ws->var("sigmaSig1")->setRange(0.02,0.062);
+              ws->var("sigmaSig1")->setVal(0.04);
+              ws->var("sigmaSig2")->setRange(0.02,0.062);
+              ws->var("sigmaSig2")->setVal(0.02);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+          }
+          else if (!inOpt.yrange.compare("1.37-1.97")) {
+            if (!inOpt.prange.compare("5.0-6.5")) {
+//              ws->var("coeffGaus")->setRange(0.39,0.85);
+//              ws->var("coeffGaus")->setVal(0.6);  
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("7.5-8.5")) {
+    //          ws->var("sigmaSig1")->setRange(0.015,0.045);
+    //          ws->var("sigmaSig1")->setVal(0.02);
+    //          ws->var("sigmaSig2")->setRange(0.03,0.055);
+    //          ws->var("sigmaSig2")->setVal(0.04);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("10.0-14.0")) {
+//              ws->var("coeffGaus")->setRange(0.39,0.85);
+//              ws->var("coeffGaus")->setVal(0.6);  
+              ws->var("alpha")->setRange(1.65,2.7);
+              ws->var("alpha")->setVal(1.9);
+              ws->var("sigmaResSigW")->setRange(1.01,2.3);
+              ws->var("sigmaResSigW")->setVal(1.8);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("14.0-30.0")) {
+//              ws->var("coeffGaus")->setRange(0.39,0.78);
+//              ws->var("coeffGaus")->setVal(0.5);  
+              ws->var("alpha")->setRange(1.65,2.7);
+              ws->var("alpha")->setVal(1.9);
+              ws->var("sigmaResSigW")->setRange(1.01,2.3);
+              ws->var("sigmaResSigW")->setVal(1.8);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("10.0-30.0")) {
+              ws->var("coeffGaus")->setRange(0.29,0.86);
+              ws->var("coeffGaus")->setVal(0.5);  
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+          }
+          else if (!inOpt.yrange.compare("0.47-1.37")) {
+            if (!inOpt.prange.compare("6.5-7.5")) {
+              ws->var("sigmaResSigW")->setRange(1.01,2.3);
+              ws->var("sigmaResSigW")->setVal(1.8);
+//              ws->var("coeffGaus")->setRange(0.39,0.85);
+//              ws->var("coeffGaus")->setVal(0.6);  
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("14.0-30.0")) {
+//              ws->var("coeffGaus")->setRange(0.39,0.85);
+//              ws->var("coeffGaus")->setVal(0.6);  
+              ws->var("alpha")->setRange(1.3,2.7);
+              ws->var("alpha")->setVal(1.9);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+          }
+          else if (!inOpt.yrange.compare("-0.43-0.47")) {
+            if (!inOpt.prange.compare("6.5-7.5")) {
+              ws->var("sigmaResSigW")->setRange(1.01,2.3);
+              ws->var("sigmaResSigW")->setVal(1.8);
+//              ws->var("coeffGaus")->setRange(0.39,0.85);
+//              ws->var("coeffGaus")->setVal(0.6);  
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+          }
+          else if (!inOpt.yrange.compare("-1.03--0.43")) {
+            if (!inOpt.prange.compare("7.5-8.5")) {
+              ws->var("alpha")->setRange(1.65,2.7);
+              ws->var("alpha")->setVal(1.9);
+//              ws->var("sigmaResSigW")->setRange(1.01,2.2);
+              ws->var("sigmaResSigW")->setRange(1.01,1.7);
+              ws->var("sigmaResSigW")->setVal(1.2);
+//              ws->var("sigmaSig1")->setRange(0.03,0.055); //sys01_01
+//              ws->var("sigmaSig1")->setVal(0.04);
+//              ws->var("sigmaSig2")->setRange(0.015,0.045);
+//              ws->var("sigmaSig2")->setVal(0.02);
+//              ws->var("coefExp")->setRange(-0.38,-0.37);//sys01_01
+//              ws->var("coefExp")->setVal(-0.376); 
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("14.0-30.0")) {
+              ws->var("sigmaResSigW")->setRange(1.01,2.2);
+              ws->var("sigmaResSigW")->setVal(1.2);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("6.5-10.0")) {
+              ws->var("coeffGaus")->setRange(0.48,0.86);
+              ws->var("coeffGaus")->setVal(0.5);  
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+          }
+          else if (!inOpt.yrange.compare("-1.46--1.03")) {
+            if (!inOpt.prange.compare("5.0-6.5")) {
+              //ws->var("sigmaResSigW")->setRange(1.01,2.2);
+              ws->var("sigmaResSigW")->setRange(1.01,1.8);
+              ws->var("sigmaResSigW")->setVal(1.2);
+              ws->var("alpha")->setRange(1.5,2.3);
+              ws->var("alpha")->setVal(1.9);
+              ws->var("coeffGaus")->setRange(0.48,0.86);
+              ws->var("coeffGaus")->setVal(0.5);  
+              ws->var("sigmaSig1")->setRange(0.035,0.055);
+              ws->var("sigmaSig1")->setVal(0.04);
+              ws->var("sigmaSig2")->setRange(0.015,0.045);
+              ws->var("sigmaSig2")->setVal(0.02);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("6.5-7.5")) {
+              ws->var("alpha")->setRange(1.3,2.3);
+              ws->var("alpha")->setVal(1.9);
+//              ws->var("coeffGaus")->setRange(0.28,0.86);
+//              ws->var("coeffGaus")->setVal(0.5);  
+    //          ws->var("sigmaSig1")->setRange(0.03,0.055);
+    //          ws->var("sigmaSig1")->setVal(0.04);
+    //          ws->var("sigmaSig2")->setRange(0.015,0.045);
+    //          ws->var("sigmaSig2")->setVal(0.02);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("7.5-8.5")) {
+              ws->var("alpha")->setRange(1.3,2.3);
+              ws->var("alpha")->setVal(1.9);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("14.0-30.0")) {
+              ws->var("coefExp")->setRange(-2.2,-0.8);
+              ws->var("coefExp")->setVal(-1.5); 
+              ws->var("alpha")->setRange(1.5,2.6);
+              ws->var("alpha")->setVal(1.9);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+          }
+          else if (!inOpt.yrange.compare("-1.93--1.46")) {
+            if (!inOpt.prange.compare("3.0-4.0")) {
+              ws->var("meanSig1")->setRange(3.0855,3.097);
+              ws->var("meanSig1")->setVal(3.087); 
+              ws->var("sigmaSig1")->setRange(0.020,0.055);
+              ws->var("sigmaSig1")->setVal(0.040);
+              ws->var("sigmaSig2")->setRange(0.020,0.055);
+              ws->var("sigmaSig2")->setVal(0.040);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("6.5-7.5")) {
+              ws->var("alpha")->setRange(1.3,2.6);
+              ws->var("alpha")->setVal(1.9);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("7.5-8.5")) {
+              ws->var("alpha")->setRange(1.3,2.6);
+              ws->var("alpha")->setVal(1.9);
+              //ws->var("meanSig1")->setRange(3.0865,3.097);
+              //ws->var("meanSig1")->setVal(3.089); 
+              ws->var("meanSig1")->setRange(3.0885,3.095);
+              ws->var("meanSig1")->setVal(3.0895);  
+              ws->var("coeffGaus")->setRange(0.38,0.86);
+              ws->var("coeffGaus")->setVal(0.6);  
+              ws->var("sigmaSig1")->setRange(0.020,0.055);
+              ws->var("sigmaSig1")->setVal(0.040);
+              ws->var("sigmaSig2")->setRange(0.020,0.055);
+              ws->var("sigmaSig2")->setVal(0.040);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("8.5-10.0")) { //sys01_01
+              ws->var("sigmaResSigW")->setRange(1.01,2.4);
+              ws->var("sigmaResSigW")->setVal(1.2);
+              ws->var("sigmaSig1")->setRange(0.020,0.055);
+              ws->var("sigmaSig1")->setVal(0.040);
+              ws->var("sigmaSig2")->setRange(0.020,0.055);
+              ws->var("sigmaSig2")->setVal(0.040);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("14.0-30.0")) {
+//              ws->var("coeffGaus")->setRange(0.28,0.86);
+//              ws->var("coeffGaus")->setVal(0.5);  
+              ws->var("coefExp")->setRange(-2.0,-0.05);
+              ws->var("coefExp")->setVal(-1.);
+              ws->var("meanSig1")->setRange(3.091,3.097);
+              ws->var("meanSig1")->setVal(3.095); 
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+          }
+          else if (!inOpt.yrange.compare("-2.4--1.93")) {
+            if (!inOpt.prange.compare("0.0-1.5")){
+              ws->var("coefExp")->setRange(1.0,2.5);
+              ws->var("coefExp")->setVal(1.3);
+              ws->var("lambdam")->setRange(0.20,1.5);
+              ws->var("lambdam")->setVal(0.79);
+              ws->var("lambdap")->setRange(0.38,1.5);
+              ws->var("lambdap")->setVal(0.79);
+              //ws->var("lambdasym")->setRange(0.30,1.98);
+              //ws->var("lambdasym")->setVal(1.9);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("2.0-3.0")){
+              ws->var("alpha")->setRange(1.3,2.6);
+              ws->var("alpha")->setVal(1.9);
+              ws->var("coeffGaus")->setRange(0.29,0.85);
+              ws->var("coeffGaus")->setVal(0.6);  
+              ws->var("sigmaSig2")->setRange(0.030,0.055);
+              ws->var("sigmaSig2")->setVal(0.040);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("3.0-4.0")) {
+              ws->var("sigmaSig1")->setRange(0.03,0.055);
+              ws->var("sigmaSig1")->setVal(0.04);
+              ws->var("sigmaSig2")->setRange(0.015,0.045);
+              ws->var("sigmaSig2")->setVal(0.02);
+              ws->var("lambdam")->setRange(0.12,1.5);
+              ws->var("lambdam")->setVal(0.79);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("5.0-6.5")) {
+              ws->var("meanSig1")->setRange(3.087,3.097);
+              ws->var("meanSig1")->setVal(3.095); 
+              ws->var("coeffGaus")->setRange(0.28,0.86);
+              ws->var("coeffGaus")->setVal(0.5);  
+              ws->var("sigmaSig1")->setRange(0.03,0.055);
+              ws->var("sigmaSig1")->setVal(0.04);
+              ws->var("sigmaSig2")->setRange(0.015,0.045);
+              ws->var("sigmaSig2")->setVal(0.02);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("6.5-7.5")) {
+              ws->var("sigmaResSigW")->setRange(1.001,2.2);
+              ws->var("sigmaResSigW")->setVal(1.2);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("8.5-10.0")) {
+              ws->var("alpha")->setRange(1.23,2.6);
+              ws->var("alpha")->setVal(1.9);
+//              ws->var("coeffGaus")->setRange(0.28,0.66);
+              ws->var("coeffGaus")->setRange(0.28,0.86);
+              ws->var("coeffGaus")->setVal(0.4);  
+              ws->var("sigmaSig1")->setRange(0.02,0.055);
+              ws->var("sigmaSig1")->setVal(0.04);
+              ws->var("sigmaSig2")->setRange(0.02,0.045);
+              ws->var("sigmaSig2")->setVal(0.04);
+//              ws->var("meanSig1")->setRange(3.087,3.097);
+              ws->var("meanSig1")->setRange(3.0885,3.097);
+              ws->var("meanSig1")->setVal(3.095); 
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+            else if (!inOpt.prange.compare("14.0-30.0")) {
+//              ws->var("meanSig1")->setRange(3.091,3.095);
+              ws->var("meanSig1")->setRange(3.088,3.093);
+              ws->var("meanSig1")->setVal(3.092); 
+              ws->var("sigmaSig1")->setRange(0.03,0.055);
+              ws->var("sigmaSig1")->setVal(0.04);
+    //          ws->var("sigmaSig2")->setRange(0.015,0.045);
+    //          ws->var("sigmaSig2")->setVal(0.02);
+              sprintf(funct,"SUM::sigMassPDF(NSig[%f,1.0,50000.0]*%s,NBkg[%f,1.0,500000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
+            }
+          }
+        } //isPbPb==3
+      } // isMultiplicity==0
 #endif
-    	ws->factory(funct);
+      ws->factory(funct);
 
 //    if (inOpt.isPbPb == 1 || inOpt.isPbPb == 2) {
       if (dPhiConst) { //sigmaSig2 will be constrained too!
@@ -1423,8 +1423,8 @@ int main (int argc, char* argv[]) {
     } //end of (prefitSignalCTau) option
 
     double bfraction[2] = {0};
-	
-		if (inOpt.prefitBkg) {
+  
+    if (inOpt.prefitBkg) {
   //    ws->var("fpm")->setConstant(kTRUE); //mh
 
       if (inOpt.prefitSignalCTau && inOpt.isPEE == 1) {
@@ -1527,143 +1527,143 @@ int main (int argc, char* argv[]) {
       ws->var("fLivingR")->setConstant(kTRUE);
     }
 
-		//KYO
-		ws->var("bTau") ->setConstant(kFALSE);
-		ws->var("fracRes")  ->setConstant(kFALSE);
-		ws->var("meanResSigW")  ->setConstant(kFALSE);
-		ws->var("meanResSigN")  ->setConstant(kFALSE);
-		ws->var("sigmaResSigW") ->setConstant(kTRUE);
-		ws->var("sigmaResSigN") ->setConstant(kFALSE);
+    //KYO
+    ws->var("bTau") ->setConstant(kFALSE);
+    ws->var("fracRes")  ->setConstant(kFALSE);
+    ws->var("meanResSigW")  ->setConstant(kFALSE);
+    ws->var("meanResSigN")  ->setConstant(kFALSE);
+    ws->var("sigmaResSigW") ->setConstant(kTRUE);
+    ws->var("sigmaResSigN") ->setConstant(kFALSE);
 /*
-		if ((!inOpt.yrange.compare("-2.4--1.93")) ){
-			if (!inOpt.prange.compare("5.0-6.5")){
-				ws->var("Bfrac")->setRange(0.138,0.158);
-				ws->var("Bfrac")->setVal(0.14);
-			}
-			else if (!inOpt.prange.compare("6.5-7.5")){
-				ws->var("Bfrac")->setRange(0.16,0.18);
-				ws->var("Bfrac")->setVal(0.17);
-			}
-			else if (!inOpt.prange.compare("7.5-8.5")){
-				ws->var("Bfrac")->setRange(0.195,0.205);
-				ws->var("Bfrac")->setVal(0.20);
-			}
-		}
-		if ((!inOpt.yrange.compare("1.93-2.4")) ){
-			if (!inOpt.prange.compare("7.5-8.5")){
-				ws->var("Bfrac")->setRange(0.18,0.2);
-				ws->var("Bfrac")->setVal(0.19);
-			}
-		}
-		if ((!inOpt.yrange.compare("1.46-1.93")) || (!inOpt.yrange.compare("-1.93--1.46")) ){
-			if (!inOpt.prange.compare("4.0-5.0")){
-				ws->var("Bfrac")->setRange(0.13,0.14);
-				ws->var("Bfrac")->setVal(0.135);
-			}
-		}
-		if ((!inOpt.yrange.compare("-1.93--1.46")) ){
-			if (!inOpt.prange.compare("6.5-7.5")){
-				ws->var("Bfrac")->setRange(0.17,0.176);
-				ws->var("Bfrac")->setVal(0.174);
-			}
-		}
-		if ((!inOpt.yrange.compare("-1.37--0.47")) ){
-			if (!inOpt.prange.compare("14.0-30.0")){
-				ws->var("Bfrac")->setRange(0.38,0.42);
-				ws->var("Bfrac")->setVal(0.40);
-			}
-		}
-		if ((!inOpt.yrange.compare("-0.47-0.43")) || (!inOpt.yrange.compare("-0.43-0.47")) ){
-			if (!inOpt.prange.compare("6.5-7.5")){
-				ws->var("Bfrac")->setRange(0.17,0.203);
-				ws->var("Bfrac")->setVal(0.18);
-			}
-		}
-		if ((!inOpt.yrange.compare("-0.47-0.43")) ){
-			if (!inOpt.prange.compare("8.5-10.0")){
-				ws->var("Bfrac")->setRange(0.263,0.283);
-				ws->var("Bfrac")->setVal(0.27);
-			}
-		}
-		if ((!inOpt.yrange.compare("-0.43-0.47")) ){
-			if (!inOpt.prange.compare("7.5-8.5")){
-				ws->var("Bfrac")->setRange(0.23,0.24);
-				ws->var("Bfrac")->setVal(0.235);
-			}
-		}
-		if ((!inOpt.yrange.compare("1.03-1.46")) || (!inOpt.yrange.compare("-1.46--1.03")) ){
-			if (!inOpt.prange.compare("6.5-7.5")){
-				ws->var("Bfrac")->setRange(0.17,0.19);
-				ws->var("Bfrac")->setVal(0.18);
-			}
-		}
-		if ((!inOpt.yrange.compare("1.97-2.4")) ){
-			if (!inOpt.prange.compare("7.5-8.5")){
-				ws->var("Bfrac")->setRange(0.199,0.21);
-				ws->var("Bfrac")->setVal(0.20);
-			}
-			else if (!inOpt.prange.compare("14.0-30.0")){
-				ws->var("Bfrac")->setRange(0.37,0.41);
-				ws->var("Bfrac")->setVal(0.39);
-			}
-		}
-		if ((!inOpt.yrange.compare("-2.4--1.97")) ){
-			if (!inOpt.prange.compare("3.0-4.0")){
-				ws->var("Bfrac")->setRange(0.14,0.16);
-				ws->var("Bfrac")->setVal(0.15);
-			}
-			else if (!inOpt.prange.compare("6.5-7.5")){
-				ws->var("Bfrac")->setRange(0.19,0.20);
-				ws->var("Bfrac")->setVal(0.195);
-			}
-			else if (!inOpt.prange.compare("8.5-10.0")){
-				ws->var("Bfrac")->setRange(0.20,0.24);
-				ws->var("Bfrac")->setVal(0.22);
-			}
-		}
-		if ((!inOpt.yrange.compare("0.43-1.03")) ){
-			if (!inOpt.prange.compare("10.0-14.0")){
-				ws->var("Bfrac")->setRange(0.28,0.299);
-				ws->var("Bfrac")->setVal(0.29);
-			}
-		}
-		if ((!inOpt.yrange.compare("1.37-1.97")) ){
-			if (!inOpt.prange.compare("4.0-5.0")){
-				ws->var("Bfrac")->setRange(0.13,0.14);
-				ws->var("Bfrac")->setVal(0.135);
-			}
-			else if (!inOpt.prange.compare("5.0-6.5")){
-				ws->var("Bfrac")->setRange(0.16,0.18);
-				ws->var("Bfrac")->setVal(0.17);
-			}
-			else if (!inOpt.prange.compare("6.5-7.5")){
-				ws->var("Bfrac")->setRange(0.195,0.205);
-				ws->var("Bfrac")->setVal(0.20);
-			}
-			else if (!inOpt.prange.compare("7.5-8.5")){
-				ws->var("Bfrac")->setRange(0.195,0.215);
-				ws->var("Bfrac")->setVal(0.20);
-			}
-			else if (!inOpt.prange.compare("8.5-10.0")){
-				ws->var("Bfrac")->setRange(0.25,0.299);
-				ws->var("Bfrac")->setVal(0.27);
-			}
-		}
+    if ((!inOpt.yrange.compare("-2.4--1.93")) ){
+      if (!inOpt.prange.compare("5.0-6.5")){
+        ws->var("Bfrac")->setRange(0.138,0.158);
+        ws->var("Bfrac")->setVal(0.14);
+      }
+      else if (!inOpt.prange.compare("6.5-7.5")){
+        ws->var("Bfrac")->setRange(0.16,0.18);
+        ws->var("Bfrac")->setVal(0.17);
+      }
+      else if (!inOpt.prange.compare("7.5-8.5")){
+        ws->var("Bfrac")->setRange(0.195,0.205);
+        ws->var("Bfrac")->setVal(0.20);
+      }
+    }
+    if ((!inOpt.yrange.compare("1.93-2.4")) ){
+      if (!inOpt.prange.compare("7.5-8.5")){
+        ws->var("Bfrac")->setRange(0.18,0.2);
+        ws->var("Bfrac")->setVal(0.19);
+      }
+    }
+    if ((!inOpt.yrange.compare("1.46-1.93")) || (!inOpt.yrange.compare("-1.93--1.46")) ){
+      if (!inOpt.prange.compare("4.0-5.0")){
+        ws->var("Bfrac")->setRange(0.13,0.14);
+        ws->var("Bfrac")->setVal(0.135);
+      }
+    }
+    if ((!inOpt.yrange.compare("-1.93--1.46")) ){
+      if (!inOpt.prange.compare("6.5-7.5")){
+        ws->var("Bfrac")->setRange(0.17,0.176);
+        ws->var("Bfrac")->setVal(0.174);
+      }
+    }
+    if ((!inOpt.yrange.compare("-1.37--0.47")) ){
+      if (!inOpt.prange.compare("14.0-30.0")){
+        ws->var("Bfrac")->setRange(0.38,0.42);
+        ws->var("Bfrac")->setVal(0.40);
+      }
+    }
+    if ((!inOpt.yrange.compare("-0.47-0.43")) || (!inOpt.yrange.compare("-0.43-0.47")) ){
+      if (!inOpt.prange.compare("6.5-7.5")){
+        ws->var("Bfrac")->setRange(0.17,0.203);
+        ws->var("Bfrac")->setVal(0.18);
+      }
+    }
+    if ((!inOpt.yrange.compare("-0.47-0.43")) ){
+      if (!inOpt.prange.compare("8.5-10.0")){
+        ws->var("Bfrac")->setRange(0.263,0.283);
+        ws->var("Bfrac")->setVal(0.27);
+      }
+    }
+    if ((!inOpt.yrange.compare("-0.43-0.47")) ){
+      if (!inOpt.prange.compare("7.5-8.5")){
+        ws->var("Bfrac")->setRange(0.23,0.24);
+        ws->var("Bfrac")->setVal(0.235);
+      }
+    }
+    if ((!inOpt.yrange.compare("1.03-1.46")) || (!inOpt.yrange.compare("-1.46--1.03")) ){
+      if (!inOpt.prange.compare("6.5-7.5")){
+        ws->var("Bfrac")->setRange(0.17,0.19);
+        ws->var("Bfrac")->setVal(0.18);
+      }
+    }
+    if ((!inOpt.yrange.compare("1.97-2.4")) ){
+      if (!inOpt.prange.compare("7.5-8.5")){
+        ws->var("Bfrac")->setRange(0.199,0.21);
+        ws->var("Bfrac")->setVal(0.20);
+      }
+      else if (!inOpt.prange.compare("14.0-30.0")){
+        ws->var("Bfrac")->setRange(0.37,0.41);
+        ws->var("Bfrac")->setVal(0.39);
+      }
+    }
+    if ((!inOpt.yrange.compare("-2.4--1.97")) ){
+      if (!inOpt.prange.compare("3.0-4.0")){
+        ws->var("Bfrac")->setRange(0.14,0.16);
+        ws->var("Bfrac")->setVal(0.15);
+      }
+      else if (!inOpt.prange.compare("6.5-7.5")){
+        ws->var("Bfrac")->setRange(0.19,0.20);
+        ws->var("Bfrac")->setVal(0.195);
+      }
+      else if (!inOpt.prange.compare("8.5-10.0")){
+        ws->var("Bfrac")->setRange(0.20,0.24);
+        ws->var("Bfrac")->setVal(0.22);
+      }
+    }
+    if ((!inOpt.yrange.compare("0.43-1.03")) ){
+      if (!inOpt.prange.compare("10.0-14.0")){
+        ws->var("Bfrac")->setRange(0.28,0.299);
+        ws->var("Bfrac")->setVal(0.29);
+      }
+    }
+    if ((!inOpt.yrange.compare("1.37-1.97")) ){
+      if (!inOpt.prange.compare("4.0-5.0")){
+        ws->var("Bfrac")->setRange(0.13,0.14);
+        ws->var("Bfrac")->setVal(0.135);
+      }
+      else if (!inOpt.prange.compare("5.0-6.5")){
+        ws->var("Bfrac")->setRange(0.16,0.18);
+        ws->var("Bfrac")->setVal(0.17);
+      }
+      else if (!inOpt.prange.compare("6.5-7.5")){
+        ws->var("Bfrac")->setRange(0.195,0.205);
+        ws->var("Bfrac")->setVal(0.20);
+      }
+      else if (!inOpt.prange.compare("7.5-8.5")){
+        ws->var("Bfrac")->setRange(0.195,0.215);
+        ws->var("Bfrac")->setVal(0.20);
+      }
+      else if (!inOpt.prange.compare("8.5-10.0")){
+        ws->var("Bfrac")->setRange(0.25,0.299);
+        ws->var("Bfrac")->setVal(0.27);
+      }
+    }
 
 
-	
-		if (!inOpt.prange.compare("0.0-1.5")) {
-			ws->var("Bfrac")->setRange(0.08,0.09);
-			ws->var("Bfrac")->setVal(0.085);
-		}
-		if (!inOpt.prange.compare("1.5-3.0")) {
-			ws->var("Bfrac")->setRange(0.095,0.105);
-			ws->var("Bfrac")->setVal(0.100);
-		}
-		if (!inOpt.yrange.compare("-2.4--1.93") && !inOpt.prange.compare("2.0-3.0")) {
-			ws->var("Bfrac")->setRange(0.095,0.125);
-			ws->var("Bfrac")->setVal(0.1);
-		}
+  
+    if (!inOpt.prange.compare("0.0-1.5")) {
+      ws->var("Bfrac")->setRange(0.08,0.09);
+      ws->var("Bfrac")->setVal(0.085);
+    }
+    if (!inOpt.prange.compare("1.5-3.0")) {
+      ws->var("Bfrac")->setRange(0.095,0.105);
+      ws->var("Bfrac")->setVal(0.100);
+    }
+    if (!inOpt.yrange.compare("-2.4--1.93") && !inOpt.prange.compare("2.0-3.0")) {
+      ws->var("Bfrac")->setRange(0.095,0.125);
+      ws->var("Bfrac")->setVal(0.1);
+    }
 */
 
 
@@ -1849,7 +1849,7 @@ int main (int argc, char* argv[]) {
 
 
   
-	if (inOpt.doBfit) {  // skip ctau fit plotting
+  if (inOpt.doBfit) {  // skip ctau fit plotting
     // Plot various fit results and data points
     //drawMassPlotsWithB(ws, redDataCut, NSigNP_fin, NBkg_fin, fitM, inOpt);
     drawMassPlotsWithB(ws, redDataCut, NSigNP_fin, NBkg_fin, fitM, inOpt,&UnNormChi2_mass, &nFitParam_mass, &nFullBinsPull_mass, &Dof_mass, &Chi2_mass); // KYO 0316 - mass
@@ -1894,36 +1894,36 @@ int main (int argc, char* argv[]) {
   
     drawMassCtau2DPlots(ws, inOpt) ;
 
-		// KYO for fitting quality test - 0316
- 	 	theChi2Prob_mass = TMath::Prob(UnNormChi2_mass, Dof_mass);
- 	 	theChi2Prob_time = TMath::Prob(UnNormChi2_time, Dof_time);
- 	 	theChi2Prob_side = TMath::Prob(UnNormChi2_side, Dof_side);
+    // KYO for fitting quality test - 0316
+    theChi2Prob_mass = TMath::Prob(UnNormChi2_mass, Dof_mass);
+    theChi2Prob_time = TMath::Prob(UnNormChi2_time, Dof_time);
+    theChi2Prob_side = TMath::Prob(UnNormChi2_side, Dof_side);
 
-		outputFile
-		<< "UnNormChi2_mass "       	<< UnNormChi2_mass                         << endl
-		<< "nFitParam_mass "          << nFitParam_mass                         << endl
-		<< "nFullBinsPull_mass "      << nFullBinsPull_mass                         << endl
-		<< "Dof_mass "          			<< Dof_mass                         << endl
-		<< "Chi2_mass "          			<< Chi2_mass                         << endl
-		<< "theChi2Prob_mass "        << theChi2Prob_mass                         << endl;
-		outputFile
-		<< "UnNormChi2_time "       	<< UnNormChi2_time                         << endl
-		<< "nFitParam_time "          << nFitParam_time                         << endl
-		<< "nFullBinsPull_time "      << nFullBinsPull_time                         << endl
-		<< "Dof_time "          			<< Dof_time                         << endl
-		<< "Chi2_time "          			<< Chi2_time                         << endl
-		<< "theChi2Prob_time "        << theChi2Prob_time                         << endl;
-		outputFile
-		<< "UnNormChi2_side "       	<< UnNormChi2_side                         << endl
-		<< "nFitParam_side "          << nFitParam_side                         << endl
-		<< "nFullBinsPull_side "      << nFullBinsPull_side                         << endl
-		<< "Dof_side "          			<< Dof_side                         << endl
-		<< "Chi2_side "          			<< Chi2_side                         << endl
-		<< "theChi2Prob_side "        << theChi2Prob_side                         << endl;
+    outputFile
+    << "UnNormChi2_mass "         << UnNormChi2_mass                         << endl
+    << "nFitParam_mass "          << nFitParam_mass                         << endl
+    << "nFullBinsPull_mass "      << nFullBinsPull_mass                         << endl
+    << "Dof_mass "                << Dof_mass                         << endl
+    << "Chi2_mass "               << Chi2_mass                         << endl
+    << "theChi2Prob_mass "        << theChi2Prob_mass                         << endl;
+    outputFile
+    << "UnNormChi2_time "         << UnNormChi2_time                         << endl
+    << "nFitParam_time "          << nFitParam_time                         << endl
+    << "nFullBinsPull_time "      << nFullBinsPull_time                         << endl
+    << "Dof_time "                << Dof_time                         << endl
+    << "Chi2_time "               << Chi2_time                         << endl
+    << "theChi2Prob_time "        << theChi2Prob_time                         << endl;
+    outputFile
+    << "UnNormChi2_side "         << UnNormChi2_side                         << endl
+    << "nFitParam_side "          << nFitParam_side                         << endl
+    << "nFullBinsPull_side "      << nFullBinsPull_side                         << endl
+    << "Dof_side "                << Dof_side                         << endl
+    << "Chi2_side "               << Chi2_side                         << endl
+    << "theChi2Prob_side "        << theChi2Prob_side                         << endl;
 
   } // end of skip ctau fitting
   
-	outputFile.close();
+  outputFile.close();
 
 
 
@@ -1943,7 +1943,7 @@ int main (int argc, char* argv[]) {
 void parseInputArg(int argc, char* argv[], InputOpt &opt) {
 
   // Some parameters are set to default values
-	opt.dataMerge = 0;
+  opt.dataMerge = 0;
   opt.prefitMass = 1;
   opt.prefitSignalCTau = 1;
   opt.prefitBkg = 1;
@@ -1951,7 +1951,7 @@ void parseInputArg(int argc, char* argv[], InputOpt &opt) {
   opt.isGG = 2;   // trk-trk dimuon
   opt.isMB = 0;
   opt.doWeight = 0;   // not use weighting
-	opt.isMultiplicity = 0;
+  opt.isMultiplicity = 0;
  
   opt.analyticBlifetime = 0;
   opt.doBfit = 0;
@@ -1959,21 +1959,21 @@ void parseInputArg(int argc, char* argv[], InputOpt &opt) {
   opt.oneGaussianResol = 1;
   opt.fixResol2MC = 0;
   opt.usedPhi = 0;
-  opt.isPbPb = 2;	//pA
+  opt.isPbPb = 2; //pA
   opt.isPEE = 1;
   opt.is2Widths = 1;
   opt.ctauBackground = 0;
 
-	opt.ctErrRange = 1; //0: ctau error range will be inserted from other file, 1: normal 2: const value
-	//opt.ctErrFile = "/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/JpsiRaaRegIt/RegIt/";
-	opt.ctErrFile = "/afs/cern.ch/work/k/kyolee/private/cms442/src/pAJpsi_double_Cent/outCtErr/";
+  opt.ctErrRange = 1; //0: ctau error range will be inserted from other file, 1: normal 2: const value
+  //opt.ctErrFile = "/afs/cern.ch/work/m/miheejo/private/cms442_Jpsi/src/JpsiRaaRegIt/RegIt/";
+  opt.ctErrFile = "/afs/cern.ch/work/k/kyolee/private/cms442/src/pAJpsi_double_Cent/outCtErr/";
 
   for (int i=1; i<argc; i++) {
     char *tmpargv = argv[i];
     switch (tmpargv[0]) {
       case '-':{
         switch (tmpargv[1]) {
-					case 'q':
+          case 'q':
             if (atoi(argv[i+1]) == 0) {
               opt.dataMerge = false;
               cout << "         only one rooData root file is used" << endl;
@@ -1981,10 +1981,10 @@ void parseInputArg(int argc, char* argv[], InputOpt &opt) {
             } else if (atoi(argv[i+1]) == 1) {
               opt.dataMerge = true;
               cout << "         Two rooData root file are open and will be merged " << endl;
-							opt.FileName2 = argv[i+2]; 
-							cout << "Data file2: "<< opt.FileName2 << endl;
-						}
-						break;
+              opt.FileName2 = argv[i+2]; 
+              cout << "Data file2: "<< opt.FileName2 << endl;
+            }
+            break;
           case 'f':
             opt.FileName = argv[i+1];
             cout << "Data file: " << opt.FileName << endl;
@@ -2052,22 +2052,22 @@ void parseInputArg(int argc, char* argv[], InputOpt &opt) {
             cout << "Rapidity range: " << opt.yrange << " rad" << endl;
             break;
           case 'j':
-						opt.isMultiplicity = atoi(argv[i+1]);
-						cout << "multiplicity shown on plot (0:cent, 1:Ntrk, 2:ET) : " << opt.isMultiplicity << endl;
+            opt.isMultiplicity = atoi(argv[i+1]);
+            cout << "multiplicity shown on plot (0:cent, 1:Ntrk, 2:ET) : " << opt.isMultiplicity << endl;
             break;
-					case 't':
+          case 't':
             opt.crange = argv[i+1];
             cout << "Centrality range: " << opt.crange << " %" << endl;
             break;
           case 'h':
-						opt.etrange = argv[i+1];
-						cout << "E_{T}^{HF} range : " << opt.etrange << "GeV" << endl;
+            opt.etrange = argv[i+1];
+            cout << "E_{T}^{HF} range : " << opt.etrange << "GeV" << endl;
             break;
-					case 'n':
-						opt.ntrrange = argv[i+1];
-						cout << "Ntracks range : " << opt.ntrrange << endl;
+          case 'n':
+            opt.ntrrange = argv[i+1];
+            cout << "Ntracks range : " << opt.ntrrange << endl;
             break;
-					case 'l':
+          case 'l':
             opt.lrange = argv[i+1];
             cout << "l(J/psi) range: " << opt.lrange << " mm" << endl; 
             break;
@@ -2109,13 +2109,13 @@ void parseInputArg(int argc, char* argv[], InputOpt &opt) {
           case 'x':
             opt.isMB = atoi(argv[i+1]);
             cout << "Inclusive fit option: " << opt.isMB << endl;
-						opt.ctErrRange = atoi(argv[i+2]);
-						cout << "CTau error range option: " << opt.ctErrRange << endl;
-						cout << " 0 read the range from files " <<  endl;
-						cout << " 1 get the range in this macro" <<  endl;
-						cout << " 2 set the range const" <<  endl;
-						opt.ctErrFile = argv[i+3];
-						cout << "CTau error range input file: " << opt.ctErrFile << endl;
+            opt.ctErrRange = atoi(argv[i+2]);
+            cout << "CTau error range option: " << opt.ctErrRange << endl;
+            cout << " 0 read the range from files " <<  endl;
+            cout << " 1 get the range in this macro" <<  endl;
+            cout << " 2 set the range const" <<  endl;
+            opt.ctErrFile = argv[i+3];
+            cout << "CTau error range input file: " << opt.ctErrFile << endl;
             break;
           case 'b':
             opt.isPbPb = atoi(argv[i+1]);
@@ -2178,15 +2178,15 @@ void formTitle(InputOpt &opt, float cmin, float cmax) {
     sprintf(opt.centString,"Cent. %.0f-%.0f%%",cmin,cmax);
 
   } else if (opt.isPbPb == 3) {
-		// Use for pPb data set
-		sprintf(opt.cmspre,"CMS Preliminary");
-		sprintf(opt.beamEn,"pPb  #sqrt{s_{NN}} = 5 TeV");
-//		sprintf(opt.lumi,"L_{int} = 12 nb^{-1}");
-		sprintf(opt.lumi,"L_{int} = 14 nb^{-1}");
-		//sprintf(opt.centString,"Cent. %.0f-%.0f%%",cmin,cmax);
+    // Use for pPb data set
+    sprintf(opt.cmspre,"CMS Preliminary");
+    sprintf(opt.beamEn,"pPb  #sqrt{s_{NN}} = 5 TeV");
+//    sprintf(opt.lumi,"L_{int} = 12 nb^{-1}");
+    sprintf(opt.lumi,"L_{int} = 14 nb^{-1}");
+    //sprintf(opt.centString,"Cent. %.0f-%.0f%%",cmin,cmax);
 
-	}
-	// is pbpb? is pp? is pA?
+  }
+  // is pbpb? is pp? is pA?
 }
 
 void formRapidity(InputOpt &opt, float ymin, float ymax) {
@@ -2251,12 +2251,12 @@ void formPhi(InputOpt &opt, float psmin, float psmax) {
   else if (psmax == 3.142) psmax_latex="#pi";
   else isStr = false;
 
-	cout << "formPhi: " << psmin << " " << psmax << endl;
-	cout << "formPhi: " << psmin_latex << " " << psmax_latex << endl;
-	if (psmin==0)
-		cout << "formPhi: " << psmin << " is psmin" << endl;
-	if (psmax==1.571)
-		cout << "formPhi: " << psmax << " is psmax" << endl;
+  cout << "formPhi: " << psmin << " " << psmax << endl;
+  cout << "formPhi: " << psmin_latex << " " << psmax_latex << endl;
+  if (psmin==0)
+    cout << "formPhi: " << psmin << " is psmin" << endl;
+  if (psmax==1.571)
+    cout << "formPhi: " << psmax << " is psmax" << endl;
 
   if (opt.usedPhi) {
     if (isStr)
@@ -2302,28 +2302,28 @@ void formNtrk(InputOpt &opt, float ntrmin, float ntrmax) {
 
 
 int readCtauErrRange(InputOpt &opt, float *errmin, float *errmax) {
-	ifstream errinput;
-	errinput.open(opt.ctErrFile.c_str(),ifstream::in);
-	if (!errinput.good()) {
-		cout << "readCtauErrRange:: CANNOT read ctau error list file. Exit." << endl;
-		return -1;
-	}
-	string headers;
-	getline(errinput, headers); // prefix
-	getline(errinput, headers); // column names
+  ifstream errinput;
+  errinput.open(opt.ctErrFile.c_str(),ifstream::in);
+  if (!errinput.good()) {
+    cout << "readCtauErrRange:: CANNOT read ctau error list file. Exit." << endl;
+    return -1;
+  }
+  string headers;
+  getline(errinput, headers); // prefix
+  getline(errinput, headers); // column names
 
-	string rap, pt, cent, dphi, ntrk, et, emin, emax;
-	while (!errinput.eof()) {
-		errinput >> rap >> pt >> cent >> dphi >> ntrk >> et >> emin >> emax;
-		if (!rap.compare(opt.yrange) && !pt.compare(opt.prange) && !cent.compare(opt.crange) && !dphi.compare(opt.phirange) && !ntrk.compare(opt.ntrrange) && !et.compare(opt.etrange)) {
-			*errmin = atof(emin.c_str());
-			*errmax = atof(emax.c_str());
-			return 0;
-		} else continue;
-	}
+  string rap, pt, cent, dphi, ntrk, et, emin, emax;
+  while (!errinput.eof()) {
+    errinput >> rap >> pt >> cent >> dphi >> ntrk >> et >> emin >> emax;
+    if (!rap.compare(opt.yrange) && !pt.compare(opt.prange) && !cent.compare(opt.crange) && !dphi.compare(opt.phirange) && !ntrk.compare(opt.ntrrange) && !et.compare(opt.etrange)) {
+      *errmin = atof(emin.c_str());
+      *errmax = atof(emax.c_str());
+      return 0;
+    } else continue;
+  }
 
-	cout << "readCtauErrRange:: CANNOT read ctau error range from a file. Exit." << endl;
-	return -2;
+  cout << "readCtauErrRange:: CANNOT read ctau error range from a file. Exit." << endl;
+  return -2;
 }
 
 
@@ -2581,11 +2581,11 @@ void getCtauErrRange(RooDataSet *data, InputOpt &opt, const char *reduceDSOrig, 
   t->DrawLatex(0.50,0.69,opt.rapString);
   t->DrawLatex(0.50,0.64,opt.ptString);
   if (opt.isPbPb != 0) {
-//		if (opt.isMultiplicity ==0) t->DrawLatex(0.50,0.60,opt.centString);
-		if (opt.isMultiplicity ==0) {}
-		else if (opt.isMultiplicity ==1) t->DrawLatex(0.50,0.60,opt.ntrkString);
-		else if (opt.isMultiplicity ==2) t->DrawLatex(0.50,0.60,opt.etString);
-	}
+//    if (opt.isMultiplicity ==0) t->DrawLatex(0.50,0.60,opt.centString);
+    if (opt.isMultiplicity ==0) {}
+    else if (opt.isMultiplicity ==1) t->DrawLatex(0.50,0.60,opt.ntrkString);
+    else if (opt.isMultiplicity ==2) t->DrawLatex(0.50,0.60,opt.etString);
+  }
   t->DrawLatex(0.50,0.55,opt.dphiString);
   t->SetTextSize(0.04);
   char comment[200];
@@ -2812,11 +2812,11 @@ void sidebandLeftRightCheck(RooWorkspace *ws, RooDataSet *redDataSBL, RooDataSet
   t->DrawLatex(0.18,0.69,opt.rapString);
   t->DrawLatex(0.18,0.64,opt.ptString);
   if (opt.isPbPb != 0) {
-		//if (opt.isMultiplicity ==0) t->DrawLatex(0.18,0.60,opt.centString);
-		if (opt.isMultiplicity ==0) {}
-		else if (opt.isMultiplicity ==1) t->DrawLatex(0.18,0.60,opt.ntrkString);
-		else if (opt.isMultiplicity ==2) t->DrawLatex(0.18,0.60,opt.etString);
-	}
+    //if (opt.isMultiplicity ==0) t->DrawLatex(0.18,0.60,opt.centString);
+    if (opt.isMultiplicity ==0) {}
+    else if (opt.isMultiplicity ==1) t->DrawLatex(0.18,0.60,opt.ntrkString);
+    else if (opt.isMultiplicity ==2) t->DrawLatex(0.18,0.60,opt.etString);
+  }
   t->DrawLatex(0.18,0.55,opt.dphiString);
   t->SetTextSize(0.04);
 
@@ -2898,12 +2898,12 @@ void drawMassPlotsWithoutB(RooWorkspace *ws, RooDataSet* redDataCut, RooFitResul
   t->DrawLatex(0.18,0.69,opt.rapString);
   t->DrawLatex(0.18,0.64,opt.ptString);
   if (opt.isPbPb != 0) {
-		//if (opt.isMultiplicity ==0) t->DrawLatex(0.18,0.58,opt.centString);
-		if (opt.isMultiplicity ==0) {}
-		else if (opt.isMultiplicity ==1) t->DrawLatex(0.18,0.58,opt.ntrkString);
-		else if (opt.isMultiplicity ==2) t->DrawLatex(0.18,0.58,opt.etString);
+    //if (opt.isMultiplicity ==0) t->DrawLatex(0.18,0.58,opt.centString);
+    if (opt.isMultiplicity ==0) {}
+    else if (opt.isMultiplicity ==1) t->DrawLatex(0.18,0.58,opt.ntrkString);
+    else if (opt.isMultiplicity ==2) t->DrawLatex(0.18,0.58,opt.etString);
   }
-	t->DrawLatex(0.18,0.55,opt.dphiString);
+  t->DrawLatex(0.18,0.55,opt.dphiString);
   t->SetTextSize(0.035);
   sprintf(reduceDS,"#chi^{2}/dof = %0.1f/%d",UnNormChi2,Dof);
   t->DrawLatex(0.66,0.85,reduceDS);
@@ -2945,12 +2945,12 @@ void drawMassPlotsWithoutB(RooWorkspace *ws, RooDataSet* redDataCut, RooFitResul
   t->DrawLatex(0.18,0.69,opt.rapString);
   t->DrawLatex(0.18,0.64,opt.ptString);
   if (opt.isPbPb != 0) {
-		//if (opt.isMultiplicity ==0) t->DrawLatex(0.18,0.58,opt.centString);
-		if (opt.isMultiplicity ==0) {}
-		else if (opt.isMultiplicity ==1) t->DrawLatex(0.18,0.58,opt.ntrkString);
-		else if (opt.isMultiplicity ==2) t->DrawLatex(0.18,0.58,opt.etString);
+    //if (opt.isMultiplicity ==0) t->DrawLatex(0.18,0.58,opt.centString);
+    if (opt.isMultiplicity ==0) {}
+    else if (opt.isMultiplicity ==1) t->DrawLatex(0.18,0.58,opt.ntrkString);
+    else if (opt.isMultiplicity ==2) t->DrawLatex(0.18,0.58,opt.etString);
   }
-	t->DrawLatex(0.18,0.55,opt.dphiString);
+  t->DrawLatex(0.18,0.55,opt.dphiString);
   t->SetTextSize(0.035);
   sprintf(reduceDS,"N_{J/#psi}: %0.0f #pm %0.0f",ws->var("NSig")->getVal(),ws->var("NSig")->getError());
   t->DrawLatex(0.66,0.80,reduceDS);
@@ -3185,12 +3185,12 @@ void drawCtauSBPlots(RooWorkspace *ws, RooDataSet *redDataSB, RooDataSet *redDat
     t->DrawLatex(0.5,0.70,opt.rapString);
     t->DrawLatex(0.5,0.66,opt.ptString);
     if (opt.isPbPb != 0) {
-			//if (opt.isMultiplicity ==0) t->DrawLatex(0.5,0.63,opt.centString);
-			if (opt.isMultiplicity ==0) {}
-			else if (opt.isMultiplicity ==1) t->DrawLatex(0.5,0.63,opt.ntrkString);
-			else if (opt.isMultiplicity ==2) t->DrawLatex(0.5,0.63,opt.etString);
+      //if (opt.isMultiplicity ==0) t->DrawLatex(0.5,0.63,opt.centString);
+      if (opt.isMultiplicity ==0) {}
+      else if (opt.isMultiplicity ==1) t->DrawLatex(0.5,0.63,opt.ntrkString);
+      else if (opt.isMultiplicity ==2) t->DrawLatex(0.5,0.63,opt.etString);
     }
-		t->DrawLatex(0.5,0.58,opt.dphiString);
+    t->DrawLatex(0.5,0.58,opt.dphiString);
 
     leg11.Draw("same");
 
@@ -3208,13 +3208,13 @@ void drawCtauSBPlots(RooWorkspace *ws, RooDataSet *redDataSB, RooDataSet *redDat
     }
     unNormChi2 = chi2;
     *UnNormChi2_side_t = chi2; // KYO 0316
-		dof = nFullBins - nFitPar;
+    dof = nFullBins - nFitPar;
     chi2 /= (nFullBins - nFitPar);
     int nDOF = ws->var("Jpsi_Ct")->getBinning().numBins() - nFitPar;
-		*nFitParam_side_t = nFitPar;
-		*nFullBinsPull_side_t = nFullBins;
-		*Dof_side_t =dof;
-		*Chi2_side_t = chi2;
+    *nFitParam_side_t = nFitPar;
+    *nFullBinsPull_side_t = nFullBins;
+    *Dof_side_t =dof;
+    *Chi2_side_t = chi2;
 
     RooPlot* tframepull =  ws->var("Jpsi_Ct")->frame(Title("Pull")) ;
     tframepull->GetYaxis()->SetTitle("Pull");
@@ -3266,12 +3266,12 @@ void drawCtauSBPlots(RooWorkspace *ws, RooDataSet *redDataSB, RooDataSet *redDat
     t->DrawLatex(0.62,0.80,opt.rapString);
     t->DrawLatex(0.62,0.75,opt.ptString);
     if (opt.isPbPb != 0) {
-			//if (opt.isMultiplicity ==0) t->DrawLatex(0.62,0.71,opt.centString);
-			if (opt.isMultiplicity ==0) {}
-			else if (opt.isMultiplicity ==1) t->DrawLatex(0.62,0.71,opt.ntrkString);
-			else if (opt.isMultiplicity ==2) t->DrawLatex(0.62,0.71,opt.etString);
+      //if (opt.isMultiplicity ==0) t->DrawLatex(0.62,0.71,opt.centString);
+      if (opt.isMultiplicity ==0) {}
+      else if (opt.isMultiplicity ==1) t->DrawLatex(0.62,0.71,opt.ntrkString);
+      else if (opt.isMultiplicity ==2) t->DrawLatex(0.62,0.71,opt.etString);
     }
-		t->DrawLatex(0.62,0.66,opt.dphiString);
+    t->DrawLatex(0.62,0.66,opt.dphiString);
 
     leg11.SetX1NDC(0.62);
     leg11.SetY1NDC(0.55);
@@ -3320,12 +3320,12 @@ void drawCtauSBPlots(RooWorkspace *ws, RooDataSet *redDataSB, RooDataSet *redDat
     t->DrawLatex(0.5,0.70,opt.rapString);
     t->DrawLatex(0.5,0.66,opt.ptString);
     if (opt.isPbPb != 0) {
-			//if (opt.isMultiplicity ==0) t->DrawLatex(0.5,0.62,opt.centString);
-			if (opt.isMultiplicity ==0) {}
-			else if (opt.isMultiplicity ==1) t->DrawLatex(0.5,0.62,opt.ntrkString);
-			else if (opt.isMultiplicity ==2) t->DrawLatex(0.5,0.62,opt.etString);
+      //if (opt.isMultiplicity ==0) t->DrawLatex(0.5,0.62,opt.centString);
+      if (opt.isMultiplicity ==0) {}
+      else if (opt.isMultiplicity ==1) t->DrawLatex(0.5,0.62,opt.ntrkString);
+      else if (opt.isMultiplicity ==2) t->DrawLatex(0.5,0.62,opt.etString);
     }
-		t->DrawLatex(0.5,0.57,opt.dphiString);
+    t->DrawLatex(0.5,0.57,opt.dphiString);
     t->DrawLatex(0.5,0.53,"2.6 < m_{#mu#mu}< 2.9 GeV/c^{2}");
 
     TLegend leg11(0.62,0.39,0.92,0.49,NULL,"brNDC");
@@ -3402,12 +3402,12 @@ void drawCtauSBPlots(RooWorkspace *ws, RooDataSet *redDataSB, RooDataSet *redDat
     t->DrawLatex(0.62,0.80,opt.rapString);
     t->DrawLatex(0.62,0.75,opt.ptString);
     if (opt.isPbPb != 0) {
-			//if (opt.isMultiplicity ==0) t->DrawLatex(0.62,0.70,opt.centString);
-			if (opt.isMultiplicity ==0) {}
-			else if (opt.isMultiplicity ==1) t->DrawLatex(0.62,0.70,opt.ntrkString);
-			else if (opt.isMultiplicity ==2) t->DrawLatex(0.62,0.70,opt.etString);
+      //if (opt.isMultiplicity ==0) t->DrawLatex(0.62,0.70,opt.centString);
+      if (opt.isMultiplicity ==0) {}
+      else if (opt.isMultiplicity ==1) t->DrawLatex(0.62,0.70,opt.ntrkString);
+      else if (opt.isMultiplicity ==2) t->DrawLatex(0.62,0.70,opt.etString);
     }
-		t->DrawLatex(0.62,0.65,opt.dphiString);
+    t->DrawLatex(0.62,0.65,opt.dphiString);
     t->DrawLatex(0.62,0.60,"2.6 < m_{#mu#mu}< 2.9 GeV/c^{2}");
 
     leg11.SetX1NDC(0.62);
@@ -3457,12 +3457,12 @@ void drawCtauSBPlots(RooWorkspace *ws, RooDataSet *redDataSB, RooDataSet *redDat
     t->DrawLatex(0.5,0.70,opt.rapString);
     t->DrawLatex(0.5,0.66,opt.ptString);
     if (opt.isPbPb != 0) {
-			//if (opt.isMultiplicity ==0) t->DrawLatex(0.5,0.62,opt.centString);
-			if (opt.isMultiplicity ==0) {}
-			else if (opt.isMultiplicity ==1) t->DrawLatex(0.5,0.62,opt.ntrkString);
-			else if (opt.isMultiplicity ==2) t->DrawLatex(0.5,0.62,opt.etString);
+      //if (opt.isMultiplicity ==0) t->DrawLatex(0.5,0.62,opt.centString);
+      if (opt.isMultiplicity ==0) {}
+      else if (opt.isMultiplicity ==1) t->DrawLatex(0.5,0.62,opt.ntrkString);
+      else if (opt.isMultiplicity ==2) t->DrawLatex(0.5,0.62,opt.etString);
     }
-		t->DrawLatex(0.5,0.57,opt.dphiString);
+    t->DrawLatex(0.5,0.57,opt.dphiString);
     t->DrawLatex(0.5,0.54,"3.3 < m_{#mu#mu}< 3.5 GeV/c^{2}");
 
     leg11.SetX1NDC(0.5);
@@ -3537,12 +3537,12 @@ void drawCtauSBPlots(RooWorkspace *ws, RooDataSet *redDataSB, RooDataSet *redDat
     t->DrawLatex(0.62,0.80,opt.rapString);
     t->DrawLatex(0.62,0.75,opt.ptString);
     if (opt.isPbPb != 0) {
-			//if (opt.isMultiplicity ==0) t->DrawLatex(0.62,0.70,opt.centString);
-			if (opt.isMultiplicity ==0) {}
-			else if (opt.isMultiplicity ==1) t->DrawLatex(0.62,0.70,opt.ntrkString);
-			else if (opt.isMultiplicity ==2) t->DrawLatex(0.62,0.70,opt.etString);
+      //if (opt.isMultiplicity ==0) t->DrawLatex(0.62,0.70,opt.centString);
+      if (opt.isMultiplicity ==0) {}
+      else if (opt.isMultiplicity ==1) t->DrawLatex(0.62,0.70,opt.ntrkString);
+      else if (opt.isMultiplicity ==2) t->DrawLatex(0.62,0.70,opt.etString);
     }
-		t->DrawLatex(0.62,0.65,opt.dphiString);
+    t->DrawLatex(0.62,0.65,opt.dphiString);
     t->DrawLatex(0.62,0.60,"3.2 < m_{#mu#mu}< 3.5 GeV/c^{2}");
 
     leg11.SetX1NDC(0.62);
@@ -3641,9 +3641,9 @@ void drawMassPlotsWithB(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_f
     Chi2 = Chi2 + pow(ypull[i],2);
   }
   double UnNormChi2 = Chi2;
-	*UnNormChi2_mass_t = Chi2; // KYO 0316
+  *UnNormChi2_mass_t = Chi2; // KYO 0316
   int nFitParam = fitM->floatParsFinal().getSize();
-	int Dof = nFullBinsPull - nFitParam;
+  int Dof = nFullBinsPull - nFitParam;
   Chi2 /= (nFullBinsPull - nFitParam);
   *nFitParam_mass_t = nFitParam;
   *nFullBinsPull_mass_t = nFullBinsPull;
@@ -3662,11 +3662,11 @@ void drawMassPlotsWithB(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_f
   t->DrawLatex(0.18,0.69,opt.rapString);
   t->DrawLatex(0.18,0.64,opt.ptString);
   if (opt.isPbPb != 0) {
-			if (opt.isMultiplicity ==0) {}
-			else if (opt.isMultiplicity ==1) t->DrawLatex(0.18,0.60,opt.ntrkString);
-			else if (opt.isMultiplicity ==2) t->DrawLatex(0.18,0.60,opt.etString);
+      if (opt.isMultiplicity ==0) {}
+      else if (opt.isMultiplicity ==1) t->DrawLatex(0.18,0.60,opt.ntrkString);
+      else if (opt.isMultiplicity ==2) t->DrawLatex(0.18,0.60,opt.etString);
   }
-	t->DrawLatex(0.18,0.55,opt.dphiString);
+  t->DrawLatex(0.18,0.55,opt.dphiString);
 */
   t->SetTextSize(0.035);
   sprintf(reduceDS,"N_{J/#psi}: %0.0f #pm %0.0f",ws->var("NSig")->getVal(),ws->var("NSig")->getError());
@@ -3689,7 +3689,7 @@ void drawMassPlotsWithB(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_f
   titlestr = opt.dirPre + "_rap" + opt.yrange + "_pT" + opt.prange + "_cent" + opt.crange + "_dPhi" + opt.phirange + "_ntrk" + inOpt.ntrrange + "_ET" + inOpt.etrange + "_massfit_wopull.pdf";
   c1wop.SaveAs(titlestr.c_str());
   titlestr = opt.dirPre + "_rap" + opt.yrange + "_pT" + opt.prange + "_cent" + opt.crange + "_dPhi" + opt.phirange + "_ntrk" + inOpt.ntrrange + "_ET" + inOpt.etrange + "_massfit_wopull.root";
-	c1wop.SaveAs(titlestr.c_str());
+  c1wop.SaveAs(titlestr.c_str());
 
   TCanvas c1("c1","The mass Canvas",200,10,600,880);
   c1.cd();
@@ -3711,10 +3711,10 @@ void drawMassPlotsWithB(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_f
   t->DrawLatex(0.18,0.69,opt.rapString);
   t->DrawLatex(0.18,0.64,opt.ptString);
   if (opt.isPbPb != 0) {
-			//if (opt.isMultiplicity ==0) t->DrawLatex(0.18,0.60,opt.centString);
-			if (opt.isMultiplicity ==0) {}
-			else if (opt.isMultiplicity ==1) t->DrawLatex(0.18,0.60,opt.ntrkString);
-			else if (opt.isMultiplicity ==2) t->DrawLatex(0.18,0.60,opt.etString);
+      //if (opt.isMultiplicity ==0) t->DrawLatex(0.18,0.60,opt.centString);
+      if (opt.isMultiplicity ==0) {}
+      else if (opt.isMultiplicity ==1) t->DrawLatex(0.18,0.60,opt.ntrkString);
+      else if (opt.isMultiplicity ==2) t->DrawLatex(0.18,0.60,opt.etString);
   }
   t->DrawLatex(0.18,0.55,opt.dphiString);
   t->SetTextSize(0.035);
@@ -3752,19 +3752,19 @@ void drawMassPlotsWithB(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_f
   titlestr = opt.dirPre + "_rap" + opt.yrange + "_pT" + opt.prange + "_cent" + opt.crange + "_dPhi" + opt.phirange + "_ntrk" + inOpt.ntrrange + "_ET" + inOpt.etrange + "_massfit.root";
   //c1.SaveAs(titlestr.c_str());
 
-	//KYO temp massfit_Log
-	TCanvas ctmp("ctmp","The mass Canvas tmp",200,10,600,880);
-	ctmp.SetLogy(1);
-	TPad *padmtmp = new TPad("padmtmp","This is pad1",0.05,0.35,0.95,0.97);
-	padmtmp->SetBottomMargin(0.15);
-	padmtmp->Draw();
-	padmtmp->cd();
-	mframe->SetMinimum(0.1);
-	mframe->SetMaximum(max*50);
-	mframe->Draw();
-	ctmp.SetLogy(1);
-	padmtmp->SetLogy(1);
-	ctmp.Update();
+  //KYO temp massfit_Log
+  TCanvas ctmp("ctmp","The mass Canvas tmp",200,10,600,880);
+  ctmp.SetLogy(1);
+  TPad *padmtmp = new TPad("padmtmp","This is pad1",0.05,0.35,0.95,0.97);
+  padmtmp->SetBottomMargin(0.15);
+  padmtmp->Draw();
+  padmtmp->cd();
+  mframe->SetMinimum(0.1);
+  mframe->SetMaximum(max*50);
+  mframe->Draw();
+  ctmp.SetLogy(1);
+  padmtmp->SetLogy(1);
+  ctmp.Update();
   
   t->SetTextSize(0.05);
   t->DrawLatex(0.18,0.90,opt.cmspre);
@@ -3775,12 +3775,12 @@ void drawMassPlotsWithB(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_f
   t->DrawLatex(0.18,0.69,opt.rapString);
   t->DrawLatex(0.18,0.64,opt.ptString);
   if (opt.isPbPb != 0) {
-			//if (opt.isMultiplicity ==0) t->DrawLatex(0.18,0.60,opt.centString);
-			if (opt.isMultiplicity ==0) {}
-			else if (opt.isMultiplicity ==1) t->DrawLatex(0.18,0.60,opt.ntrkString);
-			else if (opt.isMultiplicity ==2) t->DrawLatex(0.18,0.60,opt.etString);
+      //if (opt.isMultiplicity ==0) t->DrawLatex(0.18,0.60,opt.centString);
+      if (opt.isMultiplicity ==0) {}
+      else if (opt.isMultiplicity ==1) t->DrawLatex(0.18,0.60,opt.ntrkString);
+      else if (opt.isMultiplicity ==2) t->DrawLatex(0.18,0.60,opt.etString);
   }
-	t->DrawLatex(0.18,0.55,opt.dphiString);
+  t->DrawLatex(0.18,0.55,opt.dphiString);
   t->SetTextSize(0.035);
   sprintf(reduceDS,"N_{J/#psi}: %0.0f #pm %0.0f",ws->var("NSig")->getVal(),ws->var("NSig")->getError());
   t->DrawLatex(0.66,0.85,reduceDS);
@@ -3795,10 +3795,10 @@ void drawMassPlotsWithB(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_f
   legtmp->AddEntry(&hfake31,"bkgd + non-prompt","lf"); 
   legtmp->AddEntry(&hfake11,"background","lf");
   legtmp->Draw("same");
-	
-	titlestr = opt.dirPre + "_rap" + opt.yrange + "_pT" + opt.prange + "_cent" + opt.crange + "_dPhi" + opt.phirange + "_ntrk" + inOpt.ntrrange + "_ET" + inOpt.etrange + "_massfit_Log.pdf";
-	ctmp.SaveAs(titlestr.c_str());
-	// KYO end
+  
+  titlestr = opt.dirPre + "_rap" + opt.yrange + "_pT" + opt.prange + "_cent" + opt.crange + "_dPhi" + opt.phirange + "_ntrk" + inOpt.ntrrange + "_ET" + inOpt.etrange + "_massfit_Log.pdf";
+  ctmp.SaveAs(titlestr.c_str());
+  // KYO end
 }
 
 //void drawCtauFitPlots(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* binDataCtErr, float NSigNP_fin, float NBkg_fin, RooFitResult *fit2D, InputOpt &opt) {
@@ -3853,13 +3853,13 @@ void drawCtauFitPlots(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* bin
   }
   unNormChi2 = chi2;
   *UnNormChi2_time_t = chi2; // KYO 0316
-	int nFitPar = fit2D->floatParsFinal().getSize();
-	dof = nFullBins - nFitPar;
+  int nFitPar = fit2D->floatParsFinal().getSize();
+  dof = nFullBins - nFitPar;
   chi2 /= (nFullBins - nFitPar);
   *nFitParam_time_t = nFitPar;
-	*nFullBinsPull_time_t = nFullBins;
-	*Dof_time_t =dof;
-	*Chi2_time_t = chi2;
+  *nFullBinsPull_time_t = nFullBins;
+  *Dof_time_t =dof;
+  *Chi2_time_t = chi2;
 
   // WITH RESIDUALS
   TCanvas* c2 = new TCanvas("c2","The Canvas",200,10,600,880);
@@ -3884,10 +3884,10 @@ void drawCtauFitPlots(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* bin
   t->DrawLatex(0.57,0.70,opt.rapString);
   t->DrawLatex(0.57,0.66,opt.ptString);
   if (opt.isPbPb != 0) {
-			//if (opt.isMultiplicity ==0) t->DrawLatex(0.57,0.61,opt.centString);
-			if (opt.isMultiplicity ==0) {}
-			else if (opt.isMultiplicity ==1) t->DrawLatex(0.57,0.61,opt.ntrkString);
-			else if (opt.isMultiplicity ==2) t->DrawLatex(0.57,0.61,opt.etString);
+      //if (opt.isMultiplicity ==0) t->DrawLatex(0.57,0.61,opt.centString);
+      if (opt.isMultiplicity ==0) {}
+      else if (opt.isMultiplicity ==1) t->DrawLatex(0.57,0.61,opt.ntrkString);
+      else if (opt.isMultiplicity ==2) t->DrawLatex(0.57,0.61,opt.etString);
   }
   t->DrawLatex(0.57,0.57,opt.dphiString);
 
@@ -3955,10 +3955,10 @@ void drawCtauFitPlots(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* bin
   t->DrawLatex(0.62,0.79,opt.rapString);
   t->DrawLatex(0.62,0.74,opt.ptString);
   if (opt.isPbPb != 0) {
-			//if (opt.isMultiplicity ==0) t->DrawLatex(0.62,0.68,opt.centString);
-			if (opt.isMultiplicity ==0) {}
-			else if (opt.isMultiplicity ==1) t->DrawLatex(0.62,0.68,opt.ntrkString);
-			else if (opt.isMultiplicity ==2) t->DrawLatex(0.62,0.68,opt.etString);
+      //if (opt.isMultiplicity ==0) t->DrawLatex(0.62,0.68,opt.centString);
+      if (opt.isMultiplicity ==0) {}
+      else if (opt.isMultiplicity ==1) t->DrawLatex(0.62,0.68,opt.ntrkString);
+      else if (opt.isMultiplicity ==2) t->DrawLatex(0.62,0.68,opt.etString);
   }
   t->DrawLatex(0.62,0.65,opt.dphiString);
 
@@ -4033,9 +4033,9 @@ void drawCtauFitPlots(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* bin
   t->DrawLatex(0.60,0.76,opt.rapString);
   t->DrawLatex(0.60,0.71,opt.ptString);
   if (opt.isPbPb != 0) {
-			if (opt.isMultiplicity ==0) {}
-			else if (opt.isMultiplicity ==1) t->DrawLatex(0.60,0.66,opt.ntrkString);
-			else if (opt.isMultiplicity ==2) t->DrawLatex(0.60,0.66,opt.etString);
+      if (opt.isMultiplicity ==0) {}
+      else if (opt.isMultiplicity ==1) t->DrawLatex(0.60,0.66,opt.ntrkString);
+      else if (opt.isMultiplicity ==2) t->DrawLatex(0.60,0.66,opt.etString);
   }
   t->DrawLatex(0.60,0.61,opt.dphiString);
 */
@@ -4254,8 +4254,8 @@ void drawCtauFitPlotsSignals(RooWorkspace *ws, RooDataSet *redDataCut, RooDataSe
   RooHistPdfConv sigNPW("sigNPW2","Non-prompt signal with wide gaussian",*(ws->var("Jpsi_Ct")),*(ws->var("meanResSigW2")),*(ws->var("sigmaResSigW2")),*binMCCutNP ); ws->import(sigNPW);
   RooAddPdf sigNP("sigNP2","Non-prompt signal",RooArgSet(*(ws->pdf("sigNPW2")),*(ws->pdf("sigNPN2"))),RooArgSet(*(ws->var("fracRes22")))); ws->import(sigNP);*/
 
-	ws->factory("SUM::sigPDF(Bfrac2[0.25,0.0,1.0]*sigNP2,sigPR2)");
-	//ws->factory("SUM::sigPDF(Bfrac2[0.25,0.2,0.8]*sigNP2,sigPR2)");
+  ws->factory("SUM::sigPDF(Bfrac2[0.25,0.0,1.0]*sigNP2,sigPR2)");
+  //ws->factory("SUM::sigPDF(Bfrac2[0.25,0.2,0.8]*sigNP2,sigPR2)");
   RooDataHist *sigHist = new RooDataHist("subHist","sigHist",RooArgList(*(ws->var("Jpsi_Ct"))),subtrSighist);
   RooFitResult *sigres = ws->pdf("sigPDF")->fitTo(*sigHist,Minos(0),Save(1),SumW2Error(kTRUE),NumCPU(8));
   sigres->Print("v");
