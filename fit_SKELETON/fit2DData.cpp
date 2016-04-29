@@ -299,6 +299,10 @@ int main (int argc, char* argv[]) {
   defineCtPRRes(ws, inOpt);              // R(l) : resolution function
   defineCtBkg(ws, inOpt);                // theta(l') convolution R(l')
   titlestr = inOpt.dirName + "_rap" + inOpt.yrange + "_pT" + inOpt.ptrange + "_ntrk" + inOpt.ntrrange + "_ET" + inOpt.etrange;
+  
+	/////////////////////////////////////////////////////////////////////////////////////////
+	//////////////// [[1]] non-prompt MC ctau function (fit in fit2DData.h) ///////////////// 
+	/////////////////////////////////////////////////////////////////////////////////////////
   defineCtNP(ws,redNPMC,titlestr,inOpt); // F_B(l) : X_mc(l')
 
   struct PARAM {
@@ -364,7 +368,7 @@ int main (int argc, char* argv[]) {
 	} // EventActivity==0
 
 	/////////////////////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////// [[1]] fitting mass ///////////////////////////////////  
+	/////////////////////////////////// [[2]] fitting mass ///////////////////////////////////  
 	/////////////////////////////////////////////////////////////////////////////////////////
 	sprintf(funct,"SUM::MassPDF(NSig[%f,1.0,5000000.0]*%s,NBkg[%f,1.0,50000000.0]*%s)",initSig,initBkg,inOpt.mSigFunct.c_str(),inOpt.mBkgFunct.c_str());
 	ws->factory(funct);
@@ -413,7 +417,7 @@ int main (int argc, char* argv[]) {
   Double_t ErrNBkg_fin = ws->var("NBkg")->getError();
 
 	////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////// [[2]] get ctau error PDF for PEE method /////////////////////////  
+	////////////////////////// [[3]] get ctau error PDF for PEE method /////////////////////////  
 	/////////////////////////////////////////////////////////////////////////////////////////
   
 	//// *** scaleF to scale down ct err dist in 2.9-3.3 GeV/c2
@@ -439,11 +443,12 @@ int main (int argc, char* argv[]) {
 
   //// **** Draw CtErr PDF
   drawCtauErrPdf(ws, binDataCtErrSB, binDataCtErrSIG, binSubtractedSIG, binScaledBKG, inOpt);
-	////////////////////////////////////////////////////////////////////////////////////////////
+	
+  ////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////// preparing total 2D PDFs with PEE method ///////////////////////// 
 	//////////////////////////     e.g.) AAA_PEE : AAA x errPdf        /////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////
-	//// *** Conditional to select Ct and Mass only) :: for step[[3]] and step[[4]]
+	//// *** Conditional to select Ct and Mass only :: for step[[4]] and step[[5]]
   RooProdPdf CtPR_PEE("CtPR_PEE","CtPDF with PEE", *(ws->pdf("errPdfSig")),
                       Conditional(*(ws->pdf("CtPRRes")), RooArgList(*(ws->var("Jpsi_Ct"))))
                       );  ws->import(CtPR_PEE);
@@ -451,7 +456,7 @@ int main (int argc, char* argv[]) {
                               Conditional(*(ws->pdf("CtBkgTot")),RooArgList(*(ws->var("Jpsi_Ct"))))
                              );  ws->import(CtBkgTot_PEE);  
 	
-	//// *** 2D PDF (mass x ctau) :: for step[[5]]
+	//// *** 2D PDF (mass x ctau) :: for step[[6]]
     sprintf(funct,"PROD::MassCtPR(%s,CtPRRes)",inOpt.mSigFunct.c_str()); ws->factory(funct);
     sprintf(funct,"PROD::MassCtNP(%s,CtNPTot)",inOpt.mSigFunct.c_str()); ws->factory(funct);
     sprintf(funct,"PROD::MassCtBkg(%s,CtBkgTot)",inOpt.mBkgFunct.c_str());  ws->factory(funct);
@@ -472,7 +477,7 @@ int main (int argc, char* argv[]) {
 
   
 	/////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////// [[3]] prompt MC ctau function (resolution) ////////////////////
+	///////////////////////// [[4]] prompt MC ctau function (resolution) ////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////
   
 	RooFitResult *fitCt_PRMC = ws->pdf("CtPR_PEE")->fitTo(*redPRMC,Range("promptMCfit"),SumW2Error(kTRUE),ConditionalObservables(RooArgSet(*(ws->var("Jpsi_CtErr")))),Save(1),NumCPU(8));
@@ -509,8 +514,8 @@ int main (int argc, char* argv[]) {
   drawCtauResolPlots(ws, true, tempFramePR, inOpt); // fit to PRMC
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////// [[4]] background ctau distributions /////////////////////////////
-	/////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////// [[5]] background ctau distributions /////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
   
 	cout << " *** DATA :: N events to fit on SIDEBANDS : " << redDataSB->sumEntries() << endl;
 	RooFitResult* fitCt_Bkg = ws->pdf("CtBkgTot_PEE")->fitTo(*redDataSB,SumW2Error(kTRUE),Minos(0),NumCPU(8),Save(1),ConditionalObservables(RooArgSet(*(ws->var("Jpsi_CtErr")))),Optimize(0));
@@ -525,7 +530,7 @@ int main (int argc, char* argv[]) {
 	drawCtauSBPlots(ws, redDataSB, binDataCtErrSB, fitCt_Bkg, lmin, lmax, inOpt, &UnNormChi2_side, &nFitParam_side, &nFullBinsPull_side, &Dof_side, &Chi2_side);
 	
 	////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////// [[5]] final 2D fits ///////////////////////////////////
+	//////////////////////////////////// [[6]] final 2D fits ///////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////
 
 		//// *** release some parameters
