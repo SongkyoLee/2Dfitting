@@ -1,19 +1,20 @@
 #!/bin/bash
 if [ $# -ne 4 ]; then
-  echo "Usage: $0 [Executable] [Input root File] [Input root File 2] [Prefix] "
+  echo "Usage: $0 [Executable] [Input root File] [Input root File 2] [Dir name] "
   exit;
 fi
 
 executable=$(pwd)/$1
 datasets=$2
 datasets2=$3
-prefix=$4
+dirname=$4
 
 ################################################################ 
 ########## Script parameter setting
 ################################################################ 
+
 # Storage for batch jobs (should be under /afs)
-storage=$(pwd)/Results/$prefix
+storage=$(pwd)/Results/$dirname
 scripts=$(pwd)/Scripts
 if [ ! -d "$(pwd)/Results" ]; then
   mkdir $(pwd)/Results
@@ -25,55 +26,29 @@ if [ ! -d "$scripts" ]; then
   mkdir $scripts
 fi
 
-ctaurange=1.5-3.0
-fracfree=0
-ispbpb=2 # 0:pp, 1:PbPb, 2:Pbp, 3:pPb
-is2Widths=1
-isPEE=1
-usedPhi=0 # 0: RAA, 1: v2 (this determines whether dphi angles will be presented on the plots or not)
-isMerge=1 # 1 merging the dataset from two files (v1 and v2)
-
-# Non-prompt MC
-mc1=/afs/cern.ch/work/k/kyolee/private/pAJpsi_rooDataSet_20160214/outRoo_NPMC_Pbp_newcut_official/outRoo_NPMC_Pbp_newcut_official.root
-#mc1=/afs/cern.ch/work/k/kyolee/private/pAJpsi_rooDataSet_20160214/outRoo_NPMC_Pbp_newcut_private_test/outRoo_NPMC_Pbp_newcut_private_test.root
-#mc1=/afs/cern.ch/work/k/kyolee/private/pAJpsi_rooDataSet_20160214/outRoo_NPMC_Pbp_oldcut_official_test/outRoo_NPMC_Pbp_oldcut_official_test.root
-#mc1=/afs/cern.ch/work/k/kyolee/private/pAJpsi_rooDataSet_20160214/outRoo_NPMC_Pbp_oldcut_private/outRoo_NPMC_Pbp_oldcut_private.root
 # Prompt MC
-mc2=/afs/cern.ch/work/k/kyolee/private/pAJpsi_rooDataSet_20160214/outRoo_PRMC_Pbp_newcut_official/outRoo_PRMC_Pbp_newcut_official.root
-#mc2=/afs/cern.ch/work/k/kyolee/private/pAJpsi_rooDataSet_20160214/outRoo_PRMC_Pbp_newcut_private_test/outRoo_PRMC_Pbp_newcut_private_test.root
-#mc2=/afs/cern.ch/work/k/kyolee/private/pAJpsi_rooDataSet_20160214/outRoo_PRMC_Pbp_oldcut_official_test/outRoo_PRMC_Pbp_oldcut_official_test.root
-#mc2=/afs/cern.ch/work/k/kyolee/private/pAJpsi_rooDataSet_20160214/outRoo_PRMC_Pbp_oldcut_private/outRoo_PRMC_Pbp_oldcut_private.root
+prmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet_20160314/outRoo_PRMC_Pbp_newcut_off2M/outRoo_PRMC_Pbp_newcut_off2M.root
+# Non-prompt MC
+npmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet_20160314/outRoo_NPMC_Pbp_newcut_off2M/outRoo_NPMC_Pbp_newcut_off2M.root
 
-# read the ctauErrFile or not
-readct=1 #0:read from txt 1:calculated in the fitting code 2:constant value
-#readct=0 #0:read from txt 1:calculated in the fitting code 2:constant value
+########### options
+sysString="nominal" ## sys01_01-05, sys02_01, sys03_01-02, sys04_01
+mcweight=1  #0: Do NOT mcweight(dataJpsi), 1: Do mcweight(dataJpsiWeight)
+isMerge=1 # 1 merging the dataset from two files (v1 and v2)
+isPA=1 # 0:pp, 1:Pbp, 2:pPb
+eventActivity=0 #0:nothing 1:Ntrack 2:ET^{HF}
+absoluteY=0 #use absolute y binning or not (e.g. |y| < 1.6)
+### read the ctauErrFile or not
+readct=0 #0:calculate in the code, 1:read from file, 2:constant
 cterrfile=$(pwd)/outCtErr/fit_ctauErrorRange_Pbp.txt
 
-mSigF="sigCB2WNG1" # Mass signal function name (options: sigCB2WNG1 (default), signalCB3WN)
-mBkgF="expFunct" # Mass background function name (options: expFunct (default), polFunct)
+#mSigF="G1CB1Sig" # Mass signal function name (options: sigCB2WNG1 (default), signalCB3WN)
+#mBkgF="expBkg" # Mass background function name (options: expFunct (default), polFunct)
+ctaurange=1.5-3.0
 
-#weight=0  #0: Do NOT weight(dataJpsi), 1: Do weight(dataJpsiWeight)
-weight=1  #0: Do NOT weight(dataJpsi), 1: Do weight(dataJpsiWeight) <- MC z vertex weighted!
-eventplane="etHFm" # Name of eventplane (etHFp, etHFm, etHF(default))
-runOpt=4 # Inclusive mass fit (options: 4(default), 3(Constrained fit), 5(_mb in 2010 analysis))
-anaBct=1 #0: do b-fit(not-analytic fit for b-lifetime), 1: do b-fit(analytic fit for b-lifetime), 2: do NOT b-fit
-#0: 2 Resolution functions & fit on data, 1: 1 Resolution function & fit on data,
-#2: 2 Resolution functions & fit on PRMC, 3: 1 Resolution function & fit on PRMC
-resOpt=2
-ctauBkg=0 #0: 1 ctau bkg, 1: 2 ctau bkg with signal region fitting, 2: 2 ctau bkg with step function
-isMultiplicity=0 #0:centrality 1:Ntrack 2:ET^{HF}
-
-########## Except dphibins, rap, pt, centrality bins doesn't need "integrated range" bins in the array.
-########## Ex ) DO NOT USE rapbins=(0.0-2.4) or ptbins=(6.5-30.0) or centbins=(0.0-100.0)
-########## dphibins always needs "0.000-1.571" both for Raa and v2. Add other dphibins if you need
-dphibins=(0.000-1.571) #0.000-0.393 0.393-0.785 0.785-1.178 1.178-1.571)
-
-rapbins=(-2.4--1.97 -1.97--1.37 -1.37--0.47 -0.47-0.43 0.43-1.03 1.03-1.46 1.46-1.93 1.93-2.4)
-#ptbins=(3.0-4.0 4.0-5.0 5.0-6.5 6.5-7.5 7.5-8.5 8.5-10.0 10.0-14.0 14.0-30.0)
-ptbins=(5.0-6.5 6.5-10.0 10.0-30.0)
-
-#ethfbins=(0.0-20.0 20.0-25.0 25.0-30.0 30.0-40.0 40.0-120.0)
-#ethfETHF=(0.0-20.0 20.0-30.0 30.0-120.0)
+rapbins=(-2.40--1.97 -1.97--1.37 -1.37--0.47 -0.47-0.43 0.43-1.03 1.03-1.46 1.46-1.93 1.93-2.40)
+ptbins=(3.0-4.0 4.0-5.0 5.0-6.5 6.5-7.5 7.5-8.5 8.5-10.0 10.0-14.0 14.0-30.0)
+#ptbins=(5.0-6.5 6.5-10.0 10.0-30.0)
 ethfbins=(0.0-120.0)
 ntrkbins=(0.0-350.0)
 
@@ -98,71 +73,37 @@ function program {
   pt=$2
 	ntrk=$3
 	ethf=$4
-  shift; shift; shift; shift;
-  centarr=(${@})
 
-  for cent in ${centarr[@]}; do
-    for dphi in ${dphibins[@]}; do
-      work=$prefix"_rap"$rap"_pT"$pt"_cent"$cent"_dPhi"$dphi"_ntrk"$ntrk"_ET"$ethf; # Output file name has this prefix
-      workMB=$prefix"_rap"$rap"_pT"$pt"_cent0.0-100.0_dPhi0.000-1.571_ntrk"$ntrk"_ET"$ethf; 
-      workPHI=$prefix"_rap"$rap"_pT"$pt"_cent"$cent"_dPhi0.000-1.571_ntrk"$ntrk"_ET"$ethf; 
+	work=$dirname"_rap"$rap"_pT"$pt"_ntrk"$ntrk"_ET"$ethf; # Output file name has this prefix
 
-      echo "Processing: "$work
-      printf "#!/bin/csh\n" > $scripts/$work.csh
-#      printf "source /afs/cern.ch/sw/lcg/external/gcc/4.3.2/x86_64-slc5/setup.csh; source /afs/cern.ch/user/m/miheejo/thisroot.csh\n" >> $scripts/$work.csh
-#      printf "cd %s\n" $(pwd) >> $scripts/$work.csh
-#      printf "eval \`scramv1 runtime -csh\`\n" >> $scripts/$work.csh
-#      printf "cd -\n" >> $scripts/$work.csh
-# orig
-#			printf "source /afs/cern.ch/sw/lcg/external/gcc/4.7/x86_64-slc6/setup.csh; source /afs/cern.ch/work/m/miheejo/public/root_v5.28.00d/bin/thisroot.csh\n" >> $scripts/$work.csh
-			printf "source /afs/cern.ch/sw/lcg/external/gcc/4.7/x86_64-slc6/setup.csh; source /afs/cern.ch/work/k/kyolee/public/root_v5.28.00d/bin/thisroot.csh\n" >> $scripts/$work.csh
-      printf "cp %s/%s.csh %s/fit2DData.h %s/fit2DData_all.cpp .\n" $scripts $work $(pwd) $(pwd) >> $scripts/$work.csh
-
-      if [ "$cent" == "0.0-100.0" ]; then
-        if [ "$dphi" == "0.000-1.571" ]; then
-          script="$executable -q $isMerge $datasets2 -f $datasets $weight -m $mc1 $mc2 -v $mSigF $mBkgF -d $prefix -r $eventplane $usedPhi -u $resOpt -a $anaBct $ctauBkg -b $ispbpb $isPEE $is2Widths -p $pt -y $rap -t $cent -s $dphi -l $ctaurange -x $runOpt $readct $cterrfile -z $fracfree -j $isMultiplicity -h $ethf -n $ntrk >& $work.log;"
-          echo $script >> $scripts/$work.csh
-        elif [ "$dphi" != "0.000-1.571" ]; then
-          script="$executable -q $isMerge $datasets2 -f $datasets $weight -m $mc1 $mc2 -v $mSigF $mBkgF -d $prefix -r $eventplane $usedPhi -u $resOpt -a 2 $ctauBkg -b $ispbpb $isPEE $is2Widths -p $pt -y $rap -t $cent -s 0.000-1.571 -l $ctaurange -x $runOpt $readct $cterrfile  -z $fracfree -j $isMultiplicity -h $ethf -n $ntrk >& $workPHI.log;"
-          echo $script >> $scripts/$work.csh
-          script="$executable -q $isMerge $datasets2 -f $datasets $weight -m $mc1 $mc2 -v $mSigF $mBkgF -d $prefix -r $eventplane $usedPhi -u $resOpt -a $anaBct $ctauBkg -b $ispbpb $isPEE $is2Widths -p $pt -y $rap -t $cent -s $dphi -l $ctaurange -x $runOpt $readct $cterrfile -z $fracfree -j $isMultiplicity -h $ethf -n $ntrk >& $work.log;"
-          echo $script >> $scripts/$work.csh
-        fi
-      elif [ "$cent" != "0.0-100.0" ]; then
-        if [ "$dphi" == "0.000-1.571" ]; then
-          script="$executable -q $isMerge $datasets2 -f $datasets $weight -m $mc1 $mc2 -v $mSigF $mBkgF -d $prefix -r $eventplane $usedPhi -u $resOpt -a 2 $ctauBkg -b $ispbpb $isPEE $is2Widths -p $pt -y $rap -t 0.0-100.0 -s 0.000-1.571 -l $ctaurange -x $runOpt $readct $cterrfile -z $fracfree -j $isMultiplicity -h $ethf -n $ntrk >& $workMB.log;"
-          echo $script >> $scripts/$work.csh
-          script="$executable -q $isMerge $datasets2 -f $datasets $weight -m $mc1 $mc2 -v $mSigF $mBkgF -d $prefix -r $eventplane $usedPhi -u $resOpt -a $anaBct $ctauBkg -b $ispbpb $isPEE $is2Widths -p $pt -y $rap -t $cent -s $dphi -l $ctaurange -x $runOpt $readct $cterrfile -z $fracfree -j $isMultiplicity -h $ethf -n $ntrk >& $work.log;"
-          echo $script >> $scripts/$work.csh
-        elif [ "$dphi" != "0.000-1.571" ]; then
-          script="$executable -q $isMerge $datasets2 -f $datasets $weight -m $mc1 $mc2 -v $mSigF $mBkgF -d $prefix -r $eventplane $usedPhi -u $resOpt -a 2 $ctauBkg -b $ispbpb $isPEE $is2Widths -p $pt -y $rap -t 0.0-100.0 -s 0.000-1.571 -l $ctaurange -x $runOpt $readct $cterrfile -z $fracfree -j $isMultiplicity -h $ethf -n $ntrk >& $workMB.log;"
-          echo $script >> $scripts/$work.csh
-          script="$executable -q $isMerge $datasets2 -f $datasets $weight -m $mc1 $mc2 -v $mSigF $mBkgF -d $prefix -r $eventplane $usedPhi -u $resOpt -a 2 $ctauBkg -b $ispbpb $isPEE $is2Widths -p $pt -y $rap -t $cent -s 0.000-1.571 -l $ctaurange -x $runOpt $readct $cterrfile -z $fracfree -j $isMultiplicity -h $ethf -n $ntrk >& $workPHI.log;"
-          echo $script >> $scripts/$work.csh
-          script="$executable -q $isMerge $datasets2 -f $datasets $weight -m $mc1 $mc2 -v $mSigF $mBkgF -d $prefix -r $eventplane $usedPhi -u $resOpt -a $anaBct $ctauBkg -b $ispbpb $isPEE $is2Widths -p $pt -y $rap -t $cent -s $dphi -l $ctaurange -x $runOpt $readct $cterrfile -z $fracfree -j $isMultiplicity -h $ethf -n $ntrk >& $work.log;"
-          echo $script >> $scripts/$work.csh
-        fi
-      fi
-
-      printf "tar zcvf %s.tgz %s* fit2DData.h fit2DData_all.cpp\n" $work $work >> $scripts/$work.csh
-      printf "cp %s.tgz %s\n" $work $storage >> $scripts/$work.csh
-      bsub -R "pool>10000" -u songkyo.lee@cer.c -q 1nd -J $work < $scripts/$work.csh
-      #bsub -R "pool>10000" -u songkyo.lee@cer.c -q 1nw -J $work < $scripts/$work.csh
-    done
-  done
+	echo "Processing: "$work
+	printf "#!/bin/bash\n" > $scripts/$work.sh
+	### bottom 2 lines for_LXPLUS
+	printf "eval `scramv1 runtime -sh` \n" >> $scripts/$work.sh
+	printf "cp %s/%s.sh . \n" $scripts $work >> $scripts/$work.sh
+	script="$executable -d $dirname -f $isMerge $datasets $datasets2 -m $prmc $npmc -w $mcweight -c $isPA $eventActivity -s $sysString -x $readct $cterrfile -p $pt -y $absoluteY $rap -l $ctaurange -n $ntrk -h $ethf >& $work.log;"
+  echo $script >> $scripts/$work.sh
+  
+  printf "tar zcvf %s.tgz %s*\n" $work $work >> $scripts/$work.sh
+  printf "cp %s.tgz %s\n" $work $storage >> $scripts/$work.sh
+  printf "rm -f %s*\n" $work >> $scripts/$work.sh #for LXPLUS (batch)
+	#$(pwd)/condor_executable_simple.sh	$work #for_KUNPL
+	bsub -R "pool>10000" -u songkyo.lee@cer.c -q 1nd -J $work < $scripts/$work.sh #for_LXPLUS
+          
 }
 
 ################################################################ 
 ########## Running script with pre-defined binnings
 ################################################################ 
 
-### 8rap8pt
 for rap in ${rapbins[@]}; do
 	for pt in ${ptbins[@]}; do
-		program $rap $pt $ntrkbins $ethfbins 0.0-100.0
+		program $rap $pt $ntrkbins $ethfbins 
 	done
 done
+program -2.40--1.97 2.0-3.0 $ntrkbins $ethfbins 
+program 1.93-2.40 2.0-3.0 $ntrkbins $ethfbins 
 
-#program -2.4--1.97 2.0-3.0 $ntrkbins $ethfbins 0.0-100.0
-#program 1.93-2.4 2.0-3.0 $ntrkbins $ethfbins 0.0-100.0
+### TEST
+#program -0.47-0.43 10.0-30.0 $ntrkbins $ethfbins
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ $# -ne 3 ]; then
-  echo "Usage: $0 [Executable] [Input root File] [Dir name] "
+  echo "Usage: $0 [Executable] [Input Data] [Dir name] "
   exit;
 fi
 
@@ -33,10 +33,11 @@ npmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet_201
 ########### options
 sysString="nominal" ## sys01_01-05, sys02_01, sys03_01-02, sys04_01
 mcweight=1  #0: Do NOT mcweight(dataJpsi), 1: Do mcweight(dataJpsiWeight)
-isMerge=0 # 1 merging the dataset from two files (v1 and v2)
-isPA=2 # 0:pp, 1:Pbp, 2:pPb
+dataMerge=1 # number of input data files to be merged
+mcMerge=1 # number of input mc files to be merged
+isPA=2 # 0:pp, 1:Pbp, 2:pPb, 3:pAMerged
 eventActivity=0 #0:nothing 1:Ntrack 2:ET^{HF}
-absoluteY=0 #use absolute y binning or not (e.g. |y| < 1.6)
+absoluteY=0 #use absolute y binning or not (e.g. 1.6 < |y| < 2.4)
 ### read the ctauErrFile or not
 readct=0 #0:calculate in the code, 1:read from file, 2:constant
 cterrfile=$(pwd)/outCtErr/fit_ctauErrorRange_pPb.txt
@@ -45,9 +46,10 @@ cterrfile=$(pwd)/outCtErr/fit_ctauErrorRange_pPb.txt
 #mBkgF="expBkg" # Mass background function name (options: expFunct (default), polFunct)
 ctaurange=1.5-3.0
 
-rapbins=(-2.40--1.93 -1.93--1.46 -1.46--1.03 -1.03--0.43 -0.43-0.47 0.47-1.37 1.37-1.97 1.97-2.40)
-ptbins=(3.0-4.0 4.0-5.0 5.0-6.5 6.5-7.5 7.5-8.5 8.5-10.0 10.0-14.0 14.0-30.0)
-#ptbins=(5.0-6.5 6.5-10.0 10.0-30.0)
+#rapbins=(-2.40--1.93 -1.93--1.46 -1.46--1.03 -1.03--0.43 -0.43-0.47 0.47-1.37 1.37-1.97 1.97-2.40)
+#ptbins=(3.0-4.0 4.0-5.0 5.0-6.5 6.5-7.5 7.5-8.5 8.5-10.0 10.0-14.0 14.0-30.0)
+rapbins=(-1.46--1.03 -1.03--0.43 -0.43-0.47 0.47-1.37 1.37-1.97 1.97-2.40)
+ptbins=(5.0-6.5 6.5-10.0 10.0-30.0)
 ethfbins=(0.0-120.0)
 ntrkbins=(0.0-350.0)
 
@@ -79,14 +81,14 @@ function program {
 	### bottom 2 lines for_LXPLUS
 	printf "eval `scramv1 runtime -sh` \n" >> $scripts/$work.sh
 	printf "cp %s/%s.sh . \n" $scripts $work >> $scripts/$work.sh
-	script="$executable -d $dirname -f $isMerge $datasets -m $prmc $npmc -w $mcweight -c $isPA $eventActivity -s $sysString -x $readct $cterrfile -p $pt -y $absoluteY $rap -l $ctaurange -n $ntrk -h $ethf >& $work.log;"
+	script="$executable -d $dirname -f $dataMerge $datasets -m $mcMerge $prmc $npmc -w $mcweight -c $isPA $eventActivity -s $sysString -x $readct $cterrfile -p $pt -y $absoluteY $rap -l $ctaurange -n $ntrk -h $ethf >& $work.log;"
   echo $script >> $scripts/$work.sh
   
   printf "tar zcvf %s.tgz %s*\n" $work $work >> $scripts/$work.sh
   printf "cp %s.tgz %s\n" $work $storage >> $scripts/$work.sh
   printf "rm -f %s*\n" $work >> $scripts/$work.sh #for_LXPLUS (batch)
-	#$(pwd)/condor_executable_simple.sh	$work #for_KUNPL
-	bsub -R "pool>10000" -u songkyo.lee@cer.c -q 1nd -J $work < $scripts/$work.sh #for_LXPLUS
+	#$(pwd)/condor_executable_simple.sh	$work #for_KUNPL (condor)
+	bsub -R "pool>10000" -u songkyo.lee@cer.c -q 1nd -J $work < $scripts/$work.sh #for_LXPLUS (batch)
 }
 
 ################################################################ 
@@ -98,8 +100,8 @@ for rap in ${rapbins[@]}; do
 		program $rap $pt $ntrkbins $ethfbins
 	done
 done
-program -2.40--1.93 2.0-3.0 $ntrkbins $ethfbins 
-program 1.97-2.40 2.0-3.0 $ntrkbins $ethfbins 
+#program -2.40--1.93 2.0-3.0 $ntrkbins $ethfbins 
+#program 1.97-2.40 2.0-3.0 $ntrkbins $ethfbins 
 
 ### TEST
 #program -0.43-0.47 10.0-30.0 $ntrkbins $ethfbins 
