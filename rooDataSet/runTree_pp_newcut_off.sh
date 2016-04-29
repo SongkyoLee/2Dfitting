@@ -57,7 +57,7 @@ function programMC {
 }
 
 ### 1. Data
-#program outRoo_Data_pp_newcut $trigType $accType $datazweighting 0 $initev $nevt $inputfpp
+program outRoo_Data_pp_newcut $trigType $accType $datazweighting 0 $initev $nevt $inputfpp
 ### 2. MC
 programMC outRoo_PRMC_pp_newcut_off $trigType $accType $mczweighting 0 $initev $nevt $zppPRMC $inputfppPRMC
 programMC outRoo_NPMC_pp_newcut_off $trigType $accType $mczweighting 0 $initev $nevt $zppNPMC $inputfppNPMC

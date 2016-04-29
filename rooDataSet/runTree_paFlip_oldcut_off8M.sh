@@ -66,7 +66,7 @@ function programMC {
 
 ### 1. Data
 ## -- run for pPb
-#program outRoo_Data_pPbFlip_oldcut  $trigType $accType $datazweighting 0 $initev $nevt $inputfppb
+program outRoo_Data_pPbFlip_oldcut  $trigType $accType $datazweighting 0 $initev $nevt $inputfppb
 
 ### 2. MC
 ## -- run for pPb -MC

@@ -65,10 +65,10 @@ function programMC {
 
 ### 1. Data
 ## -- run for Pbp
-#program outRoo_Data_Pbp_newcut_v1 $trigType $accType $datazweighting 1 $initev $nevt $inputfpbpV1
-#program outRoo_Data_Pbp_newcut_v2 $trigType $accType $datazweighting 2 $initev $nevt $inputfpbpV2
+program outRoo_Data_Pbp_newcut_v1 $trigType $accType $datazweighting 1 $initev $nevt $inputfpbpV1
+program outRoo_Data_Pbp_newcut_v2 $trigType $accType $datazweighting 2 $initev $nevt $inputfpbpV2
 ## -- run for pPb
-#program outRoo_Data_pPb_newcut  $trigType $accType $datazweighting 0 $initev $nevt $inputfppb
+program outRoo_Data_pPb_newcut  $trigType $accType $datazweighting 0 $initev $nevt $inputfppb
 
 ### 2. MC
 ## -- run for Pbp -MC
