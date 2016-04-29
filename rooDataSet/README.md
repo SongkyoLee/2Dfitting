@@ -1,6 +1,7 @@
 # HIN-14-009
 - Usage example
  - make : to compile [Makefile]
+  	- change the makefile depending on KUNPL(root6.04.02) or LXPLUS(CMSSW_8_0_0)
  - make Tree2DataSetsXXX : to compile [tree2Datasets_xxx.cpp]
     - e.g.) Tree2DataSetsPP from tree2Datasets_pp.cpp
     - e.g.) Tree2DataSetsPPMC from tree2Datasets_pp_mc.cpp
