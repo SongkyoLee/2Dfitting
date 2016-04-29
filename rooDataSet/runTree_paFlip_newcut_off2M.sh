@@ -20,9 +20,11 @@ inputfpPbNPMC=non
 ##-----input for Z vertex weighting
 ##### new acc cut
 zPbpPRMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_Pbp_isPrompt1_isNewAccCut1_isOfficial1.root
-zPbpNPMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_Pbp_isPrompt0_isNewAccCut1_isOfficial1.root
+#zPbpNPMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_Pbp_isPrompt0_isNewAccCut1_isOfficial1.root
+zPbpNPMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_Pbp_isPrompt1_isNewAccCut1_isOfficial1.root
 zpPbPRMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_pPb_isPrompt1_isNewAccCut1_isOfficial1.root
-zpPbNPMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_pPb_isPrompt0_isNewAccCut1_isOfficial1.root
+#zpPbNPMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_pPb_isPrompt0_isNewAccCut1_isOfficial1.root
+zpPbNPMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_pPb_isPrompt1_isNewAccCut1_isOfficial1.root
 ##### old acc cut
 #zPbpPRMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_Pbp_isPrompt1_isNewAccCut0_isOfficial1.root
 #zPbpNPMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_Pbp_isPrompt0_isNewAccCut0_isOfficial1.root

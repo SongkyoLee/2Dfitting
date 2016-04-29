@@ -31,7 +31,8 @@ inputfppNPMC=/home/songkyo/kyo/pPbDataSample/EfficiencySample/tot_inclBtoJPsiMuM
 trigType=1 #L1DoubleMuOpen_v1 (bit 1,2,4,8,...) 
 accType=4 # 1=oldAccCut, 2=newAccCut, 3=preLooseCut, 4=2015PbPb
 datazweighting=0
-mczweighting=1
+#mczweighting=1 #0 for pp, 1 for pPb
+mczweighting=0 #0 for pp, 1 for pPb
 initev=0
 nevt=-1
 #nevt=100000

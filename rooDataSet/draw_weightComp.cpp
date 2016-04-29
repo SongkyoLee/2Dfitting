@@ -115,22 +115,22 @@ int main (int argc, char* argv[])
   if (isPrompt && is1stRun){
     cout << "****** Prompt MC $ 1st Run is selected ******" <<endl; 
     sampleName = "PRMC_Pbp";
-    fInData = new TFile("outRoo_PRMC_Pbp_newcut_off2M/outRoo_PRMC_Pbp_newcut_off2M.root");
+    fInData = new TFile("outRoo_PRMC_Pbp_newcut_off8M/outRoo_PRMC_Pbp_newcut_off8M.root");
   }
   else if (isPrompt && !is1stRun){
     cout << "****** Prompt MC $ 2nd Run is selected ******" <<endl; 
     sampleName = "PRMC_pPb";
-    fInData  = new TFile("outRoo_PRMC_pPb_newcut_off2M/outRoo_PRMC_pPb_newcut_off2M.root");
+    fInData  = new TFile("outRoo_PRMC_pPb_newcut_off8M/outRoo_PRMC_pPb_newcut_off8M.root");
   }
   else if (!isPrompt && is1stRun){
     cout << "****** Non-Prompt MC $ 1st Run is selected ******" <<endl; 
     sampleName = "NPMC_Pbp";
-    fInData = new TFile("outRoo_NPMC_Pbp_newcut_off2M/outRoo_NPMC_Pbp_newcut_off2M.root");
+    fInData = new TFile("outRoo_NPMC_Pbp_newcut_off8M/outRoo_NPMC_Pbp_newcut_off8M.root");
   }
   else {
     cout << "****** Non-Prompt MC $ 2nd Run is selected ******" <<endl; 
     sampleName = "NPMC_pPb";
-    fInData = new TFile("outRoo_NPMC_pPb_newcut_off2M/outRoo_NPMC_pPb_newcut_off2M.root");
+    fInData = new TFile("outRoo_NPMC_pPb_newcut_off8M/outRoo_NPMC_pPb_newcut_off8M.root");
   }
 
   if (fInData->IsZombie()) { cout << "CANNOT open data root file\n"; return 1; }

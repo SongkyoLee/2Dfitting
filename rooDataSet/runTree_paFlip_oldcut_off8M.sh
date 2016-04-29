@@ -19,15 +19,15 @@ inputfpPbNPMC=non
 
 ##-----input for Z vertex weighting
 ##### new acc cut
-zPbpPRMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_Pbp_isPrompt1_isNewAccCut1_isOfficial1.root
-zPbpNPMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_Pbp_isPrompt0_isNewAccCut1_isOfficial1.root
-zpPbPRMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_pPb_isPrompt1_isNewAccCut1_isOfficial1.root
-zpPbNPMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_pPb_isPrompt0_isNewAccCut1_isOfficial1.root
+#zPbpPRMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_Pbp_isPrompt1_isNewAccCut1_isOfficial1.root
+#zPbpNPMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_Pbp_isPrompt0_isNewAccCut1_isOfficial1.root
+#zpPbPRMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_pPb_isPrompt1_isNewAccCut1_isOfficial1.root
+#zpPbNPMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_pPb_isPrompt0_isNewAccCut1_isOfficial1.root
 ##### old acc cut
-#zPbpPRMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_Pbp_isPrompt1_isNewAccCut0_isOfficial1.root
-#zPbpNPMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_Pbp_isPrompt0_isNewAccCut0_isOfficial1.root
-#zpPbPRMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_pPb_isPrompt1_isNewAccCut0_isOfficial1.root
-#zpPbNPMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_pPb_isPrompt0_isNewAccCut0_isOfficial1.root
+zPbpPRMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_Pbp_isPrompt1_isNewAccCut0_isOfficial1.root
+zPbpNPMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_Pbp_isPrompt0_isNewAccCut0_isOfficial1.root
+zpPbPRMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_pPb_isPrompt1_isNewAccCut0_isOfficial1.root
+zpPbNPMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_pPb_isPrompt0_isNewAccCut0_isOfficial1.root
 
 ###########################################################################################
 ###########################################################################################
@@ -35,7 +35,8 @@ zpPbNPMC=/home/songkyo/kyo/2Dfitting/rooDataSet/zVtx201604/zVtx_G1_pPb_isPrompt0
 
 ###### -----other options
 trigType=1 #L1DoubleMuOpen_v1 (bit 1,2,4,8,...) 
-accType=2 # 1=oldAccCut, 2=newAccCut, 3=preLooseCut, 4=2015PbPb
+#accType=2 # 1=oldAccCut, 2=newAccCut, 3=preLooseCut, 4=2015PbPb
+accType=1 # 1=oldAccCut, 2=newAccCut, 3=preLooseCut, 4=2015PbPb
 datazweighting=0
 mczweighting=1 #0 for pp, 1 for pPb
 initev=0
@@ -65,10 +66,10 @@ function programMC {
 
 ### 1. Data
 ## -- run for pPb
-#program outRoo_Data_pPbFlip_newcut  $trigType $accType $datazweighting 0 $initev $nevt $inputfppb
+#program outRoo_Data_pPbFlip_oldcut  $trigType $accType $datazweighting 0 $initev $nevt $inputfppb
 
 ### 2. MC
 ## -- run for pPb -MC
-programMC outRoo_PRMC_pPbFlip_newcut_off8M $trigType $accType $mczweighting 0 $initev $nevt $zpPbPRMC $inputfpPbPRMC
-#programMC outRoo_NPMC_pPbFlip_newcut_off8M $trigType $accType $mczweighting 0 $initev $nevt $zpPbNPMC $inputfpPbNPMC
+programMC outRoo_PRMC_pPbFlip_oldcut_off8M $trigType $accType $mczweighting 0 $initev $nevt $zpPbPRMC $inputfpPbPRMC
+#programMC outRoo_NPMC_pPbFlip_oldcut_off8M $trigType $accType $mczweighting 0 $initev $nevt $zpPbNPMC $inputfpPbNPMC
 
