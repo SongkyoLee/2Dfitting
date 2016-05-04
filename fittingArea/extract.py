@@ -28,7 +28,7 @@ dropErrParam=("ctauErrMin","ctauErrMax","NoCutEntry","CutEntry")
 for f in range(2,len(sys.argv)):
   folder = sys.argv[f]
   print folder
-	## writing prefix on the 1st line of output files
+  ## writing prefix on the 1st line of output files
   fparam.write(folder + "\n")
   ftable.write(folder + "\n")
   fctauerr.write(folder + "\n")
@@ -162,19 +162,19 @@ for f in range(2,len(sys.argv)):
       line = line+str(j)+"\t"
     ftable.write(line+"\n")
 
-	### Write fit_errobins with large errors on incusive fits
+  ### Write fit_errobins with large errors on incusive fits
   
   ferrorbin.write("rap\tpT\tntrk\tET\tNSig\tNSigErr\tsigWidth\tsigWidthErr\n");
 
   for i in dataparfin:
     ### Check "NSigErr[9]" and "SigWidthErr[29]". if too large, write them onto a errorbin file
-		### KYO : modify arrary numbers by hand !!!
+    ### KYO : modify arrary numbers by hand !!!
     if i[8]*0.15 < i[9] or ((i[28]*0.2 < i[29]) and (i[29] > 0.01)) :
       ferrorbin.write(str(i[0])+"\t"+str(i[1])+"\t"+str(i[2])+"\t"+str(i[3])+"\t")
       ferrorbin.write(str(i[8])+"\t"+str(i[9])+"\t")
       ferrorbin.write(str(i[28])+"\t"+str(i[29])+"\n")
 
-	### Write fit_ctauErrorRange
+  ### Write fit_ctauErrorRange
   if f is 2:
     fctauerr.write("rap\tpT\tntrk\tET\tctauErrMin\tctauErrMax\tNoCutEntry\tCutEntry\n")
   datactauerrfin = sorted(datactauerr, key=itemgetter(0,1,2,3,4,5))
