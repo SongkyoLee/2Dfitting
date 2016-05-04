@@ -13,9 +13,9 @@ inputfppb=/home/songkyo/kyo/pPbDataSample/Data/RD2013_pa_2nd_run_211313-211631_G
 #-----input MC
 ## 1) official no acc cut
 inputfPbpPRMC=/home/songkyo/kyo/pPbDataSample/EfficiencySample/MCJPsiWithFSR_pa_1st_run_STARTHI53_V27_ext1_nocut.root
-inputfPbpNPMC=non
+inputfPbpNPMC=/home/songkyo/kyo/pPbDataSample/EfficiencySample/MCinclBtoJPsiMuMu_pa_1st_run_STARTHI53_V27_ext1_nocut.root
 inputfpPbPRMC=/home/songkyo/kyo/pPbDataSample/EfficiencySample/MCJPsiWithFSR_pa_2nd_run_STARTHI53_V27_ext1_nocut.root
-inputfpPbNPMC=non
+inputfpPbNPMC=/home/songkyo/kyo/pPbDataSample/EfficiencySample/MCinclBtoJPsiMuMu_pa_2nd_run_STARTHI53_V27_ext1_nocut.root
 
 ##-----input for Z vertex weighting
 ##### new acc cut
@@ -74,8 +74,8 @@ program outRoo_Data_pPb_oldcut  $trigType $accType $datazweighting 0 $initev $ne
 ### 2. MC
 ## -- run for Pbp -MC
 programMC outRoo_PRMC_Pbp_oldcut_off8M $trigType $accType $mczweighting 0 $initev $nevt $zPbpPRMC $inputfPbpPRMC
-#programMC outRoo_NPMC_Pbp_oldcut_off8M $trigType $accType $mczweighting 0 $initev $nevt $zPbpNPMC $inputfPbpNPMC
+programMC outRoo_NPMC_Pbp_oldcut_off8M $trigType $accType $mczweighting 0 $initev $nevt $zPbpNPMC $inputfPbpNPMC
 ## -- run for pPb -MC
 programMC outRoo_PRMC_pPb_oldcut_off8M $trigType $accType $mczweighting 0 $initev $nevt $zpPbPRMC $inputfpPbPRMC
-#programMC outRoo_NPMC_pPb_oldcut_off8M $trigType $accType $mczweighting 0 $initev $nevt $zpPbNPMC $inputfpPbNPMC
+programMC outRoo_NPMC_pPb_oldcut_off8M $trigType $accType $mczweighting 0 $initev $nevt $zpPbNPMC $inputfpPbNPMC
 
