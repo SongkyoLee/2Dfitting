@@ -37,22 +37,22 @@ for prefix in ${prefixarr[@]}; do
     fi
   done
 
-	############################################################
+  ############################################################
   ### Run python & root script for 1 prefix
   python $workdir/extract.py $prefix ../$prefix
 
-	############################################################
+  ############################################################
   ### Summarize results
   mkdir /tmp/kyolee/$prefix/summary
-	mv fit_parameters fit_table fit_errorbins fit_ctauErrorRange /tmp/kyolee/$prefix/summary
+  mv fit_parameters fit_table fit_errorbins fit_ctauErrorRange /tmp/kyolee/$prefix/summary
 
   ls $submitdir | grep $prefix | awk 'BEGIN{FS=".csh"}; {print $1}' > $submitdir/$prefix\_submit
   ls /tmp/kyolee/$prefix | grep txt | awk 'BEGIN{FS=".txt"}; {print $1}' > $submitdir/$prefix\_txt
   diff $submitdir/$prefix\_submit $submitdir/$prefix\_txt > $submitdir/diff_$prefix
 
-	### tar them and put into results
+  ### tar them and put into results
   #tar zfc $resdir_/$prefix.tgz /tmp/kyolee/$prefix
-	cp -r /tmp/kyolee/$prefix $resdir_/tar_$prefix
-	cd $resdir_
-	tar zfc tar_$prefix.tgz tar_$prefix
+  cp -r /tmp/kyolee/$prefix $resdir_/tar_$prefix
+  cd $resdir_
+  tar zfc tar_$prefix.tgz tar_$prefix
 done
