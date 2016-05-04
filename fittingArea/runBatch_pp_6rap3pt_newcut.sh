@@ -72,24 +72,24 @@ function program {
   ### Arguments
   rap=$1
   pt=$2
-	ntrk=$3
-	ethf=$4
+  ntrk=$3
+  ethf=$4
 
-	work=$dirname"_rap"$rap"_pT"$pt"_ntrk"$ntrk"_ET"$ethf; # Output file name has this prefix
+  work=$dirname"_rap"$rap"_pT"$pt"_ntrk"$ntrk"_ET"$ethf; # Output file name has this prefix
 
   echo "Processing: "$work
   printf "#!/bin/bash\n" > $scripts/$work.sh
-	### bottom 2 lines for_LXPLUS
-	printf "eval `scramv1 runtime -sh` \n" >> $scripts/$work.sh
-	printf "cp %s/%s.sh . \n" $scripts $work >> $scripts/$work.sh
-	script="$executable -d $dirname -f $dataMerge $datasets -m $mcMerge $prmc $npmc -w $mcweight -c $isPA $eventActivity -s $sysString -x $readct $cterrfile -p $pt -y $absoluteY $rap -l $ctaurange -n $ntrk -h $ethf >& $work.log;"
+  ### bottom 2 lines for_LXPLUS
+  printf "eval `scramv1 runtime -sh` \n" >> $scripts/$work.sh
+  printf "cp %s/%s.sh . \n" $scripts $work >> $scripts/$work.sh
+  script="$executable -d $dirname -f $dataMerge $datasets -m $mcMerge $prmc $npmc -w $mcweight -c $isPA $eventActivity -s $sysString -x $readct $cterrfile -p $pt -y $absoluteY $rap -l $ctaurange -n $ntrk -h $ethf >& $work.log;"
   echo $script >> $scripts/$work.sh
   
   printf "tar zcvf %s.tgz %s*\n" $work $work >> $scripts/$work.sh
   printf "cp %s.tgz %s\n" $work $storage >> $scripts/$work.sh
   printf "rm -f %s*\n" $work >> $scripts/$work.sh #for_LXPLUS (batch)
-	bsub -R "pool>10000" -u songkyo.lee@cer.c -q 1nd -J $work < $scripts/$work.sh #for_LXPLUS (batch)
-	#$(pwd)/condor_executable_simple.sh	$work #for_KUNPL (condor)
+  bsub -R "pool>10000" -u songkyo.lee@cer.c -q 1nd -J $work < $scripts/$work.sh #for_LXPLUS (batch)
+  #$(pwd)/condor_executable_simple.sh $work #for_KUNPL (condor)
 }
 
 ################################################################ 
@@ -97,9 +97,9 @@ function program {
 ################################################################ 
 
 for rap in ${rapbins[@]}; do
-	for pt in ${ptbins[@]}; do
-		program $rap $pt $ntrkbins $ethfbins
-	done
+  for pt in ${ptbins[@]}; do
+    program $rap $pt $ntrkbins $ethfbins
+  done
 done
 #program -2.40--1.93 2.0-3.0 $ntrkbins $ethfbins 
 #program 1.93-2.40 2.0-3.0 $ntrkbins $ethfbins 
