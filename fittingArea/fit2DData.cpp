@@ -346,9 +346,38 @@ int main (int argc, char* argv[]) {
 	} else {
 		ws->var("alpha")->setConstant(kFALSE);
 	}
-	//// for integrated
 	if (inOpt.EventActivity == 0) { // no multiplicity
-		if (inOpt.isPA == 3) {
+		if (inOpt.isPA == 0) {
+			if (!inOpt.yrange.compare("-2.40--1.93")) {
+				if (!inOpt.ptrange.compare("2.0-3.0")){
+					ws->var("fracG1")->setRange(0.42,0.58);
+					ws->var("fracG1")->setVal(0.50);
+				}
+				else if (!inOpt.ptrange.compare("5.0-6.5")){
+					ws->var("fracG1")->setRange(0.42,0.58);
+					ws->var("fracG1")->setVal(0.50);
+				}
+				else if (!inOpt.ptrange.compare("8.5-10.0")){
+					ws->var("fracG1")->setRange(0.42,0.58);
+					ws->var("fracG1")->setVal(0.50);
+					ws->var("sigmaSig2")->setRange(0.015,0.060);
+					ws->var("sigmaSig2")->setVal(0.040);
+				}
+			}
+			else if (!inOpt.yrange.compare("0.90-1.50")) {
+				if (!inOpt.ptrange.compare("8.5-10.0")){
+					ws->var("fracG1")->setRange(0.21,0.86);
+					ws->var("fracG1")->setVal(0.50);
+				}
+			}
+			else if (!inOpt.yrange.compare("1.93-2.40")) {
+				if (!inOpt.ptrange.compare("14.0-30.0")){
+					ws->var("coefExp")->setRange(-2.0,-1.0);
+					ws->var("coefExp")->setVal(-1.5);
+				}
+			}
+		}
+		else if (inOpt.isPA == 3) {
 			//// for integrated
 			if (!inOpt.yrange.compare("0.00-2.4")) {
 				if (!inOpt.ptrange.compare("0.0-30.0")){
@@ -543,8 +572,18 @@ int main (int argc, char* argv[]) {
 		if (inOpt.sysString=="sys03_01") { ws->var("sigmaPRResW") ->setConstant(kFALSE); } //release all sigma
 		else if (inOpt.sysString=="sys03_02") { ws->var("sigmaPRResN") ->setConstant(kTRUE); } //fix all sigma
 
-/*
 		//// **** Special fixing for Bfrac
+		if (inOpt.EventActivity == 0) { // no multiplicity
+			if (inOpt.isPA == 0) {
+				if (!inOpt.yrange.compare("-2.4--1.93")) {
+					if (!inOpt.ptrange.compare("2.0-3.0")){
+						ws->var("Bfrac")->setRange(0.05,0.5);
+						ws->var("Bfrac")->setVal(0.14);
+					}
+				}
+			}
+		}
+/*
 		if ((!inOpt.yrange.compare("-2.4--1.93")) ){
 			if (!inOpt.ptrange.compare("5.0-6.5")){
 				ws->var("Bfrac")->setRange(0.138,0.158);
@@ -832,7 +871,7 @@ void parseInputArg(int argc, char* argv[], InputOpt &opt) {
             break;
           case 'x':
 						opt.readCtErr = atoi(argv[i+1]);
-						cout << " * ctau error range read from text or not: " << opt.readCtErr << endl;
+						cout << " * ctau error range from text(1) or not(0): " << opt.readCtErr << endl;
 						opt.ctErrFile = argv[i+2];
 						cout << "  ** ctau error range input file: " << opt.ctErrFile << endl;
             break;
@@ -1016,15 +1055,17 @@ int readCtErrRange(InputOpt &opt, float *errmin, float *errmax) {
 	getline(errinput, headers); // remove prefix
 	getline(errinput, headers); // remove column names
 
-	string rap, pt, ntrk, et, emin, emax;
+	string rap, pt, ntrk, et, emin, emax, nocutent, cutent;
 	while (!errinput.eof()) {
-		errinput >> rap >> pt >> ntrk >> et >> emin >> emax;
+		errinput >> rap >> pt >> ntrk >> et >> emin >> emax >> nocutent >> cutent;
+		cout << rap << "," << pt << ","<< ntrk << ","<< et << ","<< emin << ","<< emax << endl;
 		if (!rap.compare(opt.yrange) && !pt.compare(opt.ptrange) && !ntrk.compare(opt.ntrrange) && !et.compare(opt.etrange)) {
 			*errmin = atof(emin.c_str());
 			*errmax = atof(emax.c_str());
 			return 0;
 		} else continue;
 	}
+	
 	cout << "readCtErrRange:: CANNOT read ctau error range from a file. Exit." << endl;
 	return -2;
 }

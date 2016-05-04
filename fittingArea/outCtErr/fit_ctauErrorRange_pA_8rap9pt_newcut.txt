@@ -1,4 +1,4 @@
-../pAMerged_8rap9pt_newcut
+../pA_8rap9pt_newcut
 rap	pT	ntrk	ET	ctauErrMin	ctauErrMax	NoCutEntry	CutEntry
 -0.47-0.43	10.0-14.0	0.0-350.0	0.0-120.0	0.008	0.056	5928.0	5925.0	
 -0.47-0.43	14.0-30.0	0.0-350.0	0.0-120.0	0.008	0.048	2973.0	2971.0	
