@@ -254,13 +254,24 @@ int main (int argc, char* argv[]) {
   ws->var("Jpsi_Mass")->SetTitle("m_{#mu#mu}");
   ws->var("Jpsi_Ct")->SetTitle("#font[12]{l}_{J/#psi}");
  
+  //// 1) mass binning
   RooBinning rbmass(2.6,3.5);
-  rbmass.addUniform(10, 2.6,2.8);
-  rbmass.addUniform(40, 2.8,3.2);
-  rbmass.addUniform(15, 3.2,3.5);
-  //ws->var("Jpsi_Mass")->setBins(rbmass);
-  ws->var("Jpsi_Mass")->setBins(45);
+  //rbmass.addUniform(10, 2.6,2.8);
+  //rbmass.addUniform(40, 2.8,3.2);
+  //rbmass.addUniform(15, 3.2,3.5);
+  rbmass.addUniform(15, 2.6,2.9); // 0.02 GeV
+  rbmass.addUniform(40, 2.9,3.3); // 0.01 GeV
+  rbmass.addUniform(10, 3.3,3.5); // 0.02 GeV
+  //ws->var("Jpsi_Mass")->setBinning(rbmass);
+  ws->var("Jpsi_Mass")->setBins(45); //default : bin/0.02 GeV
   //ws->var("Jpsi_Mass")->setBins(90);
+  
+  //// 2) ct binning
+  RooBinning rbct = setCtBinning(lmin,lmax);
+  ws->var("Jpsi_Ct")->setBinning(rbct);
+//  if (!inOpt.ptrange.compare("2.0-3.0")){ws->var("Jpsi_Ct")->setBins(100);}  // TEST
+ 
+  // CtTrue and CtErr binning 
   RooBinning rbtrue(-0.1,4.0);
   rbtrue.addUniform(5,-0.1,0.0);
   rbtrue.addUniform(100,0.0,0.5);
@@ -269,10 +280,6 @@ int main (int argc, char* argv[]) {
   rbtrue.addUniform(5,2.5,4.0);
   if (inOpt.sysString=="sys04_01") {ws->var("Jpsi_CtTrue")->setBinning(rbtrue);} 
   else { ws->var("Jpsi_CtTrue")->setBins(1000); }
-  
-  RooBinning rbct = setCtBinning(lmin,lmax);
-  ws->var("Jpsi_Ct")->setBinning(rbct);
-//  if (!inOpt.ptrange.compare("2.0-3.0")){ws->var("Jpsi_Ct")->setBins(100);}  // TEST
 
   ws->var("Jpsi_CtErr")->setBins(25);
   
@@ -346,8 +353,10 @@ int main (int argc, char* argv[]) {
   } else {
     ws->var("alpha")->setConstant(kFALSE);
   }
+ 
+  ////////////////////////////  nominal  /////////////////////////////////
   if (inOpt.EventActivity == 0) { // no multiplicity
-    if (inOpt.isPA == 0) {
+    if (inOpt.isPA == 0) { //pp
       if (!inOpt.yrange.compare("-2.40--1.93")) {
         if (!inOpt.ptrange.compare("2.0-3.0")){
           ws->var("fracG1")->setRange(0.42,0.58);
@@ -377,15 +386,44 @@ int main (int argc, char* argv[]) {
         }
       }
     }
-    else if (inOpt.isPA == 3) {
-      //// for integrated
-      if (!inOpt.yrange.compare("0.00-2.4")) {
+    else if (inOpt.isPA == 3) { //pAMerged
+      if (!inOpt.yrange.compare("0.00-2.4")) { //// for integrated
         if (!inOpt.ptrange.compare("0.0-30.0")){
           ws->var("fracG1")->setRange(0.42,0.58);
           ws->var("fracG1")->setVal(0.50);
         }
       }
-      if (!inOpt.yrange.compare("0.43-1.03")) {
+      else if (!inOpt.yrange.compare("-2.40--1.97")) {
+        if (!inOpt.ptrange.compare("7.5-8.5")){
+          ws->var("fracG1")->setRange(0.23,0.87);
+          ws->var("fracG1")->setVal(0.50);
+        }
+        else if (!inOpt.ptrange.compare("10.0-14.0")){
+          ws->var("fracG1")->setRange(0.43,0.87);
+          ws->var("fracG1")->setVal(0.50);
+        }
+      }
+      else if (!inOpt.yrange.compare("-1.97--1.37")) {
+        if (!inOpt.ptrange.compare("5.0-6.5")){
+          ws->var("fracG1")->setRange(0.23,0.87);
+          ws->var("fracG1")->setVal(0.50);
+        }
+        else if (!inOpt.ptrange.compare("8.5-10.0")){
+          ws->var("sigmaSig2")->setRange(0.015,0.040);
+          ws->var("sigmaSig2")->setVal(0.030);
+        }
+        else if (!inOpt.ptrange.compare("10.0-14.0")){
+          ws->var("fracG1")->setRange(0.23,0.87);
+          ws->var("fracG1")->setVal(0.50);
+        }
+      }
+      else if (!inOpt.yrange.compare("-1.37--0.47")) {
+        if (!inOpt.ptrange.compare("6.5-7.5")){
+          ws->var("fracG1")->setRange(0.23,0.87);
+          ws->var("fracG1")->setVal(0.50);
+        }
+      }
+      else if (!inOpt.yrange.compare("0.43-1.03")) {
         if (!inOpt.ptrange.compare("7.5-8.5")){
           ws->var("sigmaSig1")->setRange(0.015,0.050);
           ws->var("sigmaSig1")->setVal(0.040);
