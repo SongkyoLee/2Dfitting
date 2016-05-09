@@ -407,14 +407,20 @@ int main (int argc, char* argv[]) {
         if (!inOpt.ptrange.compare("5.0-6.5")){
           ws->var("fracG1")->setRange(0.23,0.87);
           ws->var("fracG1")->setVal(0.50);
+          ws->var("sigmaSig1")->setRange(0.040,0.060);
+          ws->var("sigmaSig1")->setVal(0.050);
         }
         else if (!inOpt.ptrange.compare("8.5-10.0")){
-          ws->var("sigmaSig2")->setRange(0.015,0.040);
-          ws->var("sigmaSig2")->setVal(0.030);
+          ws->var("fracG1")->setRange(0.43,0.87);
+          ws->var("fracG1")->setVal(0.50);
+          //ws->var("sigmaSig2")->setRange(0.015,0.040);
+          //ws->var("sigmaSig2")->setVal(0.030);
         }
         else if (!inOpt.ptrange.compare("10.0-14.0")){
-          ws->var("fracG1")->setRange(0.23,0.87);
-          ws->var("fracG1")->setVal(0.50);
+          //ws->var("fracG1")->setRange(0.23,0.87);
+          //ws->var("fracG1")->setVal(0.50);
+          ws->var("sigmaSig1")->setRange(0.0150,0.048);
+          ws->var("sigmaSig1")->setVal(0.030);
         }
       }
       else if (!inOpt.yrange.compare("-1.37--0.47")) {
@@ -429,6 +435,34 @@ int main (int argc, char* argv[]) {
           ws->var("sigmaSig1")->setVal(0.040);
           ws->var("sigmaSig2")->setRange(0.015,0.050);
           ws->var("sigmaSig2")->setVal(0.040);
+        }
+        else if (!inOpt.ptrange.compare("8.5-10.0")){
+          ws->var("fracG1")->setRange(0.23,0.87);
+          ws->var("fracG1")->setVal(0.50);
+        }
+      }
+      else if (!inOpt.yrange.compare("1.03-1.46")) {
+        if (!inOpt.ptrange.compare("14.0-30.0")){
+          ws->var("sigmaSig2")->setRange(0.015,0.062);
+          ws->var("sigmaSig2")->setVal(0.040);
+        }
+      }
+      else if (!inOpt.yrange.compare("1.46-1.93")) {
+        if (!inOpt.ptrange.compare("3.0-4.0")){
+          ws->var("sigmaSig2")->setRange(0.015,0.062);
+          ws->var("sigmaSig2")->setVal(0.040);
+        }
+        else if (!inOpt.ptrange.compare("5.0-6.5")){
+          ws->var("fracG1")->setRange(0.23,0.87);
+          ws->var("fracG1")->setVal(0.50);
+        }
+        else if (!inOpt.ptrange.compare("8.5-10.0")){
+          ws->var("sigmaSig2")->setRange(0.015,0.045);
+          ws->var("sigmaSig2")->setVal(0.030);
+        }
+        else if (!inOpt.ptrange.compare("14.0-30.0")){
+          ws->var("fracG1")->setRange(0.23,0.87);
+          ws->var("fracG1")->setVal(0.50);
         }
       }
     } //isPA==3
