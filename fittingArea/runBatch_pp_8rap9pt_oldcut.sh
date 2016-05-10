@@ -1,24 +1,20 @@
 #!/bin/bash
-if [ $# -ne 5 ]; then
-  echo "Usage: $0 [Executable] [Input Data] [Input Data 2] [Input Data 3] [Dir name] "
+if [ $# -ne 3 ]; then
+  echo "Usage: $0 [Executable] [InputData] [DirName] "
   exit;
 fi
 executable=$(pwd)/$1
 datasets=$2
-datasets2=$3
-datasets3=$4
-dirprename=$5
+dirprename=$3
 
 ################################################################ 
 ########## Script parameter setting
 ################################################################ 
 
-# Prompt MC
-prmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_PRMC_Pbp_newcut_off8M/outRoo_PRMC_Pbp_newcut_off8M.root
-prmc2=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_PRMC_pPbFlip_newcut_off8M/outRoo_PRMC_pPbFlip_newcut_off8M.root
-# Non-prompt MC
-npmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_NPMC_Pbp_newcut_off8M/outRoo_NPMC_Pbp_newcut_off8M.root
-npmc2=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_NPMC_pPbFlip_newcut_off8M/outRoo_NPMC_pPbFlip_newcut_off8M.root
+### Prompt MC
+prmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_PRMC_pp_oldcut_off/outRoo_PRMC_pp_oldcut_off.root
+### Non-prompt MC
+npmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_NPMC_pp_oldcut_off/outRoo_NPMC_pp_oldcut_off.root
 
 #### systematic options
 sysString="nominal"
@@ -26,21 +22,21 @@ sysString="nominal"
 #sysString=("nominal" "sys01_01" "sys01_02" "sys01_03" "sys01_04" "sys01_05" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
 
 #### other options
-mcweight=1  #0: Do NOT mcweight(dataJpsi), 1: Do mcweight(dataJpsiWeight)
-dataMerge=3 # number of input data files to be merged
-mcMerge=2 # number of input mc files to be merged
-isPA=3 # 0:pp, 1:Pbp, 2:pPb, 3:pAMerged
+mcweight=0  #0: Do NOT mcweight(dataJpsi), 1: Do mcweight(dataJpsiWeight)
+dataMerge=1 # number of input data files to be merged
+mcMerge=1 # number of input mc files to be merged
+isPA=0 # 0:pp, 1:Pbp, 2:pPb, 3:pAMerged
 eventActivity=0 #0:nothing 1:Ntrack 2:ET^{HF}
 absoluteY=0 #use absolute y binning or not (e.g. 1.6 < |y| < 2.4)
 ### read the ctauErrFile or not
 #readct=0 #0:calculate in the code, 1:read from file, 2:constant
 readct=1 #0:calculate in the code, 1:read from file, 2:constant
-cterrfile=$(pwd)/outCtErr/fit_ctauErrorRange_pA_8rap9pt_newcut.txt
+cterrfile=$(pwd)/outCtErr/fit_ctauErrorRange_pp_8rap9pt_newcut.txt
 ctaurange=1.5-3.0
 
-rapbins=(-2.40--1.97 -1.97--1.37 -1.37--0.47 -0.47-0.43 0.43-1.03 1.03-1.46 1.46-1.93 1.93-2.40)
+rapbins=(-2.40--1.93 -1.93--1.50 -1.50--0.90 -0.90-0.00 0.00-0.90 0.90-1.50 1.50-1.93 1.93-2.40)
 ptbins=(3.0-4.0 4.0-5.0 5.0-6.5 6.5-7.5 7.5-8.5 8.5-10.0 10.0-14.0 14.0-30.0)
-#rapbins=(-2.40--1.97 -1.97--1.37 -1.37--0.47 -0.47-0.43 0.43-1.03 1.03-1.46)
+#rapbins=(-1.93--1.50 -1.50--0.90 -0.90-0.00 0.00-0.90 0.90-1.50 1.50-1.93)
 #ptbins=(5.0-6.5 6.5-10.0 10.0-30.0)
 ethfbins=(0.0-120.0)
 ntrkbins=(0.0-350.0)
@@ -95,7 +91,7 @@ function program {
   printf "cp %s/%s.csh . \n" $scripts $work >> $scripts/$work.csh
   #printf "cp %s/%s.csh %s/fit2DData.h %s/fit2DData_all.cpp .\n" $scripts $work $(pwd) $(pwd) >> $scripts/$work.csh
   
-  script="$executable -d $dirname -f $dataMerge $datasets $datasets2 $datasets3 -m $mcMerge $prmc $npmc $prmc2 $npmc2 -w $mcweight -c $isPA $eventActivity -s $sysString -x $readct $cterrfile -p $pt -y $absoluteY $rap -l $ctaurange -n $ntrk -h $ethf >& $work.log;"
+  script="$executable -d $dirname -f $dataMerge $datasets -m $mcMerge $prmc $npmc -w $mcweight -c $isPA $eventActivity -s $sys -x $readct $cterrfile -p $pt -y $absoluteY $rap -l $ctaurange -n $ntrk -h $ethf >& $work.log;"
   echo $script >> $scripts/$work.csh
   
   printf "tar zcvf %s.tgz %s*\n" $work $work >> $scripts/$work.csh
@@ -120,6 +116,5 @@ for sys in ${sysString[@]}; do
 done
 
 ### TEST
-#program "nominal" -1.37--0.47 6.5-7.5 $ntrkbins $ethfbins 
-#program "nominal" 1.46-1.93 14.0-30.0 $ntrkbins $ethfbins 
+#program "nominal" -2.40--1.93 2.0-3.0 $ntrkbins $ethfbins 
 

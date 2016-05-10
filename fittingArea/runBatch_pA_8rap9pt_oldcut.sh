@@ -14,11 +14,11 @@ dirprename=$5
 ################################################################ 
 
 # Prompt MC
-prmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_PRMC_Pbp_newcut_off8M/outRoo_PRMC_Pbp_newcut_off8M.root
-prmc2=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_PRMC_pPbFlip_newcut_off8M/outRoo_PRMC_pPbFlip_newcut_off8M.root
+prmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_PRMC_Pbp_oldcut_off8M/outRoo_PRMC_Pbp_oldcut_off8M.root
+prmc2=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_PRMC_pPbFlip_oldcut_off8M/outRoo_PRMC_pPbFlip_oldcut_off8M.root
 # Non-prompt MC
-npmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_NPMC_Pbp_newcut_off8M/outRoo_NPMC_Pbp_newcut_off8M.root
-npmc2=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_NPMC_pPbFlip_newcut_off8M/outRoo_NPMC_pPbFlip_newcut_off8M.root
+npmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_NPMC_Pbp_oldcut_off8M/outRoo_NPMC_Pbp_oldcut_off8M.root
+npmc2=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_NPMC_pPbFlip_oldcut_off8M/outRoo_NPMC_pPbFlip_oldcut_off8M.root
 
 #### systematic options
 sysString="nominal"

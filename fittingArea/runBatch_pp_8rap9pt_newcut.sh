@@ -17,9 +17,9 @@ prmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/out
 npmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_NPMC_pp_newcut_off/outRoo_NPMC_pp_newcut_off.root
 
 #### systematic options
-#sysString="nominal"
+sysString="nominal"
 #sysString=("sys01_01" "sys01_02" "sys01_03" "sys01_04" "sys01_05" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
-sysString=("nominal" "sys01_01" "sys01_02" "sys01_03" "sys01_04" "sys01_05" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
+#sysString=("nominal" "sys01_01" "sys01_02" "sys01_03" "sys01_04" "sys01_05" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
 
 #### other options
 mcweight=0  #0: Do NOT mcweight(dataJpsi), 1: Do mcweight(dataJpsiWeight)
