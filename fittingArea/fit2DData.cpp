@@ -413,12 +413,8 @@ int main (int argc, char* argv[]) {
         else if (!inOpt.ptrange.compare("8.5-10.0")){
           ws->var("fracG1")->setRange(0.43,0.87);
           ws->var("fracG1")->setVal(0.50);
-          //ws->var("sigmaSig2")->setRange(0.015,0.040);
-          //ws->var("sigmaSig2")->setVal(0.030);
         }
         else if (!inOpt.ptrange.compare("10.0-14.0")){
-          //ws->var("fracG1")->setRange(0.23,0.87);
-          //ws->var("fracG1")->setVal(0.50);
           ws->var("sigmaSig1")->setRange(0.0150,0.048);
           ws->var("sigmaSig1")->setVal(0.030);
         }
