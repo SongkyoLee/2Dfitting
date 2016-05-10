@@ -11,7 +11,7 @@ int main (int argc, char* argv[]) {
   
   ///// for lxplus
   //gROOT->Macro("/afs/cern.ch/work/k/kyolee/private/CMSSW_5_3_19_Fit/src/JpsiStyle.C");
-  gROOT->Macro("/home/songkyo/kyo/2Dfitting/JpsiStyle.C");
+  gROOT->Macro("/home/songkyo/kyo/2Dfitting/allOptionsRoot6/JpsiStyle.C");
   
   ////////////////////////////////////// KYO 0316
   // 1) for mass distributions
