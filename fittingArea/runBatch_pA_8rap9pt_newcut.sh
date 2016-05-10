@@ -115,7 +115,7 @@ for sys in ${sysString[@]}; do
       program $sys $rap $pt $ntrkbins $ethfbins
     done
   done
-  program $sys -2.40--1.93 2.0-3.0 $ntrkbins $ethfbins 
+  program $sys -2.40--1.97 2.0-3.0 $ntrkbins $ethfbins 
   program $sys 1.93-2.40 2.0-3.0 $ntrkbins $ethfbins 
 done
 
