@@ -113,7 +113,8 @@ int main (int argc, char* argv[])
 
   // construct plot frame
   RooBinning rbpt(0.0,40.0);
-  rbpt.addUniform(400,0.0,45.0);
+  //rbpt.addUniform(400,0.0,40.0);
+  rbpt.addUniform(200,0.0,40.0);
   RooBinning rby(-2.5,2.5);
   rby.addUniform(50,-2.5,2.5);
   RooBinning rbm(2.6,3.5);
@@ -123,7 +124,7 @@ int main (int argc, char* argv[])
   RooBinning rbntrk(0.,350.);
   rbntrk.addUniform(60,0.,350.);
   
-  RooPlot *ptFrame = ws->var("Jpsi_Pt")->frame(Bins(45),Range(0.0,45.0));
+  RooPlot *ptFrame = ws->var("Jpsi_Pt")->frame(Bins(40),Range(0.0,40.0));
   ws->var("Jpsi_Pt")->setBinning(rbpt);
   ptFrame->GetXaxis()->SetTitle("p_{T} (GeV/c)");
   ptFrame->GetXaxis()->CenterTitle();
