@@ -387,7 +387,7 @@ int main (int argc, char* argv[]) {
       }
     }
     else if (inOpt.isPA == 3) { //pAMerged
-      if (!inOpt.yrange.compare("0.00-2.4")) { //// for integrated
+      if (!inOpt.yrange.compare("0.00-2.40")) { //// for integrated
         if (!inOpt.ptrange.compare("0.0-30.0")){
           ws->var("fracG1")->setRange(0.42,0.58);
           ws->var("fracG1")->setVal(0.50);
@@ -630,36 +630,30 @@ int main (int argc, char* argv[]) {
   //////////////////////////////////// [[6]] final 2D fits ///////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////
 
-    //// *** release some parameters
-    if (inOpt.sysString!="sys04_01") {ws->var("coefExpNPTrue") ->setConstant(kFALSE);}
-    ws->var("fracRes")->setConstant(kFALSE);
-    ws->var("meanPRResW")->setConstant(kFALSE);
-    ws->var("meanPRResN")->setConstant(kFALSE);
-    ws->var("sigmaPRResW") ->setConstant(kTRUE);
-    ws->var("sigmaPRResN") ->setConstant(kFALSE);
-    if (inOpt.sysString=="sys03_01") { ws->var("sigmaPRResW") ->setConstant(kFALSE); } //release all sigma
-    else if (inOpt.sysString=="sys03_02") { ws->var("sigmaPRResN") ->setConstant(kTRUE); } //fix all sigma
+  //// *** release some parameters
+  if (inOpt.sysString!="sys04_01") {ws->var("coefExpNPTrue") ->setConstant(kFALSE);}
+  ws->var("fracRes")->setConstant(kFALSE);
+  ws->var("meanPRResW")->setConstant(kFALSE);
+  ws->var("meanPRResN")->setConstant(kFALSE);
+  ws->var("sigmaPRResW") ->setConstant(kTRUE);
+  ws->var("sigmaPRResN") ->setConstant(kFALSE);
+  if (inOpt.sysString=="sys03_01") { ws->var("sigmaPRResW") ->setConstant(kFALSE); } //release all sigma
+  else if (inOpt.sysString=="sys03_02") { ws->var("sigmaPRResN") ->setConstant(kTRUE); } //fix all sigma
 
-    //// **** Special fixing for Bfrac
-    if (inOpt.EventActivity == 0) { // no multiplicity
-      if (inOpt.isPA == 0) {
-        if (!inOpt.yrange.compare("-2.4--1.93")) {
-          if (!inOpt.ptrange.compare("2.0-3.0")){
-            ws->var("Bfrac")->setRange(0.05,0.5);
-            ws->var("Bfrac")->setVal(0.14);
-          }
+  //// **** Special fixing for Bfrac
+/*
+  if (inOpt.EventActivity == 0) { // no multiplicity
+    if (inOpt.isPA == 0) {
+      if (!inOpt.yrange.compare("-2.40--1.93")) {
+        if (!inOpt.ptrange.compare("2.0-3.0")){
+          ws->var("Bfrac")->setRange(0.05,0.5);
+          ws->var("Bfrac")->setVal(0.14);
         }
       }
     }
-/*
-    if ((!inOpt.yrange.compare("-2.4--1.93")) ){
-      if (!inOpt.ptrange.compare("5.0-6.5")){
-        ws->var("Bfrac")->setRange(0.138,0.158);
-        ws->var("Bfrac")->setVal(0.14);
-      }
-    }
+  }
 */
-
+  
   //// *** Get NSig, NBkg, Bfraction and their errors
   Double_t NSigPR_fin, ErrNSigPR_fin;
   Double_t NSigNP_fin, ErrNSigNP_fin;

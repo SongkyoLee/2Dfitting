@@ -104,7 +104,6 @@ function program {
 ################################################################ 
 ########## Running script with pre-defined binnings
 ################################################################ 
-
 for sys in ${sysString[@]}; do
   for rap in ${rapbins[@]}; do
     for pt in ${ptbins[@]}; do
