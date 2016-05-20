@@ -92,7 +92,7 @@ function program {
   printf "cp %s/%s.csh . \n" $scripts $work >> $scripts/$work.csh
   #printf "cp %s/%s.csh %s/fit2DData.h %s/fit2DData_all.cpp .\n" $scripts $work $(pwd) $(pwd) >> $scripts/$work.csh
   
-  script="$executable -d $dirname -f $dataMerge $datasets $datasets2 -m $mcMerge $prmc $npmc -w $mcweight -c $isPA $eventActivity -s $sysString -x $readct $cterrfile -p $pt -y $absoluteY $rap -l $ctaurange -n $ntrk -h $ethf >& $work.log;"
+  script="$executable -d $dirname -f $dataMerge $datasets $datasets2 -m $mcMerge $prmc $npmc -w $mcweight -c $isPA $eventActivity -s $sys -x $readct $cterrfile -p $pt -y $absoluteY $rap -l $ctaurange -n $ntrk -h $ethf >& $work.log;"
   echo $script >> $scripts/$work.csh
   
   printf "tar zcvf %s.tgz %s*\n" $work $work >> $scripts/$work.csh

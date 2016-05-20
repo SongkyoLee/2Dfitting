@@ -353,6 +353,7 @@ int main (int argc, char* argv[]) {
   } else {
     ws->var("alpha")->setConstant(kFALSE);
   }
+  cout << ""
  
   ////////////////////////////  nominal  /////////////////////////////////
   if (inOpt.EventActivity == 0) { // no multiplicity
