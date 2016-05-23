@@ -36,8 +36,8 @@ RooHistPdfConv.o: $(INCLUDEDIR)/RooHistPdfConv.cpp
 Fit2DData:	$(INCLUDEDIR)fit2DData.cpp
 	$(CPP) $(CPPFLAGS) -o Fit2DData $(OUTLIB)/*.o $(GLIBS) $ $<
 
-Fit2DDataPASB:	$(INCLUDEDIR)fit2DData_PASB.cpp
-	$(CPP) $(CPPFLAGS) -o Fit2DDataPASB $(OUTLIB)/*.o $(GLIBS) $ $<
+Fit2DDataPASP:	$(INCLUDEDIR)fit2DData_PASP.cpp
+	$(CPP) $(CPPFLAGS) -o Fit2DDataPASP $(OUTLIB)/*.o $(GLIBS) $ $<
 
 Fit2DDataPASBPASP:	$(INCLUDEDIR)fit2DData_PASB_PASP.cpp
 	$(CPP) $(CPPFLAGS) -o Fit2DDataPASBPASP $(OUTLIB)/*.o $(GLIBS) $ $<
