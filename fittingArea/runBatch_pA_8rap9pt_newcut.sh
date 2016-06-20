@@ -21,8 +21,8 @@ npmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/out
 npmc2=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_NPMC_pPbFlip_newcut_off8M/outRoo_NPMC_pPbFlip_newcut_off8M.root
 
 #### systematic options
-#sysString="nominal"
-sysString=("sys01_01" "sys01_02" "sys01_03" "sys01_04" "sys01_05" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
+sysString="nominal"
+#sysString=("sys01_01" "sys01_02" "sys01_03" "sys01_04" "sys01_05" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
 #sysString=("nominal" "sys01_01" "sys01_02" "sys01_03" "sys01_04" "sys01_05" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
 
 #### other options
@@ -120,6 +120,48 @@ for sys in ${sysString[@]}; do
 done
 
 ### TEST
-#program "nominal" -1.37--0.47 6.5-7.5 $ntrkbins $ethfbins 
+#program "nominal" -2.40--1.97 7.5-8.5 $ntrkbins $ethfbins 
+#program "nominal" -2.40--1.97 4.0-5.0 $ntrkbins $ethfbins 
+#program "nominal" -1.97--1.37 4.0-5.0 $ntrkbins $ethfbins 
+#program "nominal" 0.43-1.03 6.5-7.5 $ntrkbins $ethfbins 
+#program "nominal" 1.93-2.40 14.0-30.0 $ntrkbins $ethfbins 
+#program "nominal" -2.40--1.97 6.5-7.5 $ntrkbins $ethfbins 
+#program "nominal" -2.40--1.97 14.0-30.0 $ntrkbins $ethfbins 
+#program "nominal" -1.37--0.47 7.5-8.5 $ntrkbins $ethfbins 
+#program "nominal" 1.93-2.40 5.0-6.5 $ntrkbins $ethfbins 
+
+
 #program "nominal" 1.46-1.93 14.0-30.0 $ntrkbins $ethfbins 
+#program "sys01_01" -1.97--1.37 8.5-10.0 $ntrkbins $ethfbins 
+#program "sys01_01" -1.97--1.37 14.0-30.0 $ntrkbins $ethfbins 
+#program "sys01_02" -1.37--0.47 7.5-8.5 $ntrkbins $ethfbins 
+#program "sys01_02" -2.40--1.97 8.5-10.0 $ntrkbins $ethfbins 
+#program "sys01_02" -2.40--1.97 14.0-30.0 $ntrkbins $ethfbins 
+#program "sys01_02" 1.03-1.46 3.0-4.0 $ntrkbins $ethfbins 
+#program "sys01_02" 1.46-1.93 8.5-10.0 $ntrkbins $ethfbins 
+#program "sys01_02" 1.93-2.40 5.0-6.5 $ntrkbins $ethfbins 
+#program "sys01_03" -2.40--1.97 6.5-7.5 $ntrkbins $ethfbins 
+#program "sys01_03" -2.40--1.97 8.5-10.0 $ntrkbins $ethfbins 
+#program "sys01_03" 0.43-1.03 14.0-30.0 $ntrkbins $ethfbins 
+#program "sys01_03" 1.46-1.93 7.5-8.5 $ntrkbins $ethfbins 
+#program "sys01_03" 1.93-2.40 2.0-3.0 $ntrkbins $ethfbins 
+#program "sys01_04" -1.97--1.37 4.0-5.0 $ntrkbins $ethfbins 
+#program "sys01_04" 0.43-1.03 7.5-8.5 $ntrkbins $ethfbins 
+#program "sys01_04" 1.46-1.93 5.0-6.5 $ntrkbins $ethfbins 
+#program "sys01_04" 1.46-1.93 7.5-8.5 $ntrkbins $ethfbins 
+#program "sys01_04" 1.46-1.93 8.5-10.0 $ntrkbins $ethfbins 
+#program "sys01_04" 1.93-2.40 8.5-10.0 $ntrkbins $ethfbins 
+#program "sys01_05" -1.37--0.47 7.5-8.5 $ntrkbins $ethfbins 
+#program "sys01_05" -1.97--1.37 7.5-8.5 $ntrkbins $ethfbins 
+#program "sys01_05" -2.40--1.97 7.5-8.5 $ntrkbins $ethfbins 
+#program "sys01_05" 0.43-1.03 6.5-7.5 $ntrkbins $ethfbins 
+#program "sys01_05" 1.46-1.93 5.0-6.5 $ntrkbins $ethfbins 
+#program "sys02_01" -1.97--1.37 4.0-5.0 $ntrkbins $ethfbins 
+#program "sys02_01" 0.43-1.03 6.5-7.5 $ntrkbins $ethfbins 
+#program "sys02_01" 1.03-1.46 6.5-7.5 $ntrkbins $ethfbins 
+#program "sys02_01" 1.46-1.93 7.5-8.5 $ntrkbins $ethfbins 
+#program "sys02_01" 1.46-1.93 14.0-30.0 $ntrkbins $ethfbins 
+#program "sys03_01" 1.93-2.40 2.0-3.0 $ntrkbins $ethfbins 
+#program "nominal" 1.93-2.40 2.0-3.0 $ntrkbins $ethfbins 
+#program "nominal" -2.40--1.97 2.0-3.0 $ntrkbins $ethfbins 
 

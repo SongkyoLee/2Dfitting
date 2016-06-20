@@ -152,7 +152,10 @@ void defineMassBkg(RooWorkspace *ws) {
 /////////////////////////////////////////////////////////
 
 void defineCtPRRes(RooWorkspace *ws, InputOpt &opt) {
-      ws->factory("GaussModel::GW_PRRes(Jpsi_Ct,meanPRResW[0.,-0.01,0.01],sigmaPRResW[2.3,1.2,3.0],one[1.0],Jpsi_CtErr)");
+//      ws->factory("GaussModel::GW_PRRes(Jpsi_Ct,meanPRResW[0.,-0.01,0.01],sigmaPRResW[2.3,1.2,3.0],one[1.0],Jpsi_CtErr)");
+//      ws->factory("GaussModel::GW_PRRes(Jpsi_Ct,meanPRResW[0.,-0.5,0.5],sigmaPRResW[2.3,1.2,3.0],one[1.0],Jpsi_CtErr)");
+//      ws->factory("GaussModel::GW_PRRes(Jpsi_Ct,meanPRResW[0.,-0.01,0.01],sigmaPRResW[2.3,1.2,10.0],one[1.0],Jpsi_CtErr)");
+      ws->factory("GaussModel::GW_PRRes(Jpsi_Ct,meanPRResW[0.,-0.5,0.5],sigmaPRResW[2.3,1.2,10.0],one[1.0],Jpsi_CtErr)");
       ws->factory("GaussModel::GN_PRRes(Jpsi_Ct,meanPRResN[0.,-0.01,0.01],sigmaPRResN[0.8,0.6,1.1],one,Jpsi_CtErr)");
       ws->factory("AddModel::CtPRRes({GW_PRRes,GN_PRRes},{fracRes[0.05,0.005,0.4]})");
   return;
@@ -160,9 +163,12 @@ void defineCtPRRes(RooWorkspace *ws, InputOpt &opt) {
 /////////////////////////////////////////////////////////
 
 void defineCtBkg(RooWorkspace *ws, InputOpt &opt) {
-    ws->factory("Decay::CtBkgPos(Jpsi_Ct,lambdap[0.42,0.05,1.5],CtPRRes,RooDecay::SingleSided)");
-    ws->factory("Decay::CtBkgNeg(Jpsi_Ct,lambdam[0.79,0.02,1.5],CtPRRes,RooDecay::Flipped)");
-    ws->factory("Decay::CtBkgDbl(Jpsi_Ct,lambdasym[0.69,0.02,5.0],CtPRRes,RooDecay::DoubleSided)");
+    //ws->factory("Decay::CtBkgPos(Jpsi_Ct,lambdap[0.42,0.05,1.5],CtPRRes,RooDecay::SingleSided)");
+    //ws->factory("Decay::CtBkgNeg(Jpsi_Ct,lambdam[0.79,0.02,1.5],CtPRRes,RooDecay::Flipped)");
+    //ws->factory("Decay::CtBkgDbl(Jpsi_Ct,lambdasym[0.69,0.02,5.0],CtPRRes,RooDecay::DoubleSided)");
+    ws->factory("Decay::CtBkgPos(Jpsi_Ct,lambdap[0.42,0.1,1.0],CtPRRes,RooDecay::SingleSided)");
+    ws->factory("Decay::CtBkgNeg(Jpsi_Ct,lambdam[0.02,0.001,0.1],CtPRRes,RooDecay::Flipped)");
+    ws->factory("Decay::CtBkgDbl(Jpsi_Ct,lambdasym[0.2,0.001,0.8],CtPRRes,RooDecay::DoubleSided)");
     ws->factory("SUM::CtBkgSum1(fracCtBkg1[0.9,0.0,1.0]*CtBkgPos,CtBkgNeg)");
     ws->factory("SUM::CtBkgSum2(fracCtBkg2[0.9,0.0,1.0]*CtBkgSum1,CtBkgDbl)");
     ws->factory("SUM::CtBkgTot(fracCtBkg3[0.29,0.0,1.0]*CtPRRes,CtBkgSum2)");
@@ -184,7 +190,8 @@ void defineCtNP(RooWorkspace *ws, RooDataSet *redNPMC, string titlestr, InputOpt
     drawCtNPReco(ws, redNPMC, titlestr, opt);
   } else {  
     //// **** define PDF
-    ws->factory("GaussModel::BResTrue(Jpsi_CtTrue,mean[0.0],sigmaNPTrue[0.002,0.00001,0.02])"); //resolution from B meson (before CtPRRes) 
+//    ws->factory("GaussModel::BResTrue(Jpsi_CtTrue,mean[0.0],sigmaNPTrue[0.002,0.00001,0.02])"); //resolution from B meson (before CtPRRes) 
+    ws->factory("GaussModel::BResTrue(Jpsi_CtTrue,mean[0.0],sigmaNPTrue[0.00002,0.0000001,0.00003])"); //resolution from B meson (before CtPRRes) 
     ws->factory("Decay::CtNPTrue(Jpsi_CtTrue,coefExpNPTrue[0.04,0.01,1.0],BResTrue,RooDecay::SingleSided)");
     
     //// **** get NPMCTrue

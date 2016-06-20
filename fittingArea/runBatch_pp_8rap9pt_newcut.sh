@@ -104,6 +104,7 @@ function program {
 ################################################################ 
 ########## Running script with pre-defined binnings
 ################################################################ 
+
 for sys in ${sysString[@]}; do
   for rap in ${rapbins[@]}; do
     for pt in ${ptbins[@]}; do
@@ -115,5 +116,14 @@ for sys in ${sysString[@]}; do
 done
 
 ### TEST
-#program "nominal" -2.40--1.93 2.0-3.0 $ntrkbins $ethfbins 
+#program "nominal" -1.93--1.50 14.0-30.0 $ntrkbins $ethfbins 
+#program "nominal" -0.90-0.00 14.0-30.0 $ntrkbins $ethfbins 
+#program "nominal" 1.50-1.93 14.0-30.0 $ntrkbins $ethfbins 
+#program "nominal" -2.40--1.93 3.0-4.0 $ntrkbins $ethfbins 
+#program "nominal" -2.40--1.93 8.5-10.0 $ntrkbins $ethfbins 
+#program "nominal" -0.90-0.00 7.5-8.5 $ntrkbins $ethfbins 
+#program "nominal" -1.93--1.50 14.0-30.0 $ntrkbins $ethfbins 
+#program "nominal" 0.00-0.90 6.5-7.5 $ntrkbins $ethfbins 
+#program "nominal" 1.50-1.93 5.0-6.5 $ntrkbins $ethfbins 
+#program "nominal" 1.93-2.40 14.0-30.0 $ntrkbins $ethfbins 
 
