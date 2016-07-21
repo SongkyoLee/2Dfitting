@@ -21,9 +21,10 @@ npmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/out
 npmc2=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_NPMC_pPbFlip_newcut_off8M/outRoo_NPMC_pPbFlip_newcut_off8M.root
 
 #### systematic options
-sysString="nominal"
-#sysString=("sys01_01" "sys01_02" "sys01_03" "sys01_04" "sys01_05" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
-#sysString=("nominal" "sys01_01" "sys01_02" "sys01_03" "sys01_04" "sys01_05" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
+#sysString="nominal"
+#sysString=("nominal" "sys03_01" "sys03_02")
+#sysString="sys02_01"
+sysString=("sys01_01" "sys01_02" "sys01_03" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
 
 #### other options
 mcweight=1  #0: Do NOT mcweight(dataJpsi), 1: Do mcweight(dataJpsiWeight)
@@ -100,15 +101,15 @@ function program {
   
   printf "tar zcvf %s.tgz %s*\n" $work $work >> $scripts/$work.csh
   printf "cp %s.tgz %s\n" $work $storage >> $scripts/$work.csh
-  printf "rm -f %s*\n" $work >> $scripts/$work.csh #for_LXPLUS (batch)
-  bsub -R "pool>10000" -u songkyo.lee@cer.c -q 1nd -J $work < $scripts/$work.csh #for_LXPLUS (batch)
+  #printf "rm -f %s*\n" $work >> $scripts/$work.csh #for_LXPLUS (batch)
+  #bsub -R "pool>10000" -u songkyo.lee@cer.c -q 1nd -J $work < $scripts/$work.csh #for_LXPLUS (batch)
   #$(pwd)/condor_executable_simple.sh $work #for_KUNPL (condor)
 }
 
 ################################################################ 
 ########## Running script with pre-defined binnings
 ################################################################ 
-
+'''
 for sys in ${sysString[@]}; do
   for rap in ${rapbins[@]}; do
     for pt in ${ptbins[@]}; do
@@ -118,6 +119,33 @@ for sys in ${sysString[@]}; do
   program $sys -2.40--1.97 2.0-3.0 $ntrkbins $ethfbins 
   program $sys 1.93-2.40 2.0-3.0 $ntrkbins $ethfbins 
 done
+'''
+program "sys01_02" -2.40--1.97 2.0-3.0 $ntrkbins $ethfbins 
+#program "sys01_03" -1.97--1.37 4.0-5.0 $ntrkbins $ethfbins
+#program "sys01_01" -0.47-0.43 7.5-8.5 $ntrkbins $ethfbins
+#program "sys01_01" 1.03-1.46 10.0-14.0 $ntrkbins $ethfbins
+#program "sys01_01" 1.46-1.93 5.0-6.5 $ntrkbins $ethfbins
+#program "nominal" 0.43-1.03 6.5-7.5 $ntrkbins $ethfbins
+#program "sys02_01" 1.46-1.93 4.0-5.0 $ntrkbins $ethfbins
+#program "sys02_01" 1.93-2.40 7.5-8.5  $ntrkbins $ethfbins
+#program "sys02_01" -2.40--1.97 5.0-6.5  $ntrkbins $ethfbins
+
+#for sys in ${sysString[@]}; do
+#  program $sys -1.97--1.37 10.0-14.0 $ntrkbins $ethfbins 
+#  program $sys -1.97--1.37 8.5-10.0 $ntrkbins $ethfbins 
+#  program $sys -2.40--1.97 6.5-7.5 $ntrkbins $ethfbins 
+#  program $sys 1.03-1.46 10.0-14.0 $ntrkbins $ethfbins 
+#  program $sys 1.03-1.46 5.0-6.5 $ntrkbins $ethfbins 
+#  program $sys 1.46-1.93 7.5-8.5 $ntrkbins $ethfbins 
+#done
+
+#program "nominal" -1.97--1.37 10.0-14.0 $ntrkbins $ethfbins 
+#program "nominal" -1.97--1.37 8.5-10.0 $ntrkbins $ethfbins 
+#program "nominal" -2.40--1.97 6.5-7.5 $ntrkbins $ethfbins 
+#program "nominal" 1.03-1.46 10.0-14.0 $ntrkbins $ethfbins 
+#program "nominal" 1.03-1.46 5.0-6.5 $ntrkbins $ethfbins 
+#program "nominal" 1.46-1.93 7.5-8.5 $ntrkbins $ethfbins 
+
 
 ### TEST
 #program "nominal" -2.40--1.97 7.5-8.5 $ntrkbins $ethfbins 

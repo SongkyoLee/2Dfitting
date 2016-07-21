@@ -95,13 +95,13 @@ void drawCtNPReco(RooWorkspace *ws, RooDataSet *redNPMC, string titlestr, InputO
 
 // Drawing functions: Plotting
 void drawSBRightLeft(RooWorkspace *ws, RooDataSet *redDataSBL, RooDataSet *redDataSBR, InputOpt &opt);
-void drawInclusiveMassPlots(RooWorkspace *ws, RooDataSet* redDataCut, RooFitResult *fitM, InputOpt &opt);
+void drawInclusiveMassPlots(RooWorkspace *ws, RooDataSet* redDataCut, RooFitResult *fitM, InputOpt &opt, bool isMC);
 void drawCtauErrPdf(RooWorkspace *ws, RooDataHist *binDataCtErrSB, RooDataHist *binDataCtErrSIG, RooDataHist *subtrData, RooDataHist *weightedBkg, InputOpt &opt);
 void drawCtauResolPlots(RooWorkspace *ws, bool fitMC, RooPlot *tframePR, InputOpt &opt);
 void drawCtauSBPlots(RooWorkspace *ws, RooDataSet *redDataSB, RooDataHist *binDataCtErr, RooFitResult *fitSB, float lmin, float lmax, InputOpt &opt, double* UnNormChi2_side_t, int* nFitParam_side_t, int* nFullBinsPull_side_t, int* Dof_side_t,double* Chi2_side_t) ;
 //// final plots
 void drawFinalMass(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_fin, float NBkg_fin, RooFitResult *fitM, InputOpt &opt, double* UnNormChi2_mass_t, int* nFitParam_mass_t, int* nFullBinsPull_mass_t, int* Dof_mass_t,double* Chi2_mass_t);
-void drawFinalCtau(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* binDataCtErr, float NSigNP_fin, float NBkg_fin, RooFitResult *fit2D, float lmin, float lmax, InputOpt &opt, double* UnNormChi2_time_t, int* nFitParam_time_t, int* nFullBinsPull_time_t, int* Dof_time_t,double* Chi2_time_t);
+void drawFinalCtau(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* binDataCtErr, float NSigNP_fin, float NBkg_fin, float Bfrac_fin, float ErrBfrac_fin, RooFitResult *fit2D, float lmin, float lmax, InputOpt &opt, double* UnNormChi2_time_t, int* nFitParam_time_t, int* nFullBinsPull_time_t, int* Dof_time_t,double* Chi2_time_t);
 void drawMassCtau2DPlots(RooWorkspace *ws, InputOpt &opt) ;
 
   /////////////////////////////////// fit quality information /////////////////////////////////// 
@@ -152,12 +152,9 @@ void defineMassBkg(RooWorkspace *ws) {
 /////////////////////////////////////////////////////////
 
 void defineCtPRRes(RooWorkspace *ws, InputOpt &opt) {
-//      ws->factory("GaussModel::GW_PRRes(Jpsi_Ct,meanPRResW[0.,-0.01,0.01],sigmaPRResW[2.3,1.2,3.0],one[1.0],Jpsi_CtErr)");
-//      ws->factory("GaussModel::GW_PRRes(Jpsi_Ct,meanPRResW[0.,-0.5,0.5],sigmaPRResW[2.3,1.2,3.0],one[1.0],Jpsi_CtErr)");
-//      ws->factory("GaussModel::GW_PRRes(Jpsi_Ct,meanPRResW[0.,-0.01,0.01],sigmaPRResW[2.3,1.2,10.0],one[1.0],Jpsi_CtErr)");
-      ws->factory("GaussModel::GW_PRRes(Jpsi_Ct,meanPRResW[0.,-0.5,0.5],sigmaPRResW[2.3,1.2,10.0],one[1.0],Jpsi_CtErr)");
-      ws->factory("GaussModel::GN_PRRes(Jpsi_Ct,meanPRResN[0.,-0.01,0.01],sigmaPRResN[0.8,0.6,1.1],one,Jpsi_CtErr)");
-      ws->factory("AddModel::CtPRRes({GW_PRRes,GN_PRRes},{fracRes[0.05,0.005,0.4]})");
+      ws->factory("GaussModel::GW_PRRes(Jpsi_Ct,meanPRResW[0.,-0.01,0.01],sigmaPRResW[2.3,1.1,5.5],one[1.0],Jpsi_CtErr)");
+      ws->factory("GaussModel::GN_PRRes(Jpsi_Ct,meanPRResN[0.,-0.01,0.01],sigmaPRResN[0.8,0.6,1.2],one,Jpsi_CtErr)");
+      ws->factory("AddModel::CtPRRes({GW_PRRes,GN_PRRes},{fracRes[0.01,0.001,0.999]})");
   return;
 }
 /////////////////////////////////////////////////////////
@@ -192,7 +189,8 @@ void defineCtNP(RooWorkspace *ws, RooDataSet *redNPMC, string titlestr, InputOpt
     //// **** define PDF
 //    ws->factory("GaussModel::BResTrue(Jpsi_CtTrue,mean[0.0],sigmaNPTrue[0.002,0.00001,0.02])"); //resolution from B meson (before CtPRRes) 
     ws->factory("GaussModel::BResTrue(Jpsi_CtTrue,mean[0.0],sigmaNPTrue[0.00002,0.0000001,0.00003])"); //resolution from B meson (before CtPRRes) 
-    ws->factory("Decay::CtNPTrue(Jpsi_CtTrue,coefExpNPTrue[0.04,0.01,1.0],BResTrue,RooDecay::SingleSided)");
+//    ws->factory("Decay::CtNPTrue(Jpsi_CtTrue,coefExpNPTrue[0.04,0.01,1.0],BResTrue,RooDecay::SingleSided)");
+    ws->factory("Decay::CtNPTrue(Jpsi_CtTrue,coefExpNPTrue[0.4,0.25,0.65],BResTrue,RooDecay::SingleSided)");
     
     //// **** get NPMCTrue
     drawCtNPTrue(ws, redNPMC, titlestr, opt);
