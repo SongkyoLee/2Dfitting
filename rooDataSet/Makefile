@@ -37,12 +37,18 @@ RooHistPdfConv.o: $(INCLUDEDIR)/RooHistPdfConv.cpp
 Tree2DatasetsPA:  $(INCLUDEDIR)tree2Datasets_pa.cpp
 	$(CPP) $(CPPFLAGS) -o Tree2DatasetsPA $(GLIBS) $ $<
 
+Tree2DatasetsPAZcut:  $(INCLUDEDIR)tree2Datasets_pa_zcut.cpp
+	$(CPP) $(CPPFLAGS) -o Tree2DatasetsPAZcut $(GLIBS) $ $<
+
 Tree2DatasetsPAFlip:  $(INCLUDEDIR)tree2Datasets_pa_flip.cpp
 	$(CPP) $(CPPFLAGS) -o Tree2DatasetsPAFlip $(GLIBS) $ $<
 
 
 Tree2DatasetsPAMC:  $(INCLUDEDIR)tree2Datasets_pa_mc.cpp
 	$(CPP) $(CPPFLAGS) -o Tree2DatasetsPAMC $(GLIBS) $ $<
+
+Tree2DatasetsPAMCZcut:  $(INCLUDEDIR)tree2Datasets_pa_mc_zcut.cpp
+	$(CPP) $(CPPFLAGS) -o Tree2DatasetsPAMCZcut $(GLIBS) $ $<
 
 Tree2DatasetsPAMCFlip:  $(INCLUDEDIR)tree2Datasets_pa_mc_flip.cpp
 	$(CPP) $(CPPFLAGS) -o Tree2DatasetsPAMCFlip $(GLIBS) $ $<
