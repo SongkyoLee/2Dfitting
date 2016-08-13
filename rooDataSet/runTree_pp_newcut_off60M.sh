@@ -14,9 +14,9 @@ inputfpp=/home/storage/OniaTree/Onia5TeV/ppData/OniaTree_DoubleMu_Run2015E-Promp
 #inputfppNPMC=$inputf/store/group/phys_heavyions/dileptons/MC2015/pp502TeV/TTrees/OniaTree_BJpsiMM_5p02TeV_TuneCUETP8M1_Trk_HINppWinter16DR-75X_mcRun2_asymptotic_ppAt5TeV_v3-v1.root
 #inputfppPRMC=/home/storage/OniaTree/Onia5TeV/ppOfficialMC/OniaTree_JpsiMM_5p02TeV_TuneCUETP8M1_Trk_HINppWinter16DR-75X_mcRun2_asymptotic_ppAt5TeV_v3-v1.root
 #inputfppNPMC=/home/storage/OniaTree/Onia5TeV/ppOfficialMC/OniaTree_BJpsiMM_5p02TeV_TuneCUETP8M1_Trk_HINppWinter16DR-75X_mcRun2_asymptotic_ppAt5TeV_v3-v1.root
-### official 20M
-inputfppPRMC=/home/storage/OniaTree/Onia5TeV/ppOfficialMC/OniaTree_JpsiMM_5p02TeV_TuneCUETP8M1_Trk_HINppWinter16DR-75X_mcRun2_asymptotic_ppAt5TeV_v3-v1_ExtendedKYO.root
-inputfppNPMC=/home/storage/OniaTree/Onia5TeV/ppOfficialMC/OniaTree_BJpsiMM_5p02TeV_TuneCUETP8M1_Trk_HINppWinter16DR-75X_mcRun2_asymptotic_ppAt5TeV_v3-v1_ExtendedKYO.root
+### official 60M
+inputfppPRMC=/home/storage/OniaTree/Onia5TeV/ppOfficialMC/OniaTree_JpsiMM_5p02TeV_TuneCUETP8M1_Trk_HINppWinter16DR-75X_mcRun2_asymptotic_ppAt5TeV_v3-v1_Extended.root
+inputfppNPMC=/home/storage/OniaTree/Onia5TeV/ppOfficialMC/OniaTree_BJpsiMM_5p02TeV_TuneCUETP8M1_Trk_HINppWinter16DR-75X_mcRun2_asymptotic_ppAt5TeV_v3-v1_Extended.root
 
 ##-----input for Z vertex weight
 # new cut
@@ -61,6 +61,6 @@ function programMC {
 ### 1. Data
 #program outRoo_Data_pp_newcut $trigType $accType $datazweighting 0 $initev $nevt $inputfpp
 ### 2. MC
-programMC outRoo_PRMC_pp_newcut_off20M $trigType $accType $mczweighting 0 $initev $nevt $zppPRMC $inputfppPRMC
-programMC outRoo_NPMC_pp_newcut_off20M $trigType $accType $mczweighting 0 $initev $nevt $zppNPMC $inputfppNPMC
+programMC outRoo_PRMC_pp_newcut_off60M $trigType $accType $mczweighting 0 $initev $nevt $zppPRMC $inputfppPRMC
+programMC outRoo_NPMC_pp_newcut_off60M $trigType $accType $mczweighting 0 $initev $nevt $zppNPMC $inputfppNPMC
 
