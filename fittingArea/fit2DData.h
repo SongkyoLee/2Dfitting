@@ -135,7 +135,8 @@ void defineMassSig(RooWorkspace *ws, InputOpt &opt) {
   //// 1) Normal gaussians with meanSig, sigmaSig1
   ws->factory("Gaussian::G1Sig(Jpsi_Mass,meanSig[3.0975,3.05,3.15],sigmaSig1[0.03,0.008,0.075])");
   //// 2)  Crystall Ball with meanSig, sigmaSig2
-  ws->factory("CBShape::CB1Sig(Jpsi_Mass,meanSig,sigmaSig2[0.03,0.0008,0.075],alpha[1.9,1.,3.],enne[2.5,1.0,4.0])");
+//  ws->factory("CBShape::CB1Sig(Jpsi_Mass,meanSig,sigmaSig2[0.03,0.0008,0.075],alpha[1.9,1.,3.],enne[2.5,1.0,4.0])");
+  ws->factory("CBShape::CB1Sig(Jpsi_Mass,meanSig,sigmaSig2[0.03,0.0008,0.075],alpha[1.9,1.2,2.8],enne[2.5,1.0,4.0])");
   // Sum of G1 and CB1
   ws->factory("SUM::G1CB1Sig(fracG1[0.5,0.11,0.89]*G1Sig,CB1Sig)");
   return;

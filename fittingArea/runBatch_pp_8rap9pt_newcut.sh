@@ -12,14 +12,16 @@ dirprename=$3
 ################################################################ 
 
 ### Prompt MC
-prmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_PRMC_pp_newcut_off/outRoo_PRMC_pp_newcut_off.root
+#prmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_PRMC_pp_newcut_off/outRoo_PRMC_pp_newcut_off.root
+prmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_PRMC_pp_newcut_off60M/outRoo_PRMC_pp_newcut_off60M.root
 ### Non-prompt MC
-npmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_NPMC_pp_newcut_off/outRoo_NPMC_pp_newcut_off.root
+#npmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_NPMC_pp_newcut_off/outRoo_NPMC_pp_newcut_off.root
+npmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_NPMC_pp_newcut_off60M/outRoo_NPMC_pp_newcut_off60M.root
 
 #### systematic options
-sysString="nominal"
-#sysString="sys02_01"
+#sysString="nominal"
 #sysString=("sys01_01" "sys01_02" "sys01_03" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
+sysString=("nominal" "sys01_01" "sys01_02" "sys01_03" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
 
 #### other options
 mcweight=0  #0: Do NOT mcweight(dataJpsi), 1: Do mcweight(dataJpsiWeight)
@@ -115,6 +117,19 @@ for sys in ${sysString[@]}; do
   program $sys 1.93-2.40 2.0-3.0 $ntrkbins $ethfbins 
 done
 
+#program "sys01_01" 0.00-0.90 8.5-10.0 $ntrkbins $ethfbins
+#program "sys02_01" 0.00-0.90 7.5-8.5 $ntrkbins $ethfbins
+#program "nominal" -0.90-0.00 14.0-30.0  $ntrkbins $ethfbins
+#program "nominal" -2.40--1.93 3.0-4.0 $ntrkbins $ethfbins
+#program "nominal" -2.40--1.93 4.0-5.0 $ntrkbins $ethfbins
+#program "nominal" -2.40--1.93 8.5-10.0 $ntrkbins $ethfbins
+#program "nominal" 1.50-1.93 6.5-7.5 $ntrkbins $ethfbins
+#program "nominal" 1.93-2.40 2.0-3.0 $ntrkbins $ethfbins
+#program "nominal" 1.93-2.40 4.0-5.0 $ntrkbins $ethfbins
+
+#program "sys01_01" 1.93-2.40 14.0-30.0 $ntrkbins $ethfbins
+#program "sys01_02" 1.93-2.40 14.0-30.0 $ntrkbins $ethfbins
+#program "sys01_03" 1.93-2.40 14.0-30.0 $ntrkbins $ethfbins
 #program "sys01_02" -2.40--1.93 5.0-6.5 $ntrkbins $ethfbins
 #program "sys02_01" -1.93--1.50 14.0-30.0 $ntrkbins $ethfbins
 #program "sys02_01" 0.90-1.50 6.5-7.5 $ntrkbins $ethfbins
@@ -124,19 +139,4 @@ done
 #  program $sys 1.93-2.40 8.5-10.0 $ntrkbins $ethfbins 
 #  program $sys 0.00-0.90 10.0-14.0 $ntrkbins $ethfbins 
 #done
-### TEST
-#program "nominal" 1.50-1.93 8.5-10.0 $ntrkbins $ethfbins 
-#program "nominal" 1.93-2.40 8.5-10.0 $ntrkbins $ethfbins 
-#program "nominal" -2.40--1.93 8.5-10.0 $ntrkbins $ethfbins 
-#program "nominal" -2.40--1.93 14.0-30.0 $ntrkbins $ethfbins 
-#program "nominal" 0.00-0.90 10.0-14.0 $ntrkbins $ethfbins 
-#program "nominal" -0.90-0.00 14.0-30.0 $ntrkbins $ethfbins 
-#program "nominal" 1.50-1.93 14.0-30.0 $ntrkbins $ethfbins 
-#program "nominal" -2.40--1.93 3.0-4.0 $ntrkbins $ethfbins 
-#program "nominal" -2.40--1.93 8.5-10.0 $ntrkbins $ethfbins 
-#program "nominal" -0.90-0.00 7.5-8.5 $ntrkbins $ethfbins 
-#program "nominal" -1.93--1.50 14.0-30.0 $ntrkbins $ethfbins 
-#program "nominal" 0.00-0.90 6.5-7.5 $ntrkbins $ethfbins 
-#program "nominal" 1.50-1.93 5.0-6.5 $ntrkbins $ethfbins 
-#program "nominal" 1.93-2.40 14.0-30.0 $ntrkbins $ethfbins 
 

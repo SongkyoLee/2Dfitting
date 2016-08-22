@@ -333,9 +333,11 @@ int main (int argc, char* argv[]) {
   /////////////////////////////////////////////////////////////////////////////////////////
   ws->factory(funct);
   RooFitResult *fitMassMC;
-  fitMassMC = ws->pdf("MassPDF")->fitTo(*redPRMC,Extended(1),Minos(0),Save(1),SumW2Error(kTRUE),NumCPU(8));
-  fitMassMC->Print("v");
-  drawInclusiveMassPlots(ws, redPRMC, fitMassMC, inOpt, 1);
+  if ( inOpt.sysString == "sys01_02") {
+    fitMassMC = ws->pdf("MassPDF")->fitTo(*redPRMC,Extended(1),Minos(0),Save(1),SumW2Error(kTRUE),NumCPU(8));
+    fitMassMC->Print("v");
+    drawInclusiveMassPlots(ws, redPRMC, fitMassMC, inOpt, 1);
+  } 
   if (inOpt.sysString == "sys01_01") {
     ws->var("alpha")->setConstant(kFALSE);
     ws->var("enne")->setConstant(kFALSE);
@@ -397,6 +399,18 @@ int main (int argc, char* argv[]) {
             ws->var("fracG1")->setVal(0.50);
           }
         }
+        else if (!inOpt.ptrange.compare("3.0-4.0")){
+          if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
+            ws->var("alpha")->setRange(1.4,2.5);
+            ws->var("alpha")->setVal(1.6);
+          }
+        }
+        else if (!inOpt.ptrange.compare("4.0-5.0")){
+          if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
+            ws->var("alpha")->setRange(1.4,2.5);
+            ws->var("alpha")->setVal(1.6);
+          }
+        }
         else if (!inOpt.ptrange.compare("5.0-6.5")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("fracG1")->setRange(0.42,0.58);
@@ -405,8 +419,10 @@ int main (int argc, char* argv[]) {
         }
         else if (!inOpt.ptrange.compare("8.5-10.0")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-            ws->var("alpha")->setRange(1.2,2.5);
-            ws->var("alpha")->setVal(1.50);
+              ws->var("sigmaSig2")->setRange(0.025,0.065);
+              ws->var("sigmaSig2")->setVal(0.050);
+//            ws->var("alpha")->setRange(1.2,2.5);
+//            ws->var("alpha")->setVal(1.50);
           }
         }
       }
@@ -419,14 +435,14 @@ int main (int argc, char* argv[]) {
         }
         else if (!inOpt.ptrange.compare("6.5-7.5")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-            ws->var("alpha")->setRange(1.3,2.5);
-            ws->var("alpha")->setVal(1.70);
+//            ws->var("alpha")->setRange(1.3,2.5);
+//            ws->var("alpha")->setVal(1.70);
           }
         }
         else if (!inOpt.ptrange.compare("14.0-30.0")){
           if (inOpt.sysString == "sys02_01") {
-            ws->var("alpha")->setRange(1.1,2.0);
-            ws->var("alpha")->setVal(1.70);
+//            ws->var("alpha")->setRange(1.1,2.0);
+//            ws->var("alpha")->setVal(1.70);
           }
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("fracG1")->setRange(0.27,0.86);
@@ -443,8 +459,8 @@ int main (int argc, char* argv[]) {
       else if (!inOpt.yrange.compare("-0.90-0.00")) {
         if (!inOpt.ptrange.compare("7.5-8.5")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-            ws->var("alpha")->setRange(1.2,2.5);
-            ws->var("alpha")->setVal(1.50);
+//            ws->var("alpha")->setRange(1.2,2.5);
+//            ws->var("alpha")->setVal(1.50);
           }
         }
         else if (!inOpt.ptrange.compare("8.5-10.0")){
@@ -465,8 +481,24 @@ int main (int argc, char* argv[]) {
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("fracG1")->setRange(0.21,0.86);
             ws->var("fracG1")->setVal(0.50);
-            ws->var("alpha")->setRange(1.2,2.5);
-            ws->var("alpha")->setVal(1.50);
+//            ws->var("alpha")->setRange(1.2,2.5);
+//            ws->var("alpha")->setVal(1.50);
+          }
+        }
+        else if (!inOpt.ptrange.compare("7.5-8.5")){
+          if (inOpt.sysString == "sys02_01") {
+            //ws->var("coefPol")->setRange(-0.265,-0.24);
+            //ws->var("coefPol")->setVal(-0.25);
+            ws->var("sigmaSig1")->setRange(0.015,0.065);
+            ws->var("sigmaSig1")->setVal(0.050);
+            ws->var("sigmaSig2")->setRange(0.015,0.065);
+            ws->var("sigmaSig2")->setVal(0.050);
+          }
+        }
+        else if (!inOpt.ptrange.compare("8.5-10.0")){
+          if ((inOpt.sysString == "sys01_01")) {
+            ws->var("coefExp")->setRange(-1.25,-1.15);
+            ws->var("coefExp")->setVal(-1.20);
           }
         }
         else if (!inOpt.ptrange.compare("10.0-14.0")){
@@ -479,8 +511,8 @@ int main (int argc, char* argv[]) {
       else if (!inOpt.yrange.compare("0.90-1.50")) {
         if (!inOpt.ptrange.compare("6.5-7.5")){
           if (inOpt.sysString == "sys02_01") {
-            ws->var("alpha")->setRange(1.4,2.9);
-            ws->var("alpha")->setVal(1.70);
+//            ws->var("alpha")->setRange(1.4,2.9);
+//nn            ws->var("alpha")->setVal(1.70);
           }
         }
         else if (!inOpt.ptrange.compare("8.5-10.0")){
@@ -493,12 +525,18 @@ int main (int argc, char* argv[]) {
       else if (!inOpt.yrange.compare("1.50-1.93")) {
         if (!inOpt.ptrange.compare("5.0-6.5")){
           if (inOpt.sysString == "sys02_01") {
-            ws->var("alpha")->setRange(1.4,2.9);
-            ws->var("alpha")->setVal(1.70);
+//            ws->var("alpha")->setRange(1.4,2.9);
+//            ws->var("alpha")->setVal(1.70);
           }
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("fracG1")->setRange(0.36,0.76);
             ws->var("fracG1")->setVal(0.50);
+          }
+        }
+        else if (!inOpt.ptrange.compare("6.5-7.5")){
+          if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
+            ws->var("alpha")->setRange(1.4,2.5);
+            ws->var("alpha")->setVal(2.0);
           }
         }
         else if (!inOpt.ptrange.compare("8.5-10.0")){
@@ -515,10 +553,24 @@ int main (int argc, char* argv[]) {
         }
       }
       else if (!inOpt.yrange.compare("1.93-2.40")) {
-        if (!inOpt.ptrange.compare("8.5-10.0")){
+        if (!inOpt.ptrange.compare("2.0-3.0")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-            ws->var("alpha")->setRange(1.3,2.87);
-            ws->var("alpha")->setVal(1.50);
+            ws->var("alpha")->setRange(1.58,2.5);
+            ws->var("alpha")->setVal(2.0);
+            //ws->var("fracG1")->setRange(0.21,0.56);
+            //ws->var("fracG1")->setVal(0.50);
+          }
+        }
+        else if (!inOpt.ptrange.compare("4.0-5.0")){
+          if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
+            ws->var("alpha")->setRange(1.4,2.5);
+            ws->var("alpha")->setVal(2.0);
+          }
+        }
+        else if (!inOpt.ptrange.compare("8.5-10.0")){
+          if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
+//            ws->var("alpha")->setRange(1.3,2.87);
+//            ws->var("alpha")->setVal(1.50);
           }
         }
         else if (!inOpt.ptrange.compare("8.5-10.0")){
@@ -569,11 +621,23 @@ int main (int argc, char* argv[]) {
         }
         else if (!inOpt.ptrange.compare("7.5-8.5")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-            ws->var("alpha")->setRange(1.3,2.87);
-            ws->var("alpha")->setVal(1.50);
+//            ws->var("alpha")->setRange(1.3,2.87);
+//            ws->var("alpha")->setVal(1.50);
             ws->var("fracG1")->setRange(0.23,0.87);
             ws->var("fracG1")->setVal(0.50);
           }
+        }
+        else if (!inOpt.ptrange.compare("8.5-10.0")){ // KYO for test
+//            ws->var("alpha")->setRange(0.5,1.1);
+//            ws->var("alpha")->setVal(0.6);
+            ws->var("lambdam")->setRange(0.099998, 0.1);
+            ws->var("lambdam")->setVal(0.0999998);
+            ws->var("lambdasym")->setRange(0.048, 0.041);
+            ws->var("lambdasym")->setVal(0.04049);
+            ws->var("lambdap")->setRange(0.25, 0.3);
+            ws->var("lambdap")->setVal(0.28);
+//            ws->var("coefExp")->setRange(0.23,0.87);
+//            ws->var("coefExp")->setVal(0.50);
         }
         else if (!inOpt.ptrange.compare("10.0-14.0")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
@@ -617,8 +681,8 @@ int main (int argc, char* argv[]) {
         }
         else if (!inOpt.ptrange.compare("8.5-10.0")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-            //ws->var("fracG1")->setRange(0.43,0.87);
-            //ws->var("fracG1")->setVal(0.50);
+            ws->var("fracG1")->setRange(0.43,0.87);
+            ws->var("fracG1")->setVal(0.50);
           }
         }
         else if (!inOpt.ptrange.compare("10.0-14.0")){
@@ -629,6 +693,12 @@ int main (int argc, char* argv[]) {
             ws->var("sigmaSig1")->setVal(0.050);
             ws->var("sigmaSig2")->setRange(0.040,0.060);
             ws->var("sigmaSig2")->setVal(0.050);
+          }
+        }
+        else if (!inOpt.ptrange.compare("14.0-30.0")){
+          if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
+            ws->var("alpha")->setRange(1.3,2.4);
+            ws->var("alpha")->setVal(1.7);
           }
         }
       }
@@ -645,9 +715,21 @@ int main (int argc, char* argv[]) {
             ws->var("fracG1")->setVal(0.40);
           }
         }
+        else if (!inOpt.ptrange.compare("8.5-10.0")){
+          if ((inOpt.sysString == "sys01_01")) {
+            ws->var("coefExp")->setRange(-1.1,-0.9);
+            ws->var("coefExp")->setVal(-1.0);
+          }
+        }
       }
       else if (!inOpt.yrange.compare("-0.47-0.43")) {
-        if (!inOpt.ptrange.compare("7.5-8.5")){
+        if (!inOpt.ptrange.compare("6.5-7.5")){
+          ws->var("meanPRResW")->setRange(-1.,1.);
+          ws->var("meanPRResW")->setVal(0.);
+        }
+        else if (!inOpt.ptrange.compare("7.5-8.5")){
+          ws->var("meanPRResW")->setRange(-1.,1.);
+          ws->var("meanPRResW")->setVal(0.);
           if (inOpt.sysString =="sys01_01") {
             ws->var("coefExp")->setRange(-1.0,-0.6);
             ws->var("coefExp")->setVal(-0.79);
@@ -657,8 +739,10 @@ int main (int argc, char* argv[]) {
       else if (!inOpt.yrange.compare("0.43-1.03")) {
         if (!inOpt.ptrange.compare("6.5-7.5")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-            ws->var("alpha")->setRange(1.0,1.5);
-            ws->var("alpha")->setVal(1.20);
+            ws->var("alpha")->setRange(1.4,2.5);
+            ws->var("alpha")->setVal(2.20);
+//            ws->var("fracG1")->setRange(0.23,0.69);
+//            ws->var("fracG1")->setVal(0.40);
             ws->var("sigmaSig1")->setRange(0.015,0.045);
             ws->var("sigmaSig1")->setVal(0.040);
             ws->var("sigmaSig2")->setRange(0.015,0.045);
@@ -681,6 +765,8 @@ int main (int argc, char* argv[]) {
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("fracG1")->setRange(0.23,0.87);
             ws->var("fracG1")->setVal(0.50);
+            ws->var("alpha")->setRange(1.4,2.5);
+            ws->var("alpha")->setVal(2.1);
           }
         }
       }
@@ -693,18 +779,20 @@ int main (int argc, char* argv[]) {
         }
         else if (!inOpt.ptrange.compare("6.5-7.5")){
           if (inOpt.sysString == "sys02_01") {
-            ws->var("alpha")->setRange(1.25,3.0);
-            ws->var("alpha")->setVal(1.8);
+//            ws->var("alpha")->setRange(1.25,3.0);
+//            ws->var("alpha")->setVal(1.8);
           }
         }
         else if (!inOpt.ptrange.compare("10.0-14.0")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("fracG1")->setRange(0.23,0.87);
             ws->var("fracG1")->setVal(0.50);
+            ws->var("alpha")->setRange(1.29,3.0);
+            ws->var("alpha")->setVal(1.8);
           }
           if (inOpt.sysString == "sys01_01") {
-            ws->var("alpha")->setRange(1.25,3.0);
-            ws->var("alpha")->setVal(1.8);
+//            ws->var("alpha")->setRange(1.25,3.0);
+ //           ws->var("alpha")->setVal(1.8);
             ws->var("enne")->setRange(1.25,3.0);
             ws->var("enne")->setVal(1.8);
           }
@@ -717,13 +805,7 @@ int main (int argc, char* argv[]) {
         }
       }
       else if (!inOpt.yrange.compare("1.46-1.93")) {
-        if (!inOpt.ptrange.compare("3.0-4.0")){
-          if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-            ws->var("sigmaSig2")->setRange(0.015,0.062);
-            ws->var("sigmaSig2")->setVal(0.040);
-          }
-        }
-        else if (!inOpt.ptrange.compare("4.0-5.0")){
+        if (!inOpt.ptrange.compare("4.0-5.0")){
           if (inOpt.sysString == "sys02_01") {
             ws->var("sigmaSig1")->setRange(0.015,0.064);
             ws->var("sigmaSig1")->setVal(0.040);
@@ -733,7 +815,7 @@ int main (int argc, char* argv[]) {
         }
         else if (!inOpt.ptrange.compare("5.0-6.5")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-            ws->var("fracG1")->setRange(0.23,0.87);
+            ws->var("fracG1")->setRange(0.37,0.87);
             ws->var("fracG1")->setVal(0.50);
           }
           if (inOpt.sysString == "sys01_03") {
@@ -745,6 +827,8 @@ int main (int argc, char* argv[]) {
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("fracG1")->setRange(0.23,0.87);
             ws->var("fracG1")->setVal(0.50);
+            //ws->var("alpha")->setRange(1.2,2.5);
+            //ws->var("alpha")->setVal(1.50);
           }
           if (inOpt.sysString == "sys02_01") {
             ws->var("sigmaSig2")->setRange(0.015,0.055);
@@ -752,8 +836,14 @@ int main (int argc, char* argv[]) {
           }
         }
         else if (!inOpt.ptrange.compare("8.5-10.0")){
+          //ws->var("meanPRResW")->setRange(-1.,1.);
+          //ws->var("meanPRResW")->setVal(0.);
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-            ws->var("sigmaSig2")->setRange(0.015,0.045);
+            ws->var("fracG1")->setRange(0.53,0.87);
+            ws->var("fracG1")->setVal(0.70);
+            ws->var("sigmaSig2")->setRange(0.015,0.052);
+            ws->var("sigmaSig2")->setVal(0.030);
+            ws->var("sigmaSig2")->setRange(0.015,0.052);
             ws->var("sigmaSig2")->setVal(0.030);
           }
           //if ((inOpt.sysString != "sys03_01") && (inOpt.sysString != "sys03_02")) {
@@ -787,14 +877,14 @@ int main (int argc, char* argv[]) {
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("fracG1")->setRange(0.38,0.68);
             ws->var("fracG1")->setVal(0.40);
-            ws->var("alpha")->setRange(1.2,2.5);
-            ws->var("alpha")->setVal(1.50);
+//            ws->var("alpha")->setRange(1.2,2.5);
+//            ws->var("alpha")->setVal(1.50);
           }
         }
         else if (!inOpt.ptrange.compare("14.0-30.0")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-            ws->var("alpha")->setRange(1.0,2.5);
-            ws->var("alpha")->setVal(1.50);
+//            ws->var("alpha")->setRange(1.0,2.5);
+//            ws->var("alpha")->setVal(1.50);
           }
         }
       }
@@ -1083,6 +1173,31 @@ int main (int argc, char* argv[]) {
   ws->var("sigmaPRResN") ->setConstant(kFALSE);
   if (inOpt.sysString=="sys03_01") { ws->var("sigmaPRResW") ->setConstant(kFALSE); } //release all sigma
   else if (inOpt.sysString=="sys03_02") { ws->var("sigmaPRResN") ->setConstant(kTRUE); } //fix all sigma
+  
+  //// **** Special fixing for Bfrac
+  if (inOpt.EventActivity == 0) { // no multiplicity
+    if (inOpt.isPA == 3) {
+      if (!inOpt.yrange.compare("-0.47-0.43")) {
+        if (!inOpt.ptrange.compare("6.5-7.5")){
+          ws->var("meanPRResW")->setConstant(kTRUE);
+          ws->var("meanPRResN")->setConstant(kTRUE);
+        }
+        if (!inOpt.ptrange.compare("7.5-8.5")){
+          //ws->var("meanPRResW")->setConstant(kTRUE);
+          //ws->var("meanPRResN")->setConstant(kTRUE);
+        }
+      }
+      if (!inOpt.yrange.compare("1.46-1.93")) {
+        if (!inOpt.ptrange.compare("8.5-10.0")){
+          if (inOpt.sysString!="sys04_01")  ws->var("coefExpNPTrue") ->setConstant(kTRUE);
+          ws->var("meanPRResW")->setConstant(kTRUE);
+          ws->var("meanPRResN")->setConstant(kTRUE);
+        }
+      }
+    }
+  }
+  
+  
   /*
   if (inOpt.sysString!="sys04_01") {ws->var("coefExpNPTrue") ->setConstant(kFALSE);}
   ws->var("fracRes")->setConstant(kTRUE);
