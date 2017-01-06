@@ -19,9 +19,9 @@ prmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/out
 npmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_NPMC_pp_newcut_off60M/outRoo_NPMC_pp_newcut_off60M.root
 
 #### systematic options
-#sysString="nominal"
+sysString="nominal"
 #sysString=("sys01_01" "sys01_02" "sys01_03" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
-sysString=("nominal" "sys01_01" "sys01_02" "sys01_03" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
+#sysString=("nominal" "sys01_01" "sys01_02" "sys01_03" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
 
 #### other options
 mcweight=0  #0: Do NOT mcweight(dataJpsi), 1: Do mcweight(dataJpsiWeight)
@@ -116,6 +116,9 @@ for sys in ${sysString[@]}; do
   program $sys -2.40--1.93 2.0-3.0 $ntrkbins $ethfbins 
   program $sys 1.93-2.40 2.0-3.0 $ntrkbins $ethfbins 
 done
+
+######## for paper
+#program "nominal" -2.40--1.93 2.0-3.0 $ntrkbins $ethfbins
 
 #program "sys01_01" 0.00-0.90 8.5-10.0 $ntrkbins $ethfbins
 #program "sys02_01" 0.00-0.90 7.5-8.5 $ntrkbins $ethfbins

@@ -2,9 +2,11 @@
 #include "CMS_lumi.h"
 
 void CMS_lumi( TPad* pad, int iPeriod, int iPosX );
+int iPos=0.;//outOfFrame
+int iPosPaper=33;//right corner
 
 int main (int argc, char* argv[]) {
-  
+ 
   RooMsgService::instance().getStream(0).removeTopic(Plotting);
   RooMsgService::instance().getStream(0).removeTopic(InputArguments);
   RooMsgService::instance().getStream(1).removeTopic(InputArguments);
@@ -47,7 +49,7 @@ int main (int argc, char* argv[]) {
   //// black line (total fit)
   hfake21 = TH1F("hfake21","hfake2",100,200,300);
   hfake21.SetLineColor(kBlack); hfake21.SetLineWidth(4); hfake21.SetFillColor(kBlack); hfake21.SetFillStyle(3354);
-  //// red line (non-prompt)
+  //// red line (nonprompt)
   hfake31 = TH1F("hfake31","hfake3",100,200,300);
   hfake31.SetLineColor(kRed); hfake31.SetMarkerStyle(kCircle); hfake31.SetLineWidth(4); hfake31.SetMarkerColor(kRed); hfake31.SetLineStyle(9); hfake31.SetFillColor(kRed-7); hfake31.SetFillStyle(3444);
   hfake311 = TH1F("hfake311","hfake311",100,200,300);
@@ -90,10 +92,10 @@ int main (int argc, char* argv[]) {
     dataPRMC->append(*dataPRMC2); //// merge "data2" to "data"
   }
   
-  //// non-prompt MC /////////////////////////////////////////////////
+  //// nonprompt MC /////////////////////////////////////////////////
   TFile fInNPMC(inOpt.FileNameNPMC.c_str());
   cout << inOpt.FileNameNPMC.c_str() << endl;
-  if (fInNPMC.IsZombie()) { cout << "CANNOT open non-prompt MC file\n"; return 1; }
+  if (fInNPMC.IsZombie()) { cout << "CANNOT open nonprompt MC file\n"; return 1; }
   fInNPMC.cd();
   RooDataSet *dataNPMC;
   if (inOpt.doMCWeight == 1) {
@@ -308,7 +310,7 @@ int main (int argc, char* argv[]) {
   titlestr = inOpt.dirName + "_rap" + inOpt.yrange + "_pT" + inOpt.ptrange + "_ntrk" + inOpt.ntrrange + "_ET" + inOpt.etrange;
   
   /////////////////////////////////////////////////////////////////////////////////////////
-  //////////////// [[1]] non-prompt MC ctau function (fit in fit2DData.h) ///////////////// 
+  //////////////// [[1]] nonprompt MC ctau function (fit in fit2DData.h) ///////////////// 
   /////////////////////////////////////////////////////////////////////////////////////////
   defineCtNP(ws,redNPMC,titlestr,inOpt); // F_B(l) : X_mc(l')
 
@@ -350,8 +352,9 @@ int main (int argc, char* argv[]) {
     ws->var("enne")->setConstant(kFALSE);
   } else {
     ws->var("alpha")->setConstant(kFALSE);
-    ws->var("enne")->setVal(2.1);
-    ws->var("enne")->setConstant(kTRUE);
+    //ws->var("enne")->setVal(2.1);
+    //ws->var("enne")->setConstant(kTRUE);
+    ws->var("enne")->setConstant(kFALSE);
   } 
   ws->var("coefPol")->setRange(-5., 5.);
   ws->var("coefPol")->setVal(-0.05);
@@ -1100,7 +1103,7 @@ int main (int argc, char* argv[]) {
                          Conditional( *(ws->pdf("MassCtBkg")), RooArgList(*(ws->var("Jpsi_Ct")),*(ws->var("Jpsi_Mass"))) )
                          );  ws->import(MassCtBkg_PEE);
    
-  //// **** total PDF  = promptPDF + non-promptPDF + bkgPDF 
+  //// **** total PDF  = promptPDF + nonpromptPDF + bkgPDF 
   RooFormulaVar fracBkg("fracBkg","@0/(@0+@1)",RooArgList(*(ws->var("NBkg")),*(ws->var("NSig"))));    ws->import(fracBkg);
   ws->factory("RSUM::totPDF_PEE(fracBkg*MassCtBkg_PEE,Bfrac[0.25,0.0,1.]*MassCtNP_PEE,MassCtPR_PEE)");
 
@@ -1496,7 +1499,7 @@ void parseInputArg(int argc, char* argv[], InputOpt &opt) {
             break;
           case 'p':
             opt.ptrange = argv[i+1];
-            cout << "  ** p_{T} range: " << opt.ptrange << " [GeV]" << endl;
+            cout << "  ** p_{T} range: " << opt.ptrange << " (GeV)" << endl;
             break;
           case 'y':
             opt.absoluteY = atoi(argv[i+1]);
@@ -1506,7 +1509,7 @@ void parseInputArg(int argc, char* argv[], InputOpt &opt) {
             break;
           case 'l':
             opt.lrange = argv[i+1];
-            cout << "  ** l_{J/#psi} range: " << opt.lrange << " [mm]" << endl; 
+            cout << "  ** l_{J/#psi} range: " << opt.lrange << " (mm)" << endl; 
             break;
           case 'n':
             opt.ntrrange = argv[i+1];
@@ -1514,7 +1517,7 @@ void parseInputArg(int argc, char* argv[], InputOpt &opt) {
             break;
           case 'h':
             opt.etrange = argv[i+1];
-            cout << "  ** E_{T}^{HF} range : " << opt.etrange << " [GeV]" << endl;
+            cout << "  ** E_{T}^{HF} range : " << opt.etrange << " (GeV)" << endl;
             break;
           case 'x':
             opt.readCtErr = atoi(argv[i+1]);
@@ -1577,7 +1580,12 @@ void formRapidity(InputOpt &opt, float ymin, float ymax) {
     ymin_cm = ymin;
     ymax_cm = ymax;
   }
-  cout << "* to y_CM = "<<ymin_cm<<" < y_CM < "<<ymax_cm<<endl;
+  string ymin_cm_sz, ymax_cm_sz;
+  ymin_cm_sz = Form("%.2f",ymin_cm);
+  ymax_cm_sz = Form("%.2f",ymax_cm);
+  //cout << "* to y_CM = "<<ymin_cm<<" < y_CM < "<<ymax_cm<<endl;
+  cout << "* to y_CM = "<<ymin_cm_sz<<" < y_CM < "<<ymax_cm_sz<<endl;
+  
   double inteMin, inteMax;
   double fracMin = modf(ymin_cm,&inteMin);
   double fracMax = modf(ymax_cm,&inteMax);
@@ -1588,11 +1596,18 @@ void formRapidity(InputOpt &opt, float ymin, float ymax) {
     else if (fracMin==0 && fracMax==0) sprintf(opt.rapString,"%.0f < |y_{CM}| < %.0f",ymin_cm,ymax_cm);
     else sprintf(opt.rapString,"%.2f < |y_{CM}| < %.2f",ymin_cm,ymax_cm);
   }else {
-    if (fracMin==0 && fracMax!=0) sprintf(opt.rapString,"%.0f < y_{CM} < %.2f",ymin_cm,ymax_cm);
-    else if (fracMin!=0 && fracMax==0) sprintf(opt.rapString,"%.2f < y_{CM} < %.0f",ymin_cm,ymax_cm);
+//  if (!inOpt.ptrange.compare("2.0-3.0") ){ lmin = 3.0; lmax = 5.0; } // TEST
+//    if ( !(ymin_cm_sz.compare("-2.87")) || !(ymin_cm_sz.compare("-1.93")) || !(ymin_cm_sz.compare("1.93")) || !(ymin_cm_sz("2.87")) ) sprintf(opt.rapString,"%.2f < y_{CM} < %.1f",ymin_cm,ymax_cm);
+//    else if ( !(ymax_cm_sz.compare("-2.87")) || !(ymax_cm_sz.compare("-1.93")) || !(ymax_cm_sz.compare("1.93")) || !(ymax_cm_sz("2.87")) ) sprintf(opt.rapString,"%.1f < y_{CM} < %.2f",ymax_cm,ymax_cm);
+    if ((ymin_cm_sz=="-2.87") || (ymin_cm_sz=="-1.93") || (ymin_cm_sz=="1.93") || (ymin_cm_sz=="2.87")) sprintf(opt.rapString,"%.2f < y_{CM} < %.1f",ymin_cm,ymax_cm);
+    else if ((ymax_cm_sz=="-2.87") || (ymax_cm_sz=="-1.93") || (ymax_cm_sz=="1.93") || (ymax_cm_sz=="2.87")) sprintf(opt.rapString,"%.1f < y_{CM} < %.2f",ymin_cm,ymax_cm);
+    else if (ymax_cm==2.87 || ymax_cm==1.93) sprintf(opt.rapString,"%.1f < y_{CM} < %.2f",ymin_cm,ymax_cm);
+    else if (fracMin==0 && fracMax!=0) sprintf(opt.rapString,"%.0f < y_{CM} < %.1f",ymin_cm,ymax_cm);
+    else if (fracMin!=0 && fracMax==0) sprintf(opt.rapString,"%.1f < y_{CM} < %.0f",ymin_cm,ymax_cm);
     else if (fracMin==0 && fracMax==0) sprintf(opt.rapString,"%.0f < y_{CM} < %.0f",ymin_cm,ymax_cm);
-    else sprintf(opt.rapString,"%.2f < y_{CM} < %.2f",ymin_cm,ymax_cm);
+    else sprintf(opt.rapString,"%.1f < y_{CM} < %.1f",ymin_cm,ymax_cm);
   }
+//  cout << " ***  opt.rapString = " << opt.rapString << endl;
 }
 
 void formPt(InputOpt &opt, float pmin, float pmax) {
@@ -1894,7 +1909,7 @@ void getCtErrRange(RooDataSet *data, InputOpt &opt, const char *t_reduceDS_woCtE
   else if (opt.EventActivity ==2) t->DrawLatex(0.92,0.72,opt.etString);
 
   char comment[200];
-  sprintf(comment,"Range: %.3f-%.3f [mm]",tmpMin,tmpMax);
+  sprintf(comment,"Range: %.3f-%.3f (mm)",tmpMin,tmpMax);
   t->SetTextSize(0.04);
   t->SetTextColor(kRed);
   t->DrawLatex(0.92,0.6,comment);
@@ -1941,7 +1956,7 @@ void drawSBRightLeft(RooWorkspace *ws, RooDataSet *redDataSBL, RooDataSet *redDa
   
   binDataSBL->GetXaxis()->CenterTitle(1);
   binDataSBL->GetYaxis()->CenterTitle(1);
-  binDataSBL->GetXaxis()->SetTitle("#font[12]{l}_{J/#psi} [mm]");
+  binDataSBL->GetXaxis()->SetTitle("#font[12]{l}_{J/#psi} (mm)");
   binDataSBL->SetMarkerColor(kBlack);
   binDataSBL->SetLineColor(kBlack);
   binDataSBR->SetMarkerColor(kRed);
@@ -1953,7 +1968,7 @@ void drawSBRightLeft(RooWorkspace *ws, RooDataSet *redDataSBL, RooDataSet *redDa
   binDataSBL->Draw("p");
   binDataSBR->Draw("p,same");
 
-  CMS_lumi(&c0, opt.isPA, 0);
+  CMS_lumi(&c0, opt.isPA, iPos);
   t->SetTextSize(0.035);
   t->DrawLatex(0.18,0.84,opt.rapString);
   t->DrawLatex(0.18,0.78,opt.ptString);
@@ -1963,8 +1978,8 @@ void drawSBRightLeft(RooWorkspace *ws, RooDataSet *redDataSBL, RooDataSet *redDa
   TLegend legsb(0.49,0.75,0.9,0.88,NULL,"brNDC");
   legsb.SetFillStyle(0); legsb.SetBorderSize(0); legsb.SetShadowColor(0); legsb.SetMargin(0.2); 
   legsb.SetTextFont(42); legsb.SetTextSize(0.040);
-  legsb.AddEntry(binDataSBL,"2.6 < m_{#mu#mu} < 2.9 [GeV/c^{2}]","p");
-  legsb.AddEntry(binDataSBR,"3.3 < m_{#mu#mu} < 3.5 [GeV/c^{2}]","p");
+  legsb.AddEntry(binDataSBL,"2.6 < m_{#mu#mu} < 2.9 (GeV/c^{2})","p");
+  legsb.AddEntry(binDataSBR,"3.3 < m_{#mu#mu} < 3.5 (GeV/c^{2})","p");
   legsb.Draw("same");
 
   titlestr = opt.dirName + "_rap" + opt.yrange + "_pT" + opt.ptrange + "_ntrk" + inOpt.ntrrange + "_ET" + inOpt.etrange + "_CtSBRL_Lin.pdf";
@@ -1994,8 +2009,8 @@ void drawInclusiveMassPlots(RooWorkspace *ws, RooDataSet* redDataCut, RooFitResu
   redDataCut->plotOn(mframe_wob,DataError(RooAbsData::SumW2),XErrorSize(0),MarkerSize(1),Binning(rb));
   
   double avgBinWidth = rb.averageBinWidth();
-  mframe_wob->GetYaxis()->SetTitle(Form("Counts / %.0f MeV/c^{2}",avgBinWidth*1000));
-  mframe_wob->GetXaxis()->SetTitle("m_{#mu#mu} [GeV/c^{2}]");
+  mframe_wob->GetYaxis()->SetTitle(Form("Counts / (%.0f MeV/c^{2 })",avgBinWidth*1000));
+  mframe_wob->GetXaxis()->SetTitle("m_{#mu#mu} (GeV/c^{2})");
   mframe_wob->GetXaxis()->CenterTitle(1);
   mframe_wob->GetYaxis()->CenterTitle(1);
   const double max = mframe_wob->GetMaximum() * 1.3;
@@ -2031,7 +2046,7 @@ void drawInclusiveMassPlots(RooWorkspace *ws, RooDataSet* redDataCut, RooFitResu
 
   //// **** different lumiTextOffset for massfit_wopull
   lumiTextOffset   = 0.20;
-  CMS_lumi(&c1wop, opt.isPA, 0);
+  CMS_lumi(&c1wop, opt.isPA, iPos);
   t->SetTextSize(0.035);
   t->DrawLatex(0.91,0.85,opt.rapString);
   t->DrawLatex(0.91,0.78,opt.ptString);
@@ -2039,7 +2054,7 @@ void drawInclusiveMassPlots(RooWorkspace *ws, RooDataSet* redDataCut, RooFitResu
   else if (opt.EventActivity ==2) t->DrawLatex(0.91,0.71,opt.etString);
 
   ty->SetTextSize(0.040);
-  sprintf(reduceDS,"N_{J/#psi}: %0.0f #pm %0.0f",ws->var("NSig")->getVal(),ws->var("NSig")->getError());
+  sprintf(reduceDS,"N_{J/#psi} = %0.0f #pm %0.0f",ws->var("NSig")->getVal(),ws->var("NSig")->getError());
   ty->DrawLatex(0.20,0.85,reduceDS);
   sprintf(reduceDS,"#sigma = %0.0f #pm %0.0f MeV/c^{2}", opt.PcombinedWidth, opt.PcombinedWidthErr);
   ty->DrawLatex(0.20,0.79,reduceDS);
@@ -2048,9 +2063,9 @@ void drawInclusiveMassPlots(RooWorkspace *ws, RooDataSet* redDataCut, RooFitResu
   leg11->SetFillStyle(0); leg11->SetBorderSize(0); leg11->SetShadowColor(0);
   leg11->SetTextSize(0.035); leg11->SetTextFont(42);
   leg11->SetMargin(0.2);
-  leg11->AddEntry(gfake1,"data","p");
-  leg11->AddEntry(&hfake21,"total fit","lf");
-  leg11->AddEntry(&hfake11,"background","lf");
+  leg11->AddEntry(gfake1,"Data","p");
+  leg11->AddEntry(&hfake21,"Total fit","lf");
+  leg11->AddEntry(&hfake11,"Background","lf");
   leg11->Draw("same");
 
   if (isMC) {
@@ -2165,7 +2180,7 @@ void drawCtauSBPlots(RooWorkspace *ws, RooDataSet *redDataSB, RooDataHist *binDa
 
   RooPlot *tframe1 = ws->var("Jpsi_Ct")->frame();
   double avgBinWidth = rb.averageBinWidth();
-  tframe1->GetYaxis()->SetTitle(Form("Counts / %.0f #mum",avgBinWidth*1000));
+  tframe1->GetYaxis()->SetTitle(Form("Counts / (%.0f #mum)",avgBinWidth*1000));
   tframe1->GetYaxis()->CenterTitle(1);
   redDataSB->plotOn(tframe1,DataError(RooAbsData::SumW2));
   ws->pdf("CtBkgTot_PEE")->plotOn(tframe1,ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErrSB,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent),LineStyle(7));
@@ -2186,7 +2201,7 @@ void drawCtauSBPlots(RooWorkspace *ws, RooDataSet *redDataSB, RooDataHist *binDa
 
   pad1->cd(); tframe1->Draw();
   lumiTextOffset   = 0.45;
-  CMS_lumi(c3, opt.isPA, 0);
+  CMS_lumi(c3, opt.isPA, iPos);
   TLatex *t = new TLatex();  t->SetNDC();  t->SetTextAlign(32);
   t->SetTextSize(0.040);
   t->DrawLatex(0.92,0.89,opt.rapString);
@@ -2230,7 +2245,7 @@ void drawCtauSBPlots(RooWorkspace *ws, RooDataSet *redDataSB, RooDataHist *binDa
   else tframemax = tframepull->GetMaximum();
   tframepull->SetMaximum(tframemax); 
   tframepull->SetMinimum(-1*tframemax); 
-  tframepull->GetXaxis()->SetTitle("#font[12]{l}_{J/#psi} [mm]");
+  tframepull->GetXaxis()->SetTitle("#font[12]{l}_{J/#psi} (mm)");
   tframepull->GetXaxis()->CenterTitle(1);
 
   pad2->cd(); tframepull->Draw();
@@ -2274,8 +2289,8 @@ void drawFinalMass(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_fin, f
   RooPlot *mframe = ws->var("Jpsi_Mass")->frame();
   redDataCut->plotOn(mframe,DataError(RooAbsData::SumW2),XErrorSize(0),MarkerSize(1),Binning(rb));
   double avgBinWidth = rb.averageBinWidth();
-  mframe->GetYaxis()->SetTitle(Form("Counts / %.0f MeV/c^{2}",avgBinWidth*1000));
-  mframe->GetXaxis()->SetTitle("m_{#mu#mu} [GeV/c^{2}]");
+  mframe->GetYaxis()->SetTitle(Form("Counts / (%.0f MeV/c^{2 })",avgBinWidth*1000));
+  mframe->GetXaxis()->SetTitle("m_{#mu#mu} (GeV/c^{2})");
   mframe->GetXaxis()->CenterTitle(1);
   mframe->GetYaxis()->CenterTitle(1);
   const double max = mframe->GetMaximum() * 1.3;
@@ -2317,34 +2332,43 @@ void drawFinalMass(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_fin, f
   *Dof_mass_t = Dof;
   *Chi2_mass_t = Chi2;
 
-  TCanvas c1wop; c1wop.Draw();
+  // PAPER
+  TCanvas* c1wop = new TCanvas("c1wop","The Canvas",200,10,600,600);
+  c1wop->cd(); c1wop->Draw(); 
+  
+//  TCanvas c1wop; c1wop.Draw();
   mframe->SetTitleOffset(1.47,"Y");
   mframe->Draw();
   //// **** different lumiTextOffset for massfit_wopull
   lumiTextOffset   = 0.20;
-  CMS_lumi(&c1wop, opt.isPA, 0);
+  //CMS_lumi(&c1wop, opt.isPA, iPosPaper);
+  CMS_lumi(c1wop, opt.isPA, iPosPaper);
   t->SetTextSize(0.035);
-  t->DrawLatex(0.91,0.85,opt.rapString);
-  t->DrawLatex(0.91,0.78,opt.ptString);
+//  t->DrawLatex(0.91,0.85,opt.rapString);
+//  t->DrawLatex(0.91,0.78,opt.ptString);
+  ty->SetTextSize(0.035); // PAPER
+  ty->DrawLatex(0.20,0.86,opt.rapString); //PAPER
+  ty->DrawLatex(0.20,0.80,opt.ptString); //PAPER
   ty->SetTextSize(0.040);
-  sprintf(reduceDS,"N_{J/#psi}: %0.0f #pm %0.0f",ws->var("NSig")->getVal(),ws->var("NSig")->getError());
-  ty->DrawLatex(0.20,0.85,reduceDS);
+  sprintf(reduceDS,"N_{J/#psi} = %0.0f #pm %0.0f",ws->var("NSig")->getVal(),ws->var("NSig")->getError());
+//  ty->DrawLatex(0.20,0.85,reduceDS);
   sprintf(reduceDS,"#sigma = %0.0f #pm %0.0f MeV/c^{2}", opt.PcombinedWidth, opt.PcombinedWidthErr);
-  ty->DrawLatex(0.20,0.79,reduceDS);
+//  ty->DrawLatex(0.20,0.79,reduceDS);
 
-  TLegend * leg11 = new TLegend(0.18,0.51,0.54,0.72,NULL,"brNDC");
-  leg11->SetFillStyle(0); leg11->SetBorderSize(0); leg11->SetShadowColor(0);
-  leg11->SetTextSize(0.035); leg11->SetTextFont(42);
-  leg11->SetMargin(0.2);
-  leg11->AddEntry(gfake1,"data","p");
-  leg11->AddEntry(&hfake21,"total fit","lf");
-  leg11->AddEntry(&hfake31,"bkg + non-prompt","lf"); 
-  leg11->AddEntry(&hfake11,"background","lf");
-  leg11->Draw("same");
-  
+  //TLegend * legpaper = new TLegend(0.59,0.53,0.90,0.72,NULL,"brNDC");
+  TLegend * legpaper = new TLegend(0.18,0.53,0.54,0.72,NULL,"brNDC");
+  legpaper->SetFillStyle(0); legpaper->SetBorderSize(0); legpaper->SetShadowColor(0);
+  legpaper->SetTextSize(0.035); legpaper->SetTextFont(42);
+  legpaper->SetMargin(0.2);
+  legpaper->AddEntry(gfake1,"Data","p");
+  legpaper->AddEntry(&hfake21,"Total fit","lf");
+  legpaper->AddEntry(&hfake31,"Bkg + nonprompt","lf"); 
+  legpaper->AddEntry(&hfake11,"Background","lf");
+  legpaper->Draw("same");
 
   titlestr = opt.dirName + "_rap" + opt.yrange + "_pT" + opt.ptrange + "_ntrk" + inOpt.ntrrange + "_ET" + inOpt.etrange + "_massfit_wopull.pdf";
-  c1wop.SaveAs(titlestr.c_str());
+  //c1wop.SaveAs(titlestr.c_str());
+  c1wop->SaveAs(titlestr.c_str());
 //  titlestr = opt.dirName + "_rap" + opt.yrange + "_pT" + opt.ptrange + "_ntrk" + inOpt.ntrrange + "_ET" + inOpt.etrange + "_massfit_wopull.root";
 //  c1wop.SaveAs(titlestr.c_str());
   /////////////////////////////////////////////////////////////////////////////////  
@@ -2364,7 +2388,7 @@ void drawFinalMass(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_fin, f
 
   padm1->cd();  mframe->Draw();
   lumiTextOffset   = 0.45;
-  CMS_lumi(&c1, opt.isPA, 0);
+  CMS_lumi(&c1, opt.isPA, iPos);
   t->SetTextSize(0.035);
   t->DrawLatex(0.91,0.90,opt.rapString);
   t->DrawLatex(0.91,0.85,opt.ptString);
@@ -2372,11 +2396,19 @@ void drawFinalMass(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_fin, f
   else if (opt.EventActivity ==2) t->DrawLatex(0.91,0.80,opt.etString);
   
   ty->SetTextSize(0.040);
-  sprintf(reduceDS,"N_{J/#psi}: %0.0f #pm %0.0f",ws->var("NSig")->getVal(),ws->var("NSig")->getError());
+  sprintf(reduceDS,"N_{J/#psi} = %0.0f #pm %0.0f",ws->var("NSig")->getVal(),ws->var("NSig")->getError());
   ty->DrawLatex(0.20,0.89,reduceDS);
   sprintf(reduceDS,"#sigma = %0.0f #pm %0.0f MeV/c^{2}", opt.PcombinedWidth, opt.PcombinedWidthErr);
   ty->DrawLatex(0.20,0.84,reduceDS);
-
+  
+  TLegend * leg11 = new TLegend(0.18,0.51,0.54,0.72,NULL,"brNDC");
+  leg11->SetFillStyle(0); leg11->SetBorderSize(0); leg11->SetShadowColor(0);
+  leg11->SetTextSize(0.035); leg11->SetTextFont(42);
+  leg11->SetMargin(0.2);
+  leg11->AddEntry(gfake1,"Data","p");
+  leg11->AddEntry(&hfake21,"Total fit","lf");
+  leg11->AddEntry(&hfake31,"Bkg + nonprompt","lf"); 
+  leg11->AddEntry(&hfake11,"Background","lf");
   leg11->Draw("same");
   c1.Update();
 
@@ -2393,7 +2425,7 @@ void drawFinalMass(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_fin, f
   else mframemax = mframepull->GetMaximum();
   mframepull->SetMaximum(mframemax); 
   mframepull->SetMinimum(-1*mframemax); 
-  mframepull->GetXaxis()->SetTitle("m_{#mu#mu} [GeV/c^{2}]");
+  mframepull->GetXaxis()->SetTitle("m_{#mu#mu} (GeV/c^{2})");
   mframepull->GetXaxis()->CenterTitle(1);
 
   padm2->cd(); mframepull->Draw();
@@ -2433,9 +2465,9 @@ void drawFinalCtau(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* binDat
   RooPlot *tframe = ws->var("Jpsi_Ct")->frame();
   tframe->SetTitleOffset(1.47,"Y");
   double avgBinWidth = rb.averageBinWidth();
-  //tframe->GetYaxis()->SetTitle(Form("Counts / %.2f [mm]",avgBinWidth));
-  tframe->GetYaxis()->SetTitle(Form("Counts / %.0f #mum)",avgBinWidth*1000));
-  tframe->GetXaxis()->SetTitle("#font[12]{l}_{J/#psi} [mm]");
+  //tframe->GetYaxis()->SetTitle(Form("Counts / %.2f (mm)",avgBinWidth));
+  tframe->GetYaxis()->SetTitle(Form("Counts / (%.0f #mum)",avgBinWidth*1000));
+  tframe->GetXaxis()->SetTitle("#font[12]{l}_{J/#psi} (mm)");
   tframe->GetXaxis()->CenterTitle(1);
   tframe->GetYaxis()->CenterTitle(1);
 
@@ -2487,7 +2519,7 @@ void drawFinalCtau(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* binDat
   pad1->cd(); tframe->Draw();
   
   lumiTextOffset   = 0.45;
-  CMS_lumi(c2, opt.isPA, 0);
+  CMS_lumi(c2, opt.isPA, iPos);
   TLatex *ty = new TLatex();  ty->SetNDC();  ty->SetTextAlign(32);
   ty->SetTextSize(0.035);
   ty->DrawLatex(0.91,0.90,opt.rapString);
@@ -2499,11 +2531,11 @@ void drawFinalCtau(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* binDat
   leg->SetFillStyle(0); leg->SetBorderSize(0); leg->SetShadowColor(0);
   leg->SetTextSize(0.035); leg->SetTextFont(42);
   leg->SetMargin(0.2);
-  leg->AddEntry(gfake1,"data","p");
-  leg->AddEntry(&hfake21,"total fit","l");
-  leg->AddEntry(&hfake41,"prompt","l"); 
-  leg->AddEntry(&hfake311,"non-prompt","l"); 
-  leg->AddEntry(&hfake11,"background","l");
+  leg->AddEntry(gfake1,"Data","p");
+  leg->AddEntry(&hfake21,"Total fit","l");
+  leg->AddEntry(&hfake41,"Prompt","l"); 
+  leg->AddEntry(&hfake311,"Nonprompt","l"); 
+  leg->AddEntry(&hfake11,"Background","l");
   leg->Draw("same"); 
  
   // KYO : write down Bfrac on plot 
@@ -2524,7 +2556,7 @@ void drawFinalCtau(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* binDat
   else tframemax = tframepull->GetMaximum();
   tframepull->SetMaximum(tframemax); 
   tframepull->SetMinimum(-1*tframemax);
-  tframepull->GetXaxis()->SetTitle("#font[12]{l}_{J/#psi} [mm]");
+  tframepull->GetXaxis()->SetTitle("#font[12]{l}_{J/#psi} (mm)");
   tframepull->GetXaxis()->CenterTitle(1);
 
   pad2->cd(); tframepull->Draw();
@@ -2548,11 +2580,12 @@ void drawFinalCtau(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* binDat
   c2->SaveAs(titlestr.c_str());
   /////////////////////////////////////////////////////////////////////////
 
-  TCanvas* c2b = new TCanvas("c2b","The Canvas",200,10,540,546);
+  //TCanvas* c2b = new TCanvas("c2b","The Canvas",200,10,540,546);
+  TCanvas* c2b = new TCanvas("c2b","The Canvas",200,10,600,600);
   c2b->cd(); c2b->Draw(); c2b->SetLogy(1);
 
   RooPlot *tframefill = ws->var("Jpsi_Ct")->frame();
-  tframefill->GetYaxis()->SetTitle(Form("Counts / %.0f #mum",avgBinWidth*1000));
+  tframefill->GetYaxis()->SetTitle(Form("Counts / (%.0f #mum)",avgBinWidth*1000));
   redDataCut->plotOn(tframefill,DataError(RooAbsData::SumW2),Binning(rb),MarkerSize(1));
     ws->pdf("totPDF_PEE")->plotOn(tframefill,DrawOption("F"),FillColor(kBlack),FillStyle(3354),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent));
     ws->pdf("totPDF_PEE")->plotOn(tframefill,LineColor(kBlack),LineWidth(2),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent));
@@ -2566,31 +2599,34 @@ void drawFinalCtau(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* binDat
   
   redDataCut->plotOn(tframefill,DataError(RooAbsData::SumW2),Binning(rb),MarkerSize(1));
 
-  tframefill->GetXaxis()->SetTitle("#font[12]{l}_{J/#psi} [mm]");
+  tframefill->GetXaxis()->SetTitle("#font[12]{l}_{J/#psi} (mm)");
   tframefill->GetXaxis()->CenterTitle(1);
   tframefill->GetYaxis()->CenterTitle(1);
-  tframefill->GetYaxis()->SetTitle(Form("Counts / %.0f #mum",avgBinWidth*1000));
+  tframefill->GetYaxis()->SetTitle(Form("Counts / (%.0f #mum)",avgBinWidth*1000));
   tframefill->SetMaximum(tframefill->GetMaximum()*9); 
   tframefill->SetMinimum(0.5); 
   tframefill->Draw();
   
-  TLegend * leg11 = new TLegend(0.58,0.53,0.90,0.72,NULL,"brNDC");
-  leg11->SetFillStyle(0); leg11->SetBorderSize(0); leg11->SetShadowColor(0);
-  leg11->SetTextSize(0.035); leg11->SetTextFont(42);
-  leg11->SetMargin(0.2);
-  leg11->AddEntry(gfake1,"data","p");
-  leg11->AddEntry(&hfake21,"total fit","lf");
-  leg11->AddEntry(&hfake31,"bkg + non-prompt","lf"); 
-  leg11->AddEntry(&hfake11,"background","lf");
-  leg11->Draw("same");
+  TLegend * legpaper = new TLegend(0.59,0.53,0.90,0.72,NULL,"brNDC");
+  legpaper->SetFillStyle(0); legpaper->SetBorderSize(0); legpaper->SetShadowColor(0);
+  legpaper->SetTextSize(0.035); legpaper->SetTextFont(42);
+  legpaper->SetMargin(0.2);
+  legpaper->AddEntry(gfake1,"Data","p");
+  legpaper->AddEntry(&hfake21,"Total fit","lf");
+  legpaper->AddEntry(&hfake31,"Bkg + nonprompt","lf"); 
+  legpaper->AddEntry(&hfake11,"Background","lf");
+  legpaper->Draw("same");
   
   //// **** different lumiTextOffset for timefit_wopull
   lumiTextOffset   = 0.20;
-  CMS_lumi(c2b, opt.isPA, 0);
+  CMS_lumi(c2b, opt.isPA, iPosPaper);
   TLatex *t = new TLatex();  t->SetNDC();  t->SetTextAlign(32);
   t->SetTextSize(0.035);
-  t->DrawLatex(0.91,0.85,opt.rapString);
-  t->DrawLatex(0.91,0.78,opt.ptString);
+//  t->DrawLatex(0.91,0.85,opt.rapString);
+//  t->DrawLatex(0.91,0.78,opt.ptString);
+  t->SetTextAlign(12); // PAPER
+  t->DrawLatex(0.20,0.86,opt.rapString); //PAPER
+  t->DrawLatex(0.20,0.80,opt.ptString); //PAPER
   
   c2b->Update();
   titlestr = opt.dirName + "_rap" + opt.yrange + "_pT" + opt.ptrange + "_ntrk" + inOpt.ntrrange + "_ET" + inOpt.etrange + "_timefit_Log_wopull.pdf";
@@ -2667,9 +2703,16 @@ void CMS_lumi( TPad* pad, int iPeriod, int iPosX )
   }  else if( iPeriod==1 || iPeriod==2 || iPeriod==3){
     lumiText += lumi_pPb502TeV;
     lumiText += " (pPb 5.02 TeV)";
+  } else if( iPeriod==10){
+    lumiText += "pPb ";
+    lumiText += lumi_pPb502TeV;
+    lumiText += ", pp ";
+    lumiText += lumi_pp502TeV;
+    lumiText += " (5.02 TeV)";
   } else {
     lumiText += "LumiText Not Selected";
   }
+  
   cout << lumiText << endl;
 
   TLatex latex;
@@ -2717,6 +2760,12 @@ void CMS_lumi( TPad* pad, int iPeriod, int iPosX )
       latex.SetTextFont(cmsTextFont);
       latex.SetTextSize(cmsTextSize*t);
       latex.SetTextAlign(align_);
+      //cout << "posX_ = " << posX_ << ", posY_ = " << posY_ << endl;
+      if (iPosX==33) {
+        //posX_ -= 0.01; posY_-=0.02;
+        posX_ += 0.07; posY_-=0.02; //KYO for PAPER??
+        latex.SetTextSize(cmsTextSize*t*1.3);
+      } // KYO
       latex.DrawLatex(posX_, posY_, cmsText);
       if( writeExtraText ) {
         latex.SetTextFont(extraTextFont);
