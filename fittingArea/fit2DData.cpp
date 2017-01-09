@@ -15,15 +15,14 @@ int main (int argc, char* argv[]) {
   RooMsgService::instance().getStream(1).removeTopic(Minimization);
   RooMsgService::instance().getStream(1).removeTopic(Caching);
   
-  gROOT->Macro("/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/JpsiStyle6.C");
-  //gROOT->Macro("/home/songkyo/kyo/2Dfitting/JpsiStyle6.C");
-  //gROOT->Macro("../JpsiStyle6.C");
+  gROOT->Macro("/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/JpsiStyle6.C"); //LXPLUS
+  //gROOT->Macro("/home/songkyo/kyo/2Dfitting/JpsiStyle6.C"); //KUNPL
   
   /////////////////////////////////// check input options /////////////////////////////////// 
   parseInputArg(argc, argv, inOpt);
-  float pmin=0, pmax=0, ymin=0, ymax=0, lmin=0, lmax=0, errmin=0, errmax=0; //pt, y, ct, ctErr
+  float ptmin=0, ptmax=0, ymin=0, ymax=0, lmin=0, lmax=0, errmin=0, errmax=0; //pt, y, ct, ctErr
   float etmin=0, etmax=0, ntrmin=0, ntrmax=0; // ETHF, Ntrk
-  getOptRange(inOpt.ptrange,&pmin,&pmax);
+  getOptRange(inOpt.ptrange,&ptmin,&ptmax);
   getOptRange(inOpt.yrange,&ymin,&ymax);
   getOptRange(inOpt.lrange,&lmin,&lmax);
   getOptRange(inOpt.etrange,&etmin,&etmax);
@@ -33,7 +32,7 @@ int main (int argc, char* argv[]) {
   ////// **** Strings for plot formatting
   formTitle(inOpt);
   formRapidity(inOpt, ymin, ymax);
-  formPt(inOpt, pmin, pmax);
+  formPt(inOpt, ptmin, ptmax);
   formEt(inOpt, etmin, etmax);
   formNtrk(inOpt, ntrmin, ntrmax);
 
@@ -169,15 +168,15 @@ int main (int argc, char* argv[]) {
     if (inOpt.EventActivity==0) {
       sprintf(reduceDS_woCtErr, 
             "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && TMath::Abs(Jpsi_Y)>=%.2f && TMath::Abs(Jpsi_Y)<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f", 
-            pmin,pmax,ymin,ymax,-lmin,lmax);
+            ptmin,ptmax,ymin,ymax,-lmin,lmax);
     } else {
       sprintf(reduceDS_woCtErr, 
             "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && TMath::Abs(Jpsi_Y)>=%.2f && TMath::Abs(Jpsi_Y)<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f && Ntracks >=%.1f && Ntracks < %.1f && SumET_HFEta4 >=%.2f && SumET_HFEta4 < %.2f", 
-            pmin,pmax,ymin,ymax,-lmin,lmax,ntrmin,ntrmax,etmin,etmax);
+            ptmin,ptmax,ymin,ymax,-lmin,lmax,ntrmin,ntrmax,etmin,etmax);
     }
     sprintf(reduceDSMC_woCtErr, 
           "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && TMath::Abs(Jpsi_Y)>=%.2f && TMath::Abs(Jpsi_Y)<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f", 
-          pmin,pmax,ymin,ymax,-lmin,lmax);
+          ptmin,ptmax,ymin,ymax,-lmin,lmax);
     //// **** check ctErr Range
     if (inOpt.readCtErr ==0) {
       getCtErrRange(data, inOpt, reduceDS_woCtErr, lmin, lmax, &errmin, &errmax);
@@ -190,29 +189,29 @@ int main (int argc, char* argv[]) {
     if (inOpt.EventActivity==0) {
       sprintf(reduceDS,
               "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && TMath::Abs(Jpsi_Y)>=%.2f && TMath::Abs(Jpsi_Y)<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f && Jpsi_CtErr>=%.3f && Jpsi_CtErr<%.3f",
-            pmin,pmax,ymin,ymax,-lmin,lmax,errmin,errmax);
+            ptmin,ptmax,ymin,ymax,-lmin,lmax,errmin,errmax);
     } else {
         sprintf(reduceDS,
             "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && TMath::Abs(Jpsi_Y)>=%.2f && TMath::Abs(Jpsi_Y)<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f && Jpsi_CtErr>=%.3f && Jpsi_CtErr<%.3f && Ntracks >=%.1f && Ntracks < %.1f && SumET_HFEta4 >=%.2f && SumET_HFEta4 < %.2f",
-          pmin,pmax,ymin,ymax,-lmin,lmax,errmin,errmax,ntrmin,ntrmax,etmin,etmax);
+          ptmin,ptmax,ymin,ymax,-lmin,lmax,errmin,errmax,ntrmin,ntrmax,etmin,etmax);
     }
     sprintf(reduceDSMC,
          "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && TMath::Abs(Jpsi_Y)>=%.2f && TMath::Abs(Jpsi_Y)<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f && Jpsi_CtErr>=%.3f && Jpsi_CtErr<%.3f",
-        pmin,pmax,ymin,ymax,-lmin,lmax,errmin,errmax);
+        ptmin,ptmax,ymin,ymax,-lmin,lmax,errmin,errmax);
   }else{
     //// **** string without CtErrCut
     if (inOpt.EventActivity==0) {
       sprintf(reduceDS_woCtErr, 
             "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && Jpsi_Y>=%.2f && Jpsi_Y<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f", 
-            pmin,pmax,ymin,ymax,-lmin,lmax);
+            ptmin,ptmax,ymin,ymax,-lmin,lmax);
     } else {
       sprintf(reduceDS_woCtErr, 
             "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && Jpsi_Y>=%.2f && Jpsi_Y<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f && Ntracks >=%.1f && Ntracks < %.1f && SumET_HFEta4 >=%.2f && SumET_HFEta4 < %.2f", 
-            pmin,pmax,ymin,ymax,-lmin,lmax,ntrmin,ntrmax,etmin,etmax);
+            ptmin,ptmax,ymin,ymax,-lmin,lmax,ntrmin,ntrmax,etmin,etmax);
     }
     sprintf(reduceDSMC_woCtErr, 
           "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && Jpsi_Y>=%.2f && Jpsi_Y<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f", 
-          pmin,pmax,ymin,ymax,-lmin,lmax);
+          ptmin,ptmax,ymin,ymax,-lmin,lmax);
     //// **** check ctErr Range
     if (inOpt.readCtErr ==0) {
       getCtErrRange(data, inOpt, reduceDS_woCtErr, lmin, lmax, &errmin, &errmax);
@@ -225,15 +224,15 @@ int main (int argc, char* argv[]) {
     if (inOpt.EventActivity==0) {
       sprintf(reduceDS,
             "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && Jpsi_Y>=%.2f && Jpsi_Y<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f && Jpsi_CtErr>=%.3f && Jpsi_CtErr<%.3f",
-          pmin,pmax,ymin,ymax,-lmin,lmax,errmin,errmax);
+          ptmin,ptmax,ymin,ymax,-lmin,lmax,errmin,errmax);
     } else {
       sprintf(reduceDS,
             "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && Jpsi_Y>=%.2f && Jpsi_Y<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f && Jpsi_CtErr>=%.3f && Jpsi_CtErr<%.3f && Ntracks >=%.1f && Ntracks < %.1f && SumET_HFEta4 >=%.2f && SumET_HFEta4 < %.2f",
-          pmin,pmax,ymin,ymax,-lmin,lmax,errmin,errmax,ntrmin,ntrmax,etmin,etmax);
+          ptmin,ptmax,ymin,ymax,-lmin,lmax,errmin,errmax,ntrmin,ntrmax,etmin,etmax);
     }
    sprintf(reduceDSMC,
          "Jpsi_Pt>=%.2f && Jpsi_Pt<%.2f && Jpsi_Y>=%.2f && Jpsi_Y<%.2f && Jpsi_Ct>=%.2f && Jpsi_Ct<%.2f && Jpsi_CtErr>=%.3f && Jpsi_CtErr<%.3f",
-        pmin,pmax,ymin,ymax,-lmin,lmax,errmin,errmax);
+        ptmin,ptmax,ymin,ymax,-lmin,lmax,errmin,errmax);
   } 
   cout << "reduceDS: " << reduceDS << endl;
   cout << "reduceDSMC: " << reduceDSMC << endl;
@@ -257,23 +256,19 @@ int main (int argc, char* argv[]) {
   ws->var("Jpsi_Ct")->SetTitle("#font[12]{l}_{J/#psi}");
  
   //// 1) mass binning
-  RooBinning rbmass(2.6,3.5);
-  //rbmass.addUniform(10, 2.6,2.8);
-  //rbmass.addUniform(40, 2.8,3.2);
-  //rbmass.addUniform(15, 3.2,3.5);
-  rbmass.addUniform(15, 2.6,2.9); // 0.02 GeV
-  rbmass.addUniform(40, 2.9,3.3); // 0.01 GeV
-  rbmass.addUniform(10, 3.3,3.5); // 0.02 GeV
+  //RooBinning rbmass(2.6,3.5);
+  //rbmass.addUniform(15, 2.6,2.9); // 0.02 GeV
+  //rbmass.addUniform(40, 2.9,3.3); // 0.01 GeV
+  //rbmass.addUniform(10, 3.3,3.5); // 0.02 GeV
   //ws->var("Jpsi_Mass")->setBinning(rbmass);
   ws->var("Jpsi_Mass")->setBins(45); //default : bin/0.02 GeV
-  //ws->var("Jpsi_Mass")->setBins(90);
   
   //// 2) ct binning
   RooBinning rbct = setCtBinning(lmin,lmax);
   ws->var("Jpsi_Ct")->setBinning(rbct);
 //  if (!inOpt.ptrange.compare("2.0-3.0")){ws->var("Jpsi_Ct")->setBins(100);}  // TEST
  
-  // CtTrue and CtErr binning 
+  // ctTrue binning
   RooBinning rbtrue(-0.1,4.0);
   rbtrue.addUniform(5,-0.1,0.0);
   rbtrue.addUniform(100,0.0,0.5);
@@ -283,6 +278,7 @@ int main (int argc, char* argv[]) {
   if (inOpt.sysString=="sys04_01") {ws->var("Jpsi_CtTrue")->setBinning(rbtrue);} 
   else { ws->var("Jpsi_CtTrue")->setBins(1000); }
 
+  // ctErr binning 
   ws->var("Jpsi_CtErr")->setBins(25);
   
   //////////////////////////////////////////////////////////////////////////////////////////////
@@ -352,45 +348,17 @@ int main (int argc, char* argv[]) {
     ws->var("enne")->setConstant(kFALSE);
   } else {
     ws->var("alpha")->setConstant(kFALSE);
-    //ws->var("enne")->setVal(2.1);
-    //ws->var("enne")->setConstant(kTRUE);
-    ws->var("enne")->setConstant(kFALSE);
+    ws->var("enne")->setVal(2.1);
+    ws->var("enne")->setConstant(kTRUE);
+    //ws->var("enne")->setConstant(kFALSE);
   } 
   ws->var("coefPol")->setRange(-5., 5.);
   ws->var("coefPol")->setVal(-0.05);
   ws->var("coefPol")->setConstant(kFALSE);
+  
   //////////////////////////// Special parameter setting for each bin //////////////////////////// 
   //// sys03 : Remove fracRes, meanPRResW, sigmaPRResW!!!
   //// sys04 : Remove sigmaNPTrue!!!
-/*
-  ws->var("enne")->setVal(2.1);
-  ws->var("enne")->setConstant(kTRUE);
-  if (inOpt.sysString == "sys01_01") {
-//    ws->var("alpha")->setVal(1.0);
-//    ws->var("alpha")->setConstant(kTRUE);
-    ws->var("alpha")->setConstant(kFALSE);
-    ws->var("enne")->setConstant(kFALSE);
-  } else if (inOpt.sysString == "sys01_02") {
-//    ws->var("alpha")->setVal(2.0);
-//    ws->var("alpha")->setConstant(kTRUE);
-    ws->var("alpha")->setVal(1.7);
-    ws->var("alpha")->setConstant(kTRUE);
-    ws->var("enne")->setConstant(kFALSE);
-  } else if (inOpt.sysString == "sys01_03") {
-    ws->var("alpha")->setVal(3.0);
-    ws->var("alpha")->setConstant(kTRUE);
-  } else if (inOpt.sysString == "sys01_04") {
-    ws->var("enne")->setVal(1.6);
-    ws->var("enne")->setConstant(kTRUE);
-    ws->var("alpha")->setConstant(kFALSE);
-  } else if (inOpt.sysString == "sys01_05") {
-    ws->var("enne")->setVal(2.6);
-    ws->var("enne")->setConstant(kTRUE);
-    ws->var("alpha")->setConstant(kFALSE);
-  } else {
-    ws->var("alpha")->setConstant(kFALSE);
-  }
-*/ 
   
   ////////////////////////////  nominal  /////////////////////////////////
   if (inOpt.EventActivity == 0) { // no multiplicity
@@ -424,8 +392,6 @@ int main (int argc, char* argv[]) {
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
               ws->var("sigmaSig2")->setRange(0.025,0.065);
               ws->var("sigmaSig2")->setVal(0.050);
-//            ws->var("alpha")->setRange(1.2,2.5);
-//            ws->var("alpha")->setVal(1.50);
           }
         }
       }
@@ -436,17 +402,7 @@ int main (int argc, char* argv[]) {
             ws->var("coefPol")->setVal(-0.21);
           }
         }
-        else if (!inOpt.ptrange.compare("6.5-7.5")){
-          if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-//            ws->var("alpha")->setRange(1.3,2.5);
-//            ws->var("alpha")->setVal(1.70);
-          }
-        }
         else if (!inOpt.ptrange.compare("14.0-30.0")){
-          if (inOpt.sysString == "sys02_01") {
-//            ws->var("alpha")->setRange(1.1,2.0);
-//            ws->var("alpha")->setVal(1.70);
-          }
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("fracG1")->setRange(0.27,0.86);
             ws->var("fracG1")->setVal(0.50);
@@ -460,13 +416,7 @@ int main (int argc, char* argv[]) {
         }
       }
       else if (!inOpt.yrange.compare("-0.90-0.00")) {
-        if (!inOpt.ptrange.compare("7.5-8.5")){
-          if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-//            ws->var("alpha")->setRange(1.2,2.5);
-//            ws->var("alpha")->setVal(1.50);
-          }
-        }
-        else if (!inOpt.ptrange.compare("8.5-10.0")){
+        if (!inOpt.ptrange.compare("8.5-10.0")){
           if (inOpt.sysString == "sys02_01") {
             ws->var("coefPol")->setRange(-0.265,-0.24);
             ws->var("coefPol")->setVal(-0.25);
@@ -484,14 +434,10 @@ int main (int argc, char* argv[]) {
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("fracG1")->setRange(0.21,0.86);
             ws->var("fracG1")->setVal(0.50);
-//            ws->var("alpha")->setRange(1.2,2.5);
-//            ws->var("alpha")->setVal(1.50);
           }
         }
         else if (!inOpt.ptrange.compare("7.5-8.5")){
           if (inOpt.sysString == "sys02_01") {
-            //ws->var("coefPol")->setRange(-0.265,-0.24);
-            //ws->var("coefPol")->setVal(-0.25);
             ws->var("sigmaSig1")->setRange(0.015,0.065);
             ws->var("sigmaSig1")->setVal(0.050);
             ws->var("sigmaSig2")->setRange(0.015,0.065);
@@ -512,13 +458,7 @@ int main (int argc, char* argv[]) {
         }
       }
       else if (!inOpt.yrange.compare("0.90-1.50")) {
-        if (!inOpt.ptrange.compare("6.5-7.5")){
-          if (inOpt.sysString == "sys02_01") {
-//            ws->var("alpha")->setRange(1.4,2.9);
-//nn            ws->var("alpha")->setVal(1.70);
-          }
-        }
-        else if (!inOpt.ptrange.compare("8.5-10.0")){
+        if (!inOpt.ptrange.compare("8.5-10.0")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("fracG1")->setRange(0.21,0.86);
             ws->var("fracG1")->setVal(0.50);
@@ -527,10 +467,6 @@ int main (int argc, char* argv[]) {
       }
       else if (!inOpt.yrange.compare("1.50-1.93")) {
         if (!inOpt.ptrange.compare("5.0-6.5")){
-          if (inOpt.sysString == "sys02_01") {
-//            ws->var("alpha")->setRange(1.4,2.9);
-//            ws->var("alpha")->setVal(1.70);
-          }
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("fracG1")->setRange(0.36,0.76);
             ws->var("fracG1")->setVal(0.50);
@@ -560,8 +496,6 @@ int main (int argc, char* argv[]) {
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("alpha")->setRange(1.58,2.5);
             ws->var("alpha")->setVal(2.0);
-            //ws->var("fracG1")->setRange(0.21,0.56);
-            //ws->var("fracG1")->setVal(0.50);
           }
         }
         else if (!inOpt.ptrange.compare("4.0-5.0")){
@@ -570,21 +504,7 @@ int main (int argc, char* argv[]) {
             ws->var("alpha")->setVal(2.0);
           }
         }
-        else if (!inOpt.ptrange.compare("8.5-10.0")){
-          if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-//            ws->var("alpha")->setRange(1.3,2.87);
-//            ws->var("alpha")->setVal(1.50);
-          }
-        }
-        else if (!inOpt.ptrange.compare("8.5-10.0")){
-          if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-            ws->var("sigmaSig1")->setRange(0.048,0.071);
-            ws->var("sigmaSig1")->setVal(0.055);
-            ws->var("sigmaSig2")->setRange(0.048,0.071);
-            ws->var("sigmaSig2")->setVal(0.055);
-          }
-        }
-        if (!inOpt.ptrange.compare("14.0-30.0")){
+        else if (!inOpt.ptrange.compare("14.0-30.0")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("coefExp")->setRange(-2.0,-1.0);
             ws->var("coefExp")->setVal(-1.5);
@@ -595,13 +515,7 @@ int main (int argc, char* argv[]) {
       }
     }
     else if (inOpt.isPA == 3) { //pAMerged
-      if (!inOpt.yrange.compare("0.00-2.40")) { //// for integrated
-        if (!inOpt.ptrange.compare("0.0-30.0")){
-          ws->var("fracG1")->setRange(0.42,0.58);
-          ws->var("fracG1")->setVal(0.50);
-        }
-      }
-      else if (!inOpt.yrange.compare("-2.40--1.97")) {
+      if (!inOpt.yrange.compare("-2.40--1.97")) {
         if (!inOpt.ptrange.compare("4.0-5.0")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("sigmaSig2")->setRange(0.020,0.058);
@@ -614,33 +528,19 @@ int main (int argc, char* argv[]) {
             ws->var("meanPRResW")->setVal(0.009);
           }
         }
-        else if (!inOpt.ptrange.compare("6.5-7.5")){
-          if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-            //ws->var("fracG1")->setRange(0.23,0.87);
-            //ws->var("fracG1")->setVal(0.50);
-            //ws->var("sigmaSig2")->setRange(0.020,0.068);
-            //ws->var("sigmaSig2")->setVal(0.040);
-          }
-        }
         else if (!inOpt.ptrange.compare("7.5-8.5")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-//            ws->var("alpha")->setRange(1.3,2.87);
-//            ws->var("alpha")->setVal(1.50);
             ws->var("fracG1")->setRange(0.23,0.87);
             ws->var("fracG1")->setVal(0.50);
           }
         }
         else if (!inOpt.ptrange.compare("8.5-10.0")){ // KYO for test
-//            ws->var("alpha")->setRange(0.5,1.1);
-//            ws->var("alpha")->setVal(0.6);
             ws->var("lambdam")->setRange(0.099998, 0.1);
             ws->var("lambdam")->setVal(0.0999998);
             ws->var("lambdasym")->setRange(0.048, 0.041);
             ws->var("lambdasym")->setVal(0.04049);
             ws->var("lambdap")->setRange(0.25, 0.3);
             ws->var("lambdap")->setVal(0.28);
-//            ws->var("coefExp")->setRange(0.23,0.87);
-//            ws->var("coefExp")->setVal(0.50);
         }
         else if (!inOpt.ptrange.compare("10.0-14.0")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
@@ -744,8 +644,6 @@ int main (int argc, char* argv[]) {
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("alpha")->setRange(1.4,2.5);
             ws->var("alpha")->setVal(2.20);
-//            ws->var("fracG1")->setRange(0.23,0.69);
-//            ws->var("fracG1")->setVal(0.40);
             ws->var("sigmaSig1")->setRange(0.015,0.045);
             ws->var("sigmaSig1")->setVal(0.040);
             ws->var("sigmaSig2")->setRange(0.015,0.045);
@@ -780,12 +678,6 @@ int main (int argc, char* argv[]) {
             ws->var("fracG1")->setVal(0.50);
           }
         }
-        else if (!inOpt.ptrange.compare("6.5-7.5")){
-          if (inOpt.sysString == "sys02_01") {
-//            ws->var("alpha")->setRange(1.25,3.0);
-//            ws->var("alpha")->setVal(1.8);
-          }
-        }
         else if (!inOpt.ptrange.compare("10.0-14.0")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("fracG1")->setRange(0.23,0.87);
@@ -794,8 +686,6 @@ int main (int argc, char* argv[]) {
             ws->var("alpha")->setVal(1.8);
           }
           if (inOpt.sysString == "sys01_01") {
-//            ws->var("alpha")->setRange(1.25,3.0);
- //           ws->var("alpha")->setVal(1.8);
             ws->var("enne")->setRange(1.25,3.0);
             ws->var("enne")->setVal(1.8);
           }
@@ -830,8 +720,6 @@ int main (int argc, char* argv[]) {
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("fracG1")->setRange(0.23,0.87);
             ws->var("fracG1")->setVal(0.50);
-            //ws->var("alpha")->setRange(1.2,2.5);
-            //ws->var("alpha")->setVal(1.50);
           }
           if (inOpt.sysString == "sys02_01") {
             ws->var("sigmaSig2")->setRange(0.015,0.055);
@@ -839,8 +727,6 @@ int main (int argc, char* argv[]) {
           }
         }
         else if (!inOpt.ptrange.compare("8.5-10.0")){
-          //ws->var("meanPRResW")->setRange(-1.,1.);
-          //ws->var("meanPRResW")->setVal(0.);
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("fracG1")->setRange(0.53,0.87);
             ws->var("fracG1")->setVal(0.70);
@@ -849,10 +735,6 @@ int main (int argc, char* argv[]) {
             ws->var("sigmaSig2")->setRange(0.015,0.052);
             ws->var("sigmaSig2")->setVal(0.030);
           }
-          //if ((inOpt.sysString != "sys03_01") && (inOpt.sysString != "sys03_02")) {
-          //  ws->var("fracRes")->setRange(0.005,0.04); // forced!! (np RpPb ~ 0.7 for this bin)
-          //  ws->var("fracRes")->setVal(0.029);
-          //}
         }
         else if (!inOpt.ptrange.compare("14.0-30.0")){
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
@@ -866,11 +748,7 @@ int main (int argc, char* argv[]) {
         }
       }
       else if (!inOpt.yrange.compare("1.93-2.40")) {
-        if (!inOpt.ptrange.compare("2.0-3.0")){
-          //ws->var("meanPRResW")->setRange(-0.03,0.03); // TEST
-          //ws->var("meanPRResW")->setVal(0.00);
-        }
-        else if (!inOpt.ptrange.compare("7.5-8.5")){
+        if (!inOpt.ptrange.compare("7.5-8.5")){
           if (inOpt.sysString == "sys02_01") {
             ws->var("meanPRResW")->setRange(-0.01,-0.008); // TEST
             ws->var("meanPRResW")->setVal(-0.009);
@@ -880,14 +758,6 @@ int main (int argc, char* argv[]) {
           if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
             ws->var("fracG1")->setRange(0.38,0.68);
             ws->var("fracG1")->setVal(0.40);
-//            ws->var("alpha")->setRange(1.2,2.5);
-//            ws->var("alpha")->setVal(1.50);
-          }
-        }
-        else if (!inOpt.ptrange.compare("14.0-30.0")){
-          if ((inOpt.sysString != "sys01_01") && (inOpt.sysString != "sys01_02") && (inOpt.sysString != "sys01_03") ) {
-//            ws->var("alpha")->setRange(1.0,2.5);
-//            ws->var("alpha")->setVal(1.50);
           }
         }
       }
@@ -952,53 +822,6 @@ int main (int argc, char* argv[]) {
     }
   } // EventActivity==2
 
-/*
-  ws->var("enne")->setVal(2.1);
-  ws->var("enne")->setConstant(kTRUE);
-  if (inOpt.sysString == "sys01_01") {
-    //ws->var("alpha")->setVal(1.0);
-    //ws->var("alpha")->setConstant(kTRUE);
-    ws->var("alpha")->setConstant(kFALSE);
-    ws->var("enne")->setConstant(kFALSE);
-  } else if (inOpt.sysString == "sys01_02") {
-    //ws->var("alpha")->setVal(2.0);
-    //ws->var("alpha")->setConstant(kTRUE);
-    ws->var("alpha")->setVal(1.7);
-    ws->var("alpha")->setConstant(kTRUE);
-    ws->var("enne")->setConstant(kFALSE);
-  } else if (inOpt.sysString == "sys01_03") {
-    ws->var("alpha")->setVal(3.0);
-    ws->var("alpha")->setConstant(kTRUE);
-  } else if (inOpt.sysString == "sys01_04") {
-    ws->var("enne")->setVal(1.6);
-    ws->var("enne")->setConstant(kTRUE);
-    ws->var("alpha")->setConstant(kFALSE);
-  } else if (inOpt.sysString == "sys01_05") {
-    ws->var("enne")->setVal(2.6);
-    ws->var("enne")->setConstant(kTRUE);
-    ws->var("alpha")->setConstant(kFALSE);
-  } else {
-    ws->var("alpha")->setConstant(kFALSE);
-  }
-*/
-  /*
-  if (inOpt.sysString == "sys01_01") {
-    ws->var("alpha")->setConstant(kFALSE);
-    ws->var("enne")->setConstant(kFALSE);
-  } else if (inOpt.sysString == "sys01_02") {
-    ws->var("alpha")->setConstant(kTRUE);
-    ws->var("enne")->setConstant(kTRUE);
-  } else if (inOpt.sysString == "sys01_03") {
-    ws->var("alpha")->setVal(1.7);
-    ws->var("alpha")->setConstant(kTRUE);
-    ws->var("enne")->setConstant(kFALSE);
-  } else {
-    ws->var("alpha")->setConstant(kFALSE);
-    ws->var("enne")->setVal(2.1);
-    ws->var("enne")->setConstant(kTRUE);
-  } 
-  */
-
   /////////////////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////// [[2]] fitting mass ///////////////////////////////////  
   /////////////////////////////////////////////////////////////////////////////////////////
@@ -1047,7 +870,7 @@ int main (int argc, char* argv[]) {
   Double_t ErrNSig_fin = ws->var("NSig")->getError();
   Double_t NBkg_fin = ws->var("NBkg")->getVal();
   Double_t ErrNBkg_fin = ws->var("NBkg")->getError();
-  //return 0;
+  
   ////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// [[3]] get ctau error PDF for PEE method /////////////////////////  
   /////////////////////////////////////////////////////////////////////////////////////////
@@ -1185,10 +1008,6 @@ int main (int argc, char* argv[]) {
           ws->var("meanPRResW")->setConstant(kTRUE);
           ws->var("meanPRResN")->setConstant(kTRUE);
         }
-        if (!inOpt.ptrange.compare("7.5-8.5")){
-          //ws->var("meanPRResW")->setConstant(kTRUE);
-          //ws->var("meanPRResN")->setConstant(kTRUE);
-        }
       }
       if (!inOpt.yrange.compare("1.46-1.93")) {
         if (!inOpt.ptrange.compare("8.5-10.0")){
@@ -1199,48 +1018,6 @@ int main (int argc, char* argv[]) {
       }
     }
   }
-  
-  
-  /*
-  if (inOpt.sysString!="sys04_01") {ws->var("coefExpNPTrue") ->setConstant(kFALSE);}
-  ws->var("fracRes")->setConstant(kTRUE);
-  ws->var("meanPRResW")->setConstant(kTRUE);
-  ws->var("meanPRResN")->setConstant(kFALSE);
-  ws->var("sigmaPRResW") ->setConstant(kTRUE);
-  ws->var("sigmaPRResN") ->setConstant(kFALSE);
-  if (inOpt.sysString=="test_orig") {
-    ws->var("fracRes")->setConstant(kFALSE);
-    ws->var("meanPRResW")->setConstant(kFALSE);
-    ws->var("meanPRResN")->setConstant(kFALSE);
-    ws->var("sigmaPRResW") ->setConstant(kTRUE);
-    ws->var("sigmaPRResN") ->setConstant(kFALSE);
-  }
-  if (inOpt.sysString=="sys03_01") { 
-    ws->var("fracRes")->setConstant(kFALSE);
-    ws->var("meanPRResW")->setConstant(kFALSE);
-    ws->var("meanPRResN")->setConstant(kFALSE);
-    ws->var("sigmaPRResW") ->setConstant(kFALSE);
-    ws->var("sigmaPRResN") ->setConstant(kFALSE);
-  } //release all sigma
-  else if (inOpt.sysString=="sys03_02") { 
-    ws->var("fracRes")->setConstant(kTRUE);
-    ws->var("meanPRResW")->setConstant(kTRUE);
-    ws->var("meanPRResN")->setConstant(kTRUE);
-    ws->var("sigmaPRResW") ->setConstant(kTRUE);
-    ws->var("sigmaPRResN") ->setConstant(kTRUE);
-  } //fix all sigma
-*/
-  //// **** Special fixing for Bfrac
-  //if (inOpt.EventActivity == 0) { // no multiplicity
-  //  if (inOpt.isPA == 3) {
-  //    if (!inOpt.yrange.compare("1.46-1.93")) {
-  //      if (!inOpt.ptrange.compare("8.5-10.0")){
-  //        ws->var("Bfrac")->setRange(0.24,0.26);
-  //        ws->var("Bfrac")->setVal(0.25);
-  //      }
-  //    }
-  //  }
-  //}
   
   //// *** Get NSig, NBkg, Bfraction and their errors
   Double_t NSigPR_fin, ErrNSigPR_fin;
@@ -1583,7 +1360,6 @@ void formRapidity(InputOpt &opt, float ymin, float ymax) {
   string ymin_cm_sz, ymax_cm_sz;
   ymin_cm_sz = Form("%.2f",ymin_cm);
   ymax_cm_sz = Form("%.2f",ymax_cm);
-  //cout << "* to y_CM = "<<ymin_cm<<" < y_CM < "<<ymax_cm<<endl;
   cout << "* to y_CM = "<<ymin_cm_sz<<" < y_CM < "<<ymax_cm_sz<<endl;
   
   double inteMin, inteMax;
@@ -1596,9 +1372,6 @@ void formRapidity(InputOpt &opt, float ymin, float ymax) {
     else if (fracMin==0 && fracMax==0) sprintf(opt.rapString,"%.0f < |y_{CM}| < %.0f",ymin_cm,ymax_cm);
     else sprintf(opt.rapString,"%.2f < |y_{CM}| < %.2f",ymin_cm,ymax_cm);
   }else {
-//  if (!inOpt.ptrange.compare("2.0-3.0") ){ lmin = 3.0; lmax = 5.0; } // TEST
-//    if ( !(ymin_cm_sz.compare("-2.87")) || !(ymin_cm_sz.compare("-1.93")) || !(ymin_cm_sz.compare("1.93")) || !(ymin_cm_sz("2.87")) ) sprintf(opt.rapString,"%.2f < y_{CM} < %.1f",ymin_cm,ymax_cm);
-//    else if ( !(ymax_cm_sz.compare("-2.87")) || !(ymax_cm_sz.compare("-1.93")) || !(ymax_cm_sz.compare("1.93")) || !(ymax_cm_sz("2.87")) ) sprintf(opt.rapString,"%.1f < y_{CM} < %.2f",ymax_cm,ymax_cm);
     if ((ymin_cm_sz=="-2.87") || (ymin_cm_sz=="-1.93") || (ymin_cm_sz=="1.93") || (ymin_cm_sz=="2.87")) sprintf(opt.rapString,"%.2f < y_{CM} < %.1f",ymin_cm,ymax_cm);
     else if ((ymax_cm_sz=="-2.87") || (ymax_cm_sz=="-1.93") || (ymax_cm_sz=="1.93") || (ymax_cm_sz=="2.87")) sprintf(opt.rapString,"%.1f < y_{CM} < %.2f",ymin_cm,ymax_cm);
     else if (ymax_cm==2.87 || ymax_cm==1.93) sprintf(opt.rapString,"%.1f < y_{CM} < %.2f",ymin_cm,ymax_cm);
@@ -1610,19 +1383,19 @@ void formRapidity(InputOpt &opt, float ymin, float ymax) {
 //  cout << " ***  opt.rapString = " << opt.rapString << endl;
 }
 
-void formPt(InputOpt &opt, float pmin, float pmax) {
-  double pminD, pmaxD, pminF, pmaxF;
-  pminF = modf(pmin,&pminD);
-  pmaxF = modf(pmax,&pmaxD);
+void formPt(InputOpt &opt, float ptmin, float ptmax) {
+  double ptminD, ptmaxD, ptminF, ptmaxF;
+  ptminF = modf(ptmin,&ptminD);
+  ptmaxF = modf(ptmax,&ptmaxD);
 
-  if (pmin == 0) { 
-    if (pmaxF == 0) sprintf(opt.ptString,"p_{T} < %.0f GeV/c",pmax);
-    else  sprintf(opt.ptString,"p_{T} < %.1f GeV/c",pmax);
+  if (ptmin == 0) { 
+    if (ptmaxF == 0) sprintf(opt.ptString,"p_{T} < %.0f GeV/c",ptmax);
+    else  sprintf(opt.ptString,"p_{T} < %.1f GeV/c",ptmax);
   } else {
-    if (pminF == 0 && pmaxF == 0) sprintf(opt.ptString,"%.0f < p_{T} < %.0f GeV/c",pmin,pmax);
-    else if (pminF == 0 && !pmaxF == 0) sprintf(opt.ptString,"%.0f < p_{T} < %.1f GeV/c",pmin,pmax);
-    else if (!pminF == 0 && pmaxF == 0) sprintf(opt.ptString,"%.1f < p_{T} < %.0f GeV/c",pmin,pmax);
-    else sprintf(opt.ptString,"%.1f < p_{T} < %.1f GeV/c",pmin,pmax);
+    if (ptminF == 0 && ptmaxF == 0) sprintf(opt.ptString,"%.0f < p_{T} < %.0f GeV/c",ptmin,ptmax);
+    else if (ptminF == 0 && !ptmaxF == 0) sprintf(opt.ptString,"%.0f < p_{T} < %.1f GeV/c",ptmin,ptmax);
+    else if (!ptminF == 0 && ptmaxF == 0) sprintf(opt.ptString,"%.1f < p_{T} < %.0f GeV/c",ptmin,ptmax);
+    else sprintf(opt.ptString,"%.1f < p_{T} < %.1f GeV/c",ptmin,ptmax);
   }
 }
 
@@ -2336,12 +2109,10 @@ void drawFinalMass(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_fin, f
   TCanvas* c1wop = new TCanvas("c1wop","The Canvas",200,10,600,600);
   c1wop->cd(); c1wop->Draw(); 
   
-//  TCanvas c1wop; c1wop.Draw();
   mframe->SetTitleOffset(1.47,"Y");
   mframe->Draw();
   //// **** different lumiTextOffset for massfit_wopull
   lumiTextOffset   = 0.20;
-  //CMS_lumi(&c1wop, opt.isPA, iPosPaper);
   CMS_lumi(c1wop, opt.isPA, iPosPaper);
   t->SetTextSize(0.035);
 //  t->DrawLatex(0.91,0.85,opt.rapString);
@@ -2367,7 +2138,6 @@ void drawFinalMass(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_fin, f
   legpaper->Draw("same");
 
   titlestr = opt.dirName + "_rap" + opt.yrange + "_pT" + opt.ptrange + "_ntrk" + inOpt.ntrrange + "_ET" + inOpt.etrange + "_massfit_wopull.pdf";
-  //c1wop.SaveAs(titlestr.c_str());
   c1wop->SaveAs(titlestr.c_str());
 //  titlestr = opt.dirName + "_rap" + opt.yrange + "_pT" + opt.ptrange + "_ntrk" + inOpt.ntrrange + "_ET" + inOpt.etrange + "_massfit_wopull.root";
 //  c1wop.SaveAs(titlestr.c_str());
@@ -2580,7 +2350,6 @@ void drawFinalCtau(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* binDat
   c2->SaveAs(titlestr.c_str());
   /////////////////////////////////////////////////////////////////////////
 
-  //TCanvas* c2b = new TCanvas("c2b","The Canvas",200,10,540,546);
   TCanvas* c2b = new TCanvas("c2b","The Canvas",200,10,600,600);
   c2b->cd(); c2b->Draw(); c2b->SetLogy(1);
 

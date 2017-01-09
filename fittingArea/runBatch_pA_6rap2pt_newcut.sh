@@ -21,8 +21,8 @@ npmc=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/out
 npmc2=/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_NPMC_pPbFlip_newcut_off8M/outRoo_NPMC_pPbFlip_newcut_off8M.root
 
 #### systematic options
-sysString="nominal"
-#sysString=("sys01_01" "sys01_02" "sys01_03" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
+#sysString="nominal"
+sysString=("sys01_01" "sys01_02" "sys01_03" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
 #sysString=("nominal" "sys01_01" "sys01_02" "sys01_03" "sys02_01" "sys03_01" "sys03_02" "sys04_01")
 
 #### other options
