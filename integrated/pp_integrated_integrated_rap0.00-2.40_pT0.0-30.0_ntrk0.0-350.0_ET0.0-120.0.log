@@ -1,0 +1,481 @@
+
+ -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-  
+ -*-*-*-*-*-*-*-*-*- Parsing input argument -*-*-*-*-*-*-*-*-*-  
+ -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-  
+ * Directory Name: pp_integrated_integrated
+   ** Data file 1st: /afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_Data_pp_newcut/outRoo_Data_pp_newcut.root
+ * One rooData file used: (default for pp, pPb)
+   ** Prompt MC file: /afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_PRMC_pp_newcut_off60M/outRoo_PRMC_pp_newcut_off60M.root
+   ** Non-prompt MC file: /afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_NPMC_pp_newcut_off60M/outRoo_NPMC_pp_newcut_off60M.root
+ * One rooData MC file used: (default for pp, pPb, Pbp)
+ * (Zvtx) Weighting MC: 0
+ * beam info (0:pp, 1:Pbp, 2:pPb, 3:pAMerged): 0
+ * event-activity (0:nothing, 1:Ntrk, 2:ET) : 0
+ * systematic String: integrated
+  ** Mass signal: G1CB1Sig
+  ** Mass background: expBkg
+ * ctau error range from text(1) or not(0): 0
+  ** ctau error range input file: /afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/integrated/outCtErr/fit_ctauErrorRange_pp_8rap9pt_newcut.txt
+  ** p_{T} range: 0.0-30.0 (GeV)
+  ** Use absolute Y: 1
+  ** y_{lab} range: 0.00-2.40
+  ** l_{J/#psi} range: 1.5-3.0 (mm)
+  ** Ntracks range : 0.0-350.0
+  ** E_{T}^{HF} range : 0.0-120.0 (GeV)
+ -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-  
+
+* Convert y_lab = 0 < y_lab < 2.4
+* to y_CM = 0.00 < y_CM < 2.40
+/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_PRMC_pp_newcut_off60M/outRoo_PRMC_pp_newcut_off60M.root
+## UN-WEIGHTED PRMC is used!
+/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_NPMC_pp_newcut_off60M/outRoo_NPMC_pp_newcut_off60M.root
+## UN-WEIGHTED NPMC is used!
+/afs/cern.ch/work/k/kyolee/private/CMSSW_8_0_0/src/2Dfitting/rooDataSet/outRoo_Data_pp_newcut/outRoo_Data_pp_newcut.root
+## UN-WEIGHTED dataset is used!
+[#1] INFO:ObjectHandling -- RooWorkspace::import(ctauerrorcheckWS) importing dataset data
+[#1] INFO:ObjectHandling -- RooWorkspace::import(ctauerrorcheckWS) importing RooRealVar::Jpsi_Mass
+[#1] INFO:ObjectHandling -- RooWorkspace::import(ctauerrorcheckWS) importing RooRealVar::Jpsi_Pt
+[#1] INFO:ObjectHandling -- RooWorkspace::import(ctauerrorcheckWS) importing RooRealVar::Jpsi_Y
+[#1] INFO:ObjectHandling -- RooWorkspace::import(ctauerrorcheckWS) importing RooRealVar::Jpsi_Zvtx
+[#1] INFO:ObjectHandling -- RooWorkspace::import(ctauerrorcheckWS) importing RooRealVar::Jpsi_Ct
+[#1] INFO:ObjectHandling -- RooWorkspace::import(ctauerrorcheckWS) importing RooRealVar::Jpsi_CtErr
+[#1] INFO:ObjectHandling -- RooWorkspace::import(ctauerrorcheckWS) importing RooRealVar::Ntracks
+[#1] INFO:ObjectHandling -- RooWorkspace::import(ctauerrorcheckWS) importing RooRealVar::SumET_HFEta4
+ -*-*-*-*-*-*-*-*-*-*-*-*-*- getCtErrRange -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-  
+ *** DATA :: N events to fit (woCtErrRange) : 799690
+   INFO: In dommap (/build/cmsbuild/auto-builds/CMSSW_8_0_0-slc6_amd64_gcc493/build/CMSSW_8_0_0-build/BUILD/slc6_amd64_gcc493/lcg/root/6.06.00-ikhhed4/root-6.06.00/roofit/roofitcore/src/BidirMMapPipe.cxx, line 422): anonymous mmapping works, excellent!
+[#1] INFO:Eval -- RooAbsTestStatistic::initMPMode: started 8 remote server process.
+ **********
+ **   13 **MIGRAD        4500           1
+ **********
+ FIRST CALL TO USER FUNCTION AT NEW START POINT, WITH IFLAG=4.
+ START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-03
+ FCN=-1.01589e+07 FROM MIGRAD    STATUS=INITIATE       34 CALLS          35 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  NBkg         1.82781e+05   4.99999e+04   2.09544e-01  -3.09545e+05
+   2  NSig         6.16909e+05   constant   
+   3  alpha        1.90000e+00   1.60000e-01   2.03041e-01  -5.09807e+03
+   4  coefExp     -1.00000e+00   4.00000e-01   2.01358e-01  -5.29915e+04
+   5  enne         2.50000e+00   3.00000e-01   2.01358e-01  -2.38343e+03
+   6  fracG1       5.00000e-01   7.80000e-02   2.01358e-01  -2.22865e+03
+   7  meanSig      3.09750e+00   1.00000e-02   2.01624e-01   6.34833e+04
+   8  sigmaSig1    3.00000e-02   6.70000e-03   2.15282e-01   1.69132e+04
+   9  sigmaSig2    3.00000e-02   7.42000e-03   2.06370e-01   2.33495e+04
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=-1.03671e+07 FROM MIGRAD    STATUS=CONVERGED     472 CALLS         473 TOTAL
+                     EDM=9.24937e-05    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  NBkg         5.00000e+05   3.82929e+00   1.23060e-02** at limit **
+   2  NSig         6.16909e+05   constant   
+   3  alpha        2.80000e+00   9.37832e-03   3.39530e-01** at limit **
+   4  coefExp      1.47306e-01   5.14235e-03   6.96737e-03   1.65448e+00
+   5  enne         4.00000e+00   9.17281e-02   5.00000e-01** at limit **
+   6  fracG1       8.90000e-01   3.28251e-03   2.86226e-01** at limit **
+   7  meanSig      3.09173e+00   7.27062e-05   3.26756e-03  -7.11318e-01
+   8  sigmaSig1    2.05236e-02   6.27900e-05   4.95954e-03   6.60657e-01
+   9  sigmaSig2    2.04112e-02   2.80439e-04   1.76443e-02  -8.46712e-01
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  8    ERR DEF=0.5
+  3.875e-06 -1.986e-13 -3.307e-09 -1.182e-12 -5.325e-14 -1.882e-11  1.911e-10  1.954e-10 
+ -1.986e-13  1.116e-10  1.882e-11 -5.001e-11 -9.652e-13  1.792e-12  2.931e-12 -5.835e-11 
+ -3.307e-09  1.882e-11  2.644e-05  8.856e-11  2.690e-12 -2.095e-08 -3.305e-09 -3.463e-09 
+ -1.182e-12 -5.001e-11  8.856e-11  1.189e-08 -6.224e-12  4.695e-12  6.287e-13 -1.275e-10 
+ -5.325e-14 -9.652e-13  2.690e-12 -6.224e-12  1.811e-12  2.110e-13  4.884e-12 -3.642e-11 
+ -1.882e-11  1.792e-12 -2.095e-08  4.695e-12  2.110e-13  5.286e-09 -2.176e-10 -2.382e-10 
+  1.911e-10  2.931e-12 -3.305e-09  6.287e-13  4.884e-12 -2.176e-10  3.943e-09 -6.484e-09 
+  1.954e-10 -5.835e-11 -3.463e-09 -1.275e-10 -3.642e-11 -2.382e-10 -6.484e-09  7.865e-08 
+ PARAMETER  CORRELATION COEFFICIENTS  
+       NO.  GLOBAL      1      3      4      5      6      7      8      9
+        1  0.00186   1.000 -0.000 -0.000 -0.000 -0.000 -0.000  0.002  0.000
+        3  0.08648  -0.000  1.000  0.000 -0.043 -0.068  0.002  0.004 -0.020
+        4  0.05813  -0.000  0.000  1.000  0.000  0.000 -0.056 -0.010 -0.002
+        5  0.06358  -0.000 -0.043  0.000  1.000 -0.042  0.001  0.000 -0.004
+        6  0.12983  -0.000 -0.068  0.000 -0.042  1.000  0.002  0.058 -0.096
+        7  0.08056  -0.000  0.002 -0.056  0.001  0.002  1.000 -0.048 -0.012
+        8  0.37280   0.002  0.004 -0.010  0.000  0.058 -0.048  1.000 -0.368
+        9  0.37783   0.000 -0.020 -0.002 -0.004 -0.096 -0.012 -0.368  1.000
+ **********
+ **   18 **HESSE        4500
+ **********
+ FIRST CALL TO USER FUNCTION AT NEW START POINT, WITH IFLAG=4.
+ MINUIT WARNING IN HESse     
+ ============== VARIABLE1 IS AT ITS UPPER ALLOWED LIMIT.
+ MINUIT WARNING IN HESse     
+ ============== VARIABLE3 IS AT ITS UPPER ALLOWED LIMIT.
+ MINUIT WARNING IN HESse     
+ ============== VARIABLE5 IS AT ITS UPPER ALLOWED LIMIT.
+ MINUIT WARNING IN HESse     
+ ============== VARIABLE6 IS AT ITS UPPER ALLOWED LIMIT.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=-1.03671e+07 FROM HESSE     STATUS=OK             65 CALLS         539 TOTAL
+                     EDM=0.124986    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                INTERNAL      INTERNAL  
+  NO.   NAME      VALUE            ERROR       STEP SIZE       VALUE   
+   1  NBkg         5.00000e+05   3.82964e+00   2.46120e-03   1.56884e+00
+   2  NSig         6.16909e+05   constant   
+   3  alpha        2.80000e+00   8.79140e-03   5.00000e-01   1.56884e+00
+   4  coefExp      1.47306e-01   5.14240e-03   2.78695e-04   6.10959e-01
+   5  enne         4.00000e+00   9.56814e-02   2.00000e-02   1.56884e+00
+   6  fracG1       8.89999e-01   3.20797e-03   5.72452e-02   1.56884e+00
+   7  meanSig      3.09173e+00   7.27185e-05   1.30703e-04  -1.66157e-01
+   8  sigmaSig1    2.05236e-02   6.28490e-05   1.98382e-04  -6.76621e-01
+   9  sigmaSig2    2.04112e-02   2.79876e-04   7.05773e-04  -4.90874e-01
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  8    ERR DEF=0.5
+  7.304e+00  1.267e-09  5.420e-07 -1.780e-10  5.618e-11  2.904e-09 -3.109e-08 -3.098e-08 
+  1.267e-09  5.376e-08  6.965e-10 -5.351e-10 -4.600e-10  6.569e-11  2.007e-10 -2.763e-09 
+  5.420e-07  6.965e-10  2.644e-05  2.622e-11  2.772e-11 -2.102e-08 -3.379e-09 -3.419e-09 
+ -1.780e-10 -5.351e-10  2.622e-11  1.107e-06 -2.337e-11  1.331e-12  4.670e-12 -6.615e-11 
+  5.618e-11 -4.600e-10  2.772e-11 -2.337e-11  9.558e-09  2.120e-12  9.502e-12  1.515e-11 
+  2.904e-09  6.569e-11 -2.102e-08  1.331e-12  2.120e-12  5.288e-09 -2.271e-10 -2.546e-10 
+ -3.109e-08  2.007e-10 -3.379e-09  4.670e-12  9.502e-12 -2.271e-10  3.950e-09 -6.521e-09 
+ -3.098e-08 -2.763e-09 -3.419e-09 -6.615e-11  1.515e-11 -2.546e-10 -6.521e-09  7.833e-08 
+ PARAMETER  CORRELATION COEFFICIENTS  
+       NO.  GLOBAL      1      3      4      5      6      7      8      9
+        1  0.00022   1.000  0.000  0.000 -0.000  0.000  0.000 -0.000 -0.000
+        3  0.04737   0.000  1.000  0.001 -0.002 -0.020  0.004  0.014 -0.043
+        4  0.05841   0.000  0.001  1.000  0.000  0.000 -0.056 -0.010 -0.002
+        5  0.00223  -0.000 -0.002  0.000  1.000 -0.000  0.000  0.000 -0.000
+        6  0.02039   0.000 -0.020  0.000 -0.000  1.000  0.000  0.002  0.001
+        7  0.08267   0.000  0.004 -0.056  0.000  0.000  1.000 -0.050 -0.013
+        8  0.37498  -0.000  0.014 -0.010  0.000  0.002 -0.050  1.000 -0.371
+        9  0.37398  -0.000 -0.043 -0.002 -0.000  0.001 -0.013 -0.371  1.000
+[#1] INFO:Fitting -- RooAbsPdf::fitTo(MassPDF) Calculating sum-of-weights-squared correction matrix for covariance matrix
+ **********
+ **   23 **HESSE        4500
+ **********
+ FIRST CALL TO USER FUNCTION AT NEW START POINT, WITH IFLAG=4.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=-1.03671e+07 FROM HESSE     STATUS=OK             65 CALLS         605 TOTAL
+                     EDM=0.124992    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                INTERNAL      INTERNAL  
+  NO.   NAME      VALUE            ERROR       STEP SIZE       VALUE   
+   1  NBkg         5.00000e+05   3.82966e+00   4.92241e-04   1.56884e+00
+   2  NSig         6.16909e+05   constant   
+   3  alpha        2.80000e+00   8.78785e-03   5.00000e-01   1.56884e+00
+   4  coefExp      1.47306e-01   5.14244e-03   5.57390e-05   6.10959e-01
+   5  enne         4.00000e+00   9.56867e-02   4.00000e-03   1.56884e+00
+   6  fracG1       8.89999e-01   3.20585e-03   1.14490e-02   1.56884e+00
+   7  meanSig      3.09173e+00   7.27193e-05   2.61405e-05  -1.66157e-01
+   8  sigmaSig1    2.05236e-02   6.28547e-05   3.96763e-05  -6.76621e-01
+   9  sigmaSig2    2.04112e-02   2.79906e-04   1.41155e-04  -4.90874e-01
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  8    ERR DEF=0.5
+  7.304e+00  3.041e-09  1.262e-06  5.324e-09  2.493e-11  6.701e-09 -7.314e-08 -7.439e-08 
+  3.041e-09  5.374e-08  6.974e-10 -3.064e-12 -6.510e-11  6.582e-11  2.016e-10 -2.765e-09 
+  1.262e-06  6.974e-10  2.644e-05  4.976e-11  4.498e-12 -2.103e-08 -3.383e-09 -3.402e-09 
+  5.324e-09 -3.064e-12  4.976e-11  1.107e-06  4.173e-15 -1.216e-13  1.323e-12 -2.061e-12 
+  2.493e-11 -6.510e-11  4.498e-12  4.173e-15  9.552e-09  2.905e-13  1.081e-12  4.381e-12 
+  6.701e-09  6.582e-11 -2.103e-08 -1.216e-13  2.905e-13  5.288e-09 -2.274e-10 -2.554e-10 
+ -7.314e-08  2.016e-10 -3.383e-09  1.323e-12  1.081e-12 -2.274e-10  3.951e-09 -6.526e-09 
+ -7.439e-08 -2.765e-09 -3.402e-09 -2.061e-12  4.381e-12 -2.554e-10 -6.526e-09  7.835e-08 
+ PARAMETER  CORRELATION COEFFICIENTS  
+       NO.  GLOBAL      1      3      4      5      6      7      8      9
+        1  0.00052   1.000  0.000  0.000  0.000  0.000  0.000 -0.000 -0.000
+        3  0.04290   0.000  1.000  0.001 -0.000 -0.003  0.004  0.014 -0.043
+        4  0.05842   0.000  0.001  1.000  0.000  0.000 -0.056 -0.010 -0.002
+        5  0.00003   0.000 -0.000  0.000  1.000  0.000 -0.000  0.000 -0.000
+        6  0.00289   0.000 -0.003  0.000  0.000  1.000  0.000  0.000  0.000
+        7  0.08274   0.000  0.004 -0.056 -0.000  0.000  1.000 -0.050 -0.013
+        8  0.37518  -0.000  0.014 -0.010  0.000  0.000 -0.050  1.000 -0.371
+        9  0.37418  -0.000 -0.043 -0.002 -0.000  0.000 -0.013 -0.371  1.000
+[#0] ERROR:Fitting -- RooAbsPdf::fitTo(MassPDF) ERROR: Cannot apply sum-of-weights correction to covariance matrix: correction matrix calculated with weight-squared is singular
+Info in <TCanvas::Print>: pdf file pp_integrated_integrated_rap0.00-2.40_pT0.0-30.0_ntrk0.0-350.0_ET0.0-120.0_CtErrGetRange_Log.pdf has been created
+reduceDS: Jpsi_Pt>=0.00 && Jpsi_Pt<30.00 && TMath::Abs(Jpsi_Y)>=0.00 && TMath::Abs(Jpsi_Y)<2.40 && Jpsi_Ct>=-1.50 && Jpsi_Ct<3.00 && Jpsi_CtErr>=0.008 && Jpsi_CtErr<0.984
+reduceDSMC: Jpsi_Pt>=0.00 && Jpsi_Pt<30.00 && TMath::Abs(Jpsi_Y)>=0.00 && TMath::Abs(Jpsi_Y)<2.40 && Jpsi_Ct>=-1.50 && Jpsi_Ct<3.00 && Jpsi_CtErr>=0.008 && Jpsi_CtErr<0.984
+[#1] INFO:ObjectHandling -- RooWorkspace::import(workspace) importing dataset dataPRMC
+[#1] INFO:ObjectHandling -- RooWorkspace::import(workspace) importing RooRealVar::Jpsi_Mass
+[#1] INFO:ObjectHandling -- RooWorkspace::import(workspace) importing RooRealVar::Jpsi_Pt
+[#1] INFO:ObjectHandling -- RooWorkspace::import(workspace) importing RooRealVar::Jpsi_Y
+[#1] INFO:ObjectHandling -- RooWorkspace::import(workspace) importing RooRealVar::Jpsi_CtTrue
+[#1] INFO:ObjectHandling -- RooWorkspace::import(workspace) importing RooRealVar::Jpsi_Ct
+[#1] INFO:ObjectHandling -- RooWorkspace::import(workspace) importing RooRealVar::Jpsi_CtErr
+[#1] INFO:ObjectHandling -- RooWorkspace::import(workspace) importing RooRealVar::Ntracks
+[#1] INFO:ObjectHandling -- RooWorkspace::import(workspace) importing RooRealVar::SumET_HFEta4
+[#1] INFO:ObjectHandling -- RooWorkspace::import(workspace) importing dataset dataNPMC
+[#1] INFO:ObjectHandling -- RooWorkspace::import(workspace) importing dataset data
+[#1] INFO:ObjectHandling -- RooWorkspace::import(workspace) importing RooRealVar::Jpsi_Zvtx
+[#1] INFO:Eval -- RooRealVar::setRange(Jpsi_Ct) new range named 'promptMCfit' created with bounds [-1.5,3.936]
+ *** DATA :: N events to fit: 799659
+ *** PRMC :: N events to fit: 1.044e+06
+ *** NPMC :: N events to fit: 2.02435e+06
+28.0 pb^{-1} (pp 5.02 TeV)
+Info in <TCanvas::Print>: pdf file pp_integrated_integrated_rap0.00-2.40_pT0.0-30.0_ntrk0.0-350.0_ET0.0-120.0_CtSBRL_Lin.pdf has been created
+Info in <TCanvas::Print>: pdf file pp_integrated_integrated_rap0.00-2.40_pT0.0-30.0_ntrk0.0-350.0_ET0.0-120.0_CtSBRL_Log.pdf has been created
+ 
+ -*-*-*-*-*-*-*-*-*-*-*-*-*- !!!!!FITTING!!!!! *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-  
+[#1] INFO:Eval -- RooAbsTestStatistic::initMPMode: started 8 remote server process.
+ **********
+ **   13 **MIGRAD        1000           1
+ **********
+ FIRST CALL TO USER FUNCTION AT NEW START POINT, WITH IFLAG=4.
+ START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-03
+ FCN=15370.3 FROM MIGRAD    STATUS=INITIATE       61 CALLS          62 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  coefExpNPTrue   4.00000e-01   4.00000e-02   6.79299e-08  -3.17487e+08
+   2  sigmaNPTrue   1.08000e-07   2.99000e-06   0.00000e+00   6.34519e+07
+                               ERR DEF= 0.5
+ MIGRAD FAILS TO FIND IMPROVEMENT
+ EIGENVALUES OF SECOND-DERIVATIVE MATRIX:
+        -8.0928e+00  1.0093e+01
+ MINUIT WARNING IN HESSE   
+ ============== MATRIX FORCED POS-DEF BY ADDING 8.102880 TO DIAGONAL.
+ FCN=15362.1 FROM HESSE     STATUS=NOT POSDEF     14 CALLS          88 TOTAL
+                     EDM=860080    STRATEGY= 1      ERR MATRIX NOT POS-DEF
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  coefExpNPTrue   4.00000e-01   4.94035e-08   1.20487e-07  -6.16270e+08
+   2  sigmaNPTrue   1.08001e-07   1.05627e-12   7.64615e-07   5.34506e+08
+                               ERR DEF= 0.5
+ MIGRAD FAILS TO FIND IMPROVEMENT
+ MIGRAD TERMINATED WITHOUT CONVERGENCE.
+ FCN=15362.1 FROM MIGRAD    STATUS=FAILED         98 CALLS          99 TOTAL
+                     EDM=860080    STRATEGY= 1      ERR MATRIX NOT POS-DEF
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  coefExpNPTrue   4.00000e-01   4.94035e-08   0.00000e+00  -6.16270e+08
+   2  sigmaNPTrue   1.08001e-07   1.05627e-12  -0.00000e+00   5.34506e+08
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  2    ERR DEF=0.5
+  2.441e-15 -5.213e-20 
+ -5.213e-20  1.116e-24 
+ERR MATRIX NOT POS-DEF
+ PARAMETER  CORRELATION COEFFICIENTS  
+       NO.  GLOBAL      1      2
+        1  0.99889   1.000 -0.999
+        2  0.99889  -0.999  1.000
+ ERR MATRIX NOT POS-DEF
+ **********
+ **   18 **HESSE        1000
+ **********
+ EIGENVALUES OF SECOND-DERIVATIVE MATRIX:
+        -8.0928e+00  1.0093e+01
+ MINUIT WARNING IN HESSE   
+ ============== MATRIX FORCED POS-DEF BY ADDING 8.102880 TO DIAGONAL.
+ FCN=15362.1 FROM HESSE     STATUS=NOT POSDEF     18 CALLS         117 TOTAL
+                     EDM=1.72016e+06    STRATEGY= 1      ERR MATRIX NOT POS-DEF
+  EXT PARAMETER                APPROXIMATE     INTERNAL      INTERNAL  
+  NO.   NAME      VALUE            ERROR       STEP SIZE       VALUE   
+   1  coefExpNPTrue   4.00000e-01   4.94035e-08   1.20487e-07  -2.52680e-01
+   2  sigmaNPTrue   1.08001e-07   1.05627e-12   7.64615e-07  -1.60351e+00
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  2    ERR DEF=0.5
+  2.441e-15 -5.213e-20 
+ -5.213e-20  1.116e-24 
+ERR MATRIX NOT POS-DEF
+ PARAMETER  CORRELATION COEFFICIENTS  
+       NO.  GLOBAL      1      2
+        1  0.99889   1.000 -0.999
+        2  0.99889  -0.999  1.000
+ ERR MATRIX NOT POS-DEF
+[#1] INFO:Fitting -- RooAbsPdf::fitTo(CtNPTrue) Calculating sum-of-weights-squared correction matrix for covariance matrix
+ **********
+ **   23 **HESSE        1000
+ **********
+ EIGENVALUES OF SECOND-DERIVATIVE MATRIX:
+        -8.0928e+00  1.0093e+01
+ MINUIT WARNING IN HESSE   
+ ============== MATRIX FORCED POS-DEF BY ADDING 8.102880 TO DIAGONAL.
+ FCN=15362.1 FROM HESSE     STATUS=NOT POSDEF     18 CALLS         135 TOTAL
+                     EDM=1.72016e+06    STRATEGY= 1      ERR MATRIX NOT POS-DEF
+  EXT PARAMETER                APPROXIMATE     INTERNAL      INTERNAL  
+  NO.   NAME      VALUE            ERROR       STEP SIZE       VALUE   
+   1  coefExpNPTrue   4.00000e-01   4.94035e-08   1.20487e-07  -2.52680e-01
+   2  sigmaNPTrue   1.08001e-07   1.05627e-12   7.64615e-07  -1.60351e+00
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  2    ERR DEF=0.5
+  2.441e-15 -5.213e-20 
+ -5.213e-20  1.116e-24 
+ERR MATRIX NOT POS-DEF
+ PARAMETER  CORRELATION COEFFICIENTS  
+       NO.  GLOBAL      1      2
+        1  0.99889   1.000 -0.999
+        2  0.99889  -0.999  1.000
+ ERR MATRIX NOT POS-DEF
+Info in <TCanvas::Print>: pdf file pp_integrated_integrated_rap0.00-2.40_pT0.0-30.0_ntrk0.0-350.0_ET0.0-120.0_CtNPTrue_Lin.pdf has been created
+Info in <TCanvas::Print>: pdf file pp_integrated_integrated_rap0.00-2.40_pT0.0-30.0_ntrk0.0-350.0_ET0.0-120.0_CtNPTrue_Log.pdf has been created
+[#1] INFO:ObjectHandling -- RooWorkspace::import(workspace) importing RooFormulaVar::sigmaNPResW
+[#1] INFO:ObjectHandling -- RooWorkspace::import(workspace) importing RooFormulaVar::sigmaNPResN
+Info in <TCanvas::Print>: pdf file pp_integrated_integrated_rap0.00-2.40_pT0.0-30.0_ntrk0.0-350.0_ET0.0-120.0_CtNPReco_Lin.pdf has been created
+Info in <TCanvas::Print>: pdf file pp_integrated_integrated_rap0.00-2.40_pT0.0-30.0_ntrk0.0-350.0_ET0.0-120.0_CtNPReco_Log.pdf has been created
+[#1] INFO:ObjectHandling -- RooWorkSpace::import(workspace) Recycling existing object NSig created with identical factory specification
+[#1] INFO:ObjectHandling -- RooWorkSpace::import(workspace) Recycling existing object NBkg created with identical factory specification
+[#1] INFO:ObjectHandling -- RooWorkSpace::import(workspace) Recycling existing object MassPDF created with identical factory specification
+[#1] INFO:Eval -- RooAbsTestStatistic::initMPMode: started 8 remote server process.
+ **********
+ **   13 **MIGRAD        4000           1
+ **********
+ FIRST CALL TO USER FUNCTION AT NEW START POINT, WITH IFLAG=4.
+ START MIGRAD MINIMIZATION.  STRATEGY  1.  CONVERGENCE WHEN EDM .LT. 1.00e-03
+ FCN=-1.08691e+07 FROM MIGRAD    STATUS=INITIATE       60 CALLS          61 TOTAL
+                     EDM= unknown      STRATEGY= 1      NO ERROR MATRIX       
+  EXT PARAMETER               CURRENT GUESS       STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  NBkg         1.92765e+05   9.63819e+04   0.00000e+00   2.01123e+04
+   2  NSig         6.16894e+05   3.08447e+05   0.00000e+00   2.33185e+04
+   3  alpha        1.20000e+00   1.60000e-01  -1.44392e+00   2.35964e+01
+   4  coefExp     -1.00000e+00   4.00000e-01   0.00000e+00  -1.58490e+04
+   5  fracG1       5.00000e-01   7.80000e-02   0.00000e+00   9.39017e+03
+   6  meanSig      3.09750e+00   1.00000e-02   0.00000e+00   8.24177e+04
+   7  sigmaSig1    3.00000e-02   6.70000e-03   0.00000e+00  -8.29793e+04
+   8  sigmaSig2    3.00000e-02   7.42000e-03   0.00000e+00  -6.04646e+04
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ EIGENVALUES OF SECOND-DERIVATIVE MATRIX:
+        -2.1609e-01  1.9957e-01  4.8896e-01  8.0091e-01  9.8452e-01  1.1779e+00  1.6533e+00  2.9109e+00
+ MINUIT WARNING IN HESSE   
+ ============== MATRIX FORCED POS-DEF BY ADDING 0.219001 TO DIAGONAL.
+ FCN=-1.08951e+07 FROM HESSE     STATUS=NOT POSDEF     77 CALLS         401 TOTAL
+                     EDM=0.00808055    STRATEGY= 1      ERR MATRIX NOT POS-DEF
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  NBkg         1.65754e+05   1.82791e+03   3.88292e-04   2.03410e+01
+   2  NSig         6.33906e+05   1.86522e+03   1.13768e-03   6.73150e-01
+   3  alpha        1.20000e+00   3.57492e-01   2.35817e-01  -2.19210e-01
+   4  coefExp     -5.60229e-01   2.72553e-02   1.15816e-02   3.28570e-01
+   5  fracG1       5.71114e-01   8.50294e-03   1.33644e-02   1.10437e+00
+   6  meanSig      3.09256e+00   3.14036e-04   2.59398e-03   3.20281e+00
+   7  sigmaSig1    4.84923e-02   6.60111e-04   6.25856e-03   3.31147e+00
+   8  sigmaSig2    2.45985e-02   6.00388e-04   5.59199e-03   3.43704e+00
+                               ERR DEF= 0.5
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ MIGRAD TERMINATED WITHOUT CONVERGENCE.
+ FCN=-1.08951e+07 FROM MIGRAD    STATUS=FAILED        792 CALLS         793 TOTAL
+                     EDM=0.997023    STRATEGY= 1      ERR MATRIX APPROXIMATE
+  EXT PARAMETER                APPROXIMATE        STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  NBkg         1.66171e+05   8.15184e+02   3.87779e-04  -1.25560e+00
+   2  NSig         6.33489e+05   1.06486e+03   1.13748e-03   1.30788e+00
+   3  alpha        1.24981e+00   4.84789e-02   4.55163e-02  -6.14973e+00
+   4  coefExp     -5.70595e-01   1.59956e-02   1.15493e-02   4.41482e-01
+   5  fracG1       5.56123e-01   1.37967e-02   1.33108e-02   1.65139e-01
+   6  meanSig      3.09239e+00   1.82655e-04   2.59673e-03  -7.69856e-01
+   7  sigmaSig1    4.90826e-02   6.04954e-04   6.50590e-03   2.47661e+00
+   8  sigmaSig2    2.51911e-02   5.43530e-04   5.43947e-03   2.75407e+00
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  8    ERR DEF=0.5
+  6.645e+05 -4.993e+05  2.794e+01 -7.221e+00 -6.379e+00 -1.027e-01  3.024e-01  2.778e-01 
+ -4.993e+05  1.134e+06 -2.802e+01  7.244e+00  6.398e+00  1.030e-01 -3.033e-01 -2.786e-01 
+  2.794e+01 -2.802e+01  2.374e-03 -5.966e-04 -6.360e-04 -8.414e-06  2.869e-05  2.571e-05 
+ -7.221e+00  7.244e+00 -5.966e-04  2.559e-04  1.497e-04  2.109e-06 -7.172e-06 -6.157e-06 
+ -6.379e+00  6.398e+00 -6.360e-04  1.497e-04  1.904e-04  2.178e-06 -8.070e-06 -7.287e-06 
+ -1.027e-01  1.030e-01 -8.414e-06  2.109e-06  2.178e-06  3.336e-08 -9.991e-08 -9.044e-08 
+  3.024e-01 -3.033e-01  2.869e-05 -7.172e-06 -8.070e-06 -9.991e-08  3.660e-07  3.138e-07 
+  2.778e-01 -2.786e-01  2.571e-05 -6.157e-06 -7.287e-06 -9.044e-08  3.138e-07  2.954e-07 
+ERR MATRIX APPROXIMATE
+ PARAMETER  CORRELATION COEFFICIENTS  
+       NO.  GLOBAL      1      2      3      4      5      6      7      8
+        1  0.79959   1.000 -0.575  0.703 -0.554 -0.567 -0.690  0.613  0.627
+        2  0.62646  -0.575  1.000 -0.540  0.425  0.435  0.530 -0.471 -0.481
+        3  0.99349   0.703 -0.540  1.000 -0.765 -0.946 -0.945  0.973  0.971
+        4  0.78561  -0.554  0.425 -0.765  1.000  0.678  0.722 -0.741 -0.708
+        5  0.98657  -0.567  0.435 -0.946  0.678  1.000  0.864 -0.967 -0.971
+        6  0.95131  -0.690  0.530 -0.945  0.722  0.864  1.000 -0.904 -0.911
+        7  0.98809   0.613 -0.471  0.973 -0.741 -0.967 -0.904  1.000  0.954
+        8  0.98821   0.627 -0.481  0.971 -0.708 -0.971 -0.911  0.954  1.000
+ ERR MATRIX APPROXIMATE
+ **********
+ **   18 **HESSE        4000
+ **********
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=-1.08951e+07 FROM HESSE     STATUS=OK             61 CALLS         854 TOTAL
+                     EDM=0.181081    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                INTERNAL      INTERNAL  
+  NO.   NAME      VALUE            ERROR       STEP SIZE       VALUE   
+   1  NBkg         1.66171e+05   6.09736e+02   1.55112e-05  -1.45543e+00
+   2  NSig         6.33489e+05   9.16031e+02   4.54993e-05  -8.42944e-01
+   3  alpha        1.24981e+00   2.07677e-02   1.82065e-03  -1.21605e+00
+   4  coefExp     -5.70595e-01   1.12119e-02   4.61972e-04   2.16387e-01
+   5  fracG1       5.56123e-01   7.81119e-03   5.32433e-04   1.44407e-01
+   6  meanSig      3.09239e+00   8.98164e-05   1.03869e-04  -1.52696e-01
+   7  sigmaSig1    4.90826e-02   2.87868e-04   2.60236e-04   2.28324e-01
+   8  sigmaSig2    2.51911e-02   2.78497e-04   2.17579e-04  -3.49640e-01
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  8    ERR DEF=0.5
+  3.718e+05 -2.056e+05  3.669e+00 -1.016e+00  7.813e-02 -1.576e-02  8.606e-03  1.516e-02 
+ -2.056e+05  8.391e+05 -3.670e+00  1.016e+00 -7.810e-02  1.576e-02 -8.610e-03 -1.516e-02 
+  3.669e+00 -3.670e+00  4.321e-04 -9.073e-05 -1.306e-04 -1.396e-06  5.242e-06  5.045e-06 
+ -1.016e+00  1.016e+00 -9.073e-05  1.257e-04  1.632e-05  2.908e-07 -1.057e-06 -7.240e-07 
+  7.813e-02 -7.810e-02 -1.306e-04  1.632e-05  6.102e-05  3.428e-07 -1.980e-06 -1.978e-06 
+ -1.576e-02  1.576e-02 -1.396e-06  2.908e-07  3.428e-07  8.067e-09 -1.518e-08 -1.548e-08 
+  8.606e-03 -8.610e-03  5.242e-06 -1.057e-06 -1.980e-06 -1.518e-08  8.287e-08  6.494e-08 
+  1.516e-02 -1.516e-02  5.045e-06 -7.240e-07 -1.978e-06 -1.548e-08  6.494e-08  7.756e-08 
+ PARAMETER  CORRELATION COEFFICIENTS  
+       NO.  GLOBAL      1      2      3      4      5      6      7      8
+        1  0.59612   1.000 -0.368  0.289 -0.149  0.016 -0.288  0.049  0.089
+        2  0.42310  -0.368  1.000 -0.193  0.099 -0.011  0.192 -0.033 -0.059
+        3  0.96369   0.289 -0.193  1.000 -0.389 -0.804 -0.748  0.876  0.871
+        4  0.46995  -0.149  0.099 -0.389  1.000  0.186  0.289 -0.327 -0.232
+        5  0.95747   0.016 -0.011 -0.804  0.186  1.000  0.489 -0.880 -0.909
+        6  0.77915  -0.288  0.192 -0.748  0.289  0.489  1.000 -0.587 -0.619
+        7  0.94629   0.049 -0.033  0.876 -0.327 -0.880 -0.587  1.000  0.810
+        8  0.95431   0.089 -0.059  0.871 -0.232 -0.909 -0.619  0.810  1.000
+[#1] INFO:Fitting -- RooAbsPdf::fitTo(MassPDF) Calculating sum-of-weights-squared correction matrix for covariance matrix
+ **********
+ **   23 **HESSE        4000
+ **********
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=-1.08951e+07 FROM HESSE     STATUS=OK             61 CALLS         915 TOTAL
+                     EDM=0.176141    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                INTERNAL      INTERNAL  
+  NO.   NAME      VALUE            ERROR       STEP SIZE       VALUE   
+   1  NBkg         1.66171e+05   6.08552e+02   3.10223e-06  -1.45543e+00
+   2  NSig         6.33489e+05   9.15246e+02   9.09986e-06  -8.42944e-01
+   3  alpha        1.24981e+00   2.04833e-02   3.64131e-04  -1.21605e+00
+   4  coefExp     -5.70595e-01   1.11788e-02   9.23944e-05   2.16387e-01
+   5  fracG1       5.56123e-01   7.76518e-03   1.06487e-04   1.44407e-01
+   6  meanSig      3.09239e+00   8.89703e-05   2.07738e-05  -1.52696e-01
+   7  sigmaSig1    4.90826e-02   2.84873e-04   5.20472e-05   2.28324e-01
+   8  sigmaSig2    2.51911e-02   2.76221e-04   4.35158e-05  -3.49640e-01
+                               ERR DEF= 0.5
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  8    ERR DEF=0.5
+  3.703e+05 -2.042e+05  3.522e+00 -9.819e-01  1.216e-01 -1.525e-02  6.800e-03  1.343e-02 
+ -2.042e+05  8.377e+05 -3.524e+00  9.821e-01 -1.212e-01  1.526e-02 -6.816e-03 -1.345e-02 
+  3.522e+00 -3.524e+00  4.203e-04 -8.767e-05 -1.276e-04 -1.354e-06  5.099e-06  4.919e-06 
+ -9.819e-01  9.821e-01 -8.767e-05  1.250e-04  1.545e-05  2.801e-07 -1.020e-06 -6.895e-07 
+  1.216e-01 -1.212e-01 -1.276e-04  1.545e-05  6.031e-05  3.314e-07 -1.943e-06 -1.948e-06 
+ -1.525e-02  1.526e-02 -1.354e-06  2.801e-07  3.314e-07  7.916e-09 -1.467e-08 -1.502e-08 
+  6.800e-03 -6.816e-03  5.099e-06 -1.020e-06 -1.943e-06 -1.467e-08  8.115e-08  6.345e-08 
+  1.343e-02 -1.345e-02  4.919e-06 -6.895e-07 -1.948e-06 -1.502e-08  6.345e-08  7.630e-08 
+ PARAMETER  CORRELATION COEFFICIENTS  
+       NO.  GLOBAL      1      2      3      4      5      6      7      8
+        1  0.59400   1.000 -0.367  0.282 -0.144  0.026 -0.282  0.039  0.080
+        2  0.42141  -0.367  1.000 -0.188  0.096 -0.017  0.187 -0.026 -0.053
+        3  0.96265   0.282 -0.188  1.000 -0.383 -0.801 -0.742  0.873  0.869
+        4  0.46501  -0.144  0.096 -0.383  1.000  0.178  0.282 -0.320 -0.223
+        5  0.95695   0.026 -0.017 -0.801  0.178  1.000  0.480 -0.878 -0.908
+        6  0.77431  -0.282  0.187 -0.742  0.282  0.480  1.000 -0.579 -0.611
+        7  0.94512   0.039 -0.026  0.873 -0.320 -0.878 -0.579  1.000  0.806
+        8  0.95353   0.080 -0.053  0.869 -0.223 -0.908 -0.611  0.806  1.000
+
+  RooFitResult: minimized FCN value: -1.08951e+07, estimated distance to minimum: 0.176141
+                covariance matrix quality: Unknown, matrix was externally provided
+                Status : MIGRAD=4 HESSE=0 HESSE=0 
+
+    Constant Parameter    Value     
+  --------------------  ------------
+                  enne    2.1000e+00
+
+    Floating Parameter  InitialValue    FinalValue +/-  Error     GblCorr.
+  --------------------  ------------  --------------------------  --------
+                  NBkg    1.9276e+05    1.6617e+05 +/-  6.11e+02  <none>
+                  NSig    6.1689e+05    6.3349e+05 +/-  9.17e+02  <none>
+                 alpha    1.9000e+00    1.2498e+00 +/-  2.11e-02  <none>
+               coefExp   -1.0000e+00   -5.7060e-01 +/-  1.12e-02  <none>
+                fracG1    5.0000e-01    5.5612e-01 +/-  7.86e-03  <none>
+               meanSig    3.0975e+00    3.0924e+00 +/-  9.07e-05  <none>
+             sigmaSig1    3.0000e-02    4.9083e-02 +/-  2.91e-04  <none>
+             sigmaSig2    3.0000e-02    2.5191e-02 +/-  2.81e-04  <none>
+
+Info in <TCanvas::Print>: pdf file pp_integrated_integrated_rap0.00-2.40_pT0.0-30.0_ntrk0.0-350.0_ET0.0-120.0_massfitIncl_wopull.pdf has been created
