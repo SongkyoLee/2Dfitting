@@ -48,6 +48,10 @@
 
   gStyle->SetMarkerStyle(20);
   gStyle->SetMarkerSize(0.8);
+  
+  // KYO for paper
+  gStyle->SetLineStyleString(11,"80 80"); 
+  gStyle->SetLineStyleString(12,"40 40"); 
 
   gROOT->ForceStyle();
 }
