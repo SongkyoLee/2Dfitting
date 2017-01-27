@@ -6,7 +6,7 @@ int iPos=0.;//outOfFrame
 int iPosPaper=33;//right corner
 
 int main (int argc, char* argv[]) {
- 
+
   RooMsgService::instance().getStream(0).removeTopic(Plotting);
   RooMsgService::instance().getStream(0).removeTopic(InputArguments);
   RooMsgService::instance().getStream(1).removeTopic(InputArguments);
@@ -44,15 +44,18 @@ int main (int argc, char* argv[]) {
   gfake1->SetMarkerStyle(20); gfake1->SetMarkerSize(1);
   //// blue line (background)
   hfake11 = TH1F("hfake11","hfake1",100,200,300);
-  hfake11.SetLineColor(kBlue); hfake11.SetLineWidth(4); hfake11.SetLineStyle(7); hfake11.SetFillColor(kAzure-9); hfake11.SetFillStyle(1001);
+  //hfake11.SetLineColor(kBlue); hfake11.SetLineWidth(4); hfake11.SetLineStyle(7); hfake11.SetFillColor(kAzure-9); hfake11.SetFillStyle(1001);
+  hfake11.SetLineColor(kBlue-2); hfake11.SetLineWidth(4); hfake11.SetLineStyle(7); hfake11.SetFillColor(kBlue-10); hfake11.SetFillStyle(1001);
   //// black line (total fit)
   hfake21 = TH1F("hfake21","hfake2",100,200,300);
-  hfake21.SetLineColor(kBlack); hfake21.SetLineWidth(4); hfake21.SetFillColor(kBlack); hfake21.SetFillStyle(3354);
+  //hfake21.SetLineColor(kBlack); hfake21.SetLineWidth(4); hfake21.SetFillColor(kBlack); hfake21.SetFillStyle(3354);
+  hfake21.SetLineColor(kBlack); hfake21.SetLineWidth(4); hfake21.SetFillColor(kGray+2); hfake21.SetFillStyle(3354);
   //// red line (nonprompt)
   hfake31 = TH1F("hfake31","hfake3",100,200,300);
-  hfake31.SetLineColor(kRed); hfake31.SetMarkerStyle(kCircle); hfake31.SetLineWidth(4); hfake31.SetMarkerColor(kRed); hfake31.SetLineStyle(9); hfake31.SetFillColor(kRed-7); hfake31.SetFillStyle(3444);
+  //hfake31.SetLineColor(kRed); hfake31.SetMarkerStyle(kCircle); hfake31.SetLineWidth(4); hfake31.SetMarkerColor(kRed); hfake31.SetLineStyle(9); hfake31.SetFillColor(kRed-7); hfake31.SetFillStyle(3444);
+  hfake31.SetLineColor(kPink-6); hfake31.SetMarkerStyle(kCircle); hfake31.SetLineWidth(4); hfake31.SetMarkerColor(kPink-6); hfake31.SetLineStyle(12); hfake31.SetFillColor(kRed-7); hfake31.SetFillStyle(3345);
   hfake311 = TH1F("hfake311","hfake311",100,200,300);
-  hfake311.SetLineColor(kRed); hfake311.SetMarkerStyle(kCircle); hfake311.SetLineWidth(4); hfake311.SetMarkerColor(kRed); hfake311.SetLineStyle(kDashed); hfake311.SetFillColor(kRed-7); hfake311.SetFillStyle(3444);
+  hfake311.SetLineColor(kPink-6); hfake311.SetMarkerStyle(kCircle); hfake311.SetLineWidth(4); hfake311.SetMarkerColor(kPink-6); hfake311.SetLineStyle(kDashed); hfake311.SetFillColor(kRed-7); hfake311.SetFillStyle(3444);
   //// green line (prompt)
   hfake41 = TH1F("hfake41","hfake4",100,200,300);
   hfake41.SetLineColor(kGreen+1); hfake41.SetMarkerStyle(kCircle); hfake41.SetLineWidth(4); hfake41.SetMarkerColor(kGreen+1); hfake41.SetLineStyle(kDashDotted); hfake41.SetFillColor(kGreen-7); hfake41.SetFillStyle(3444);
@@ -1790,9 +1793,12 @@ void drawInclusiveMassPlots(RooWorkspace *ws, RooDataSet* redDataCut, RooFitResu
   mframe_wob->SetMaximum(max);
   mframe_wob->SetMinimum(0);
 
-  ws->pdf("MassPDF")->plotOn(mframe_wob,DrawOption("F"),FillColor(kBlack),FillStyle(3354),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
-  ws->pdf("MassPDF")->plotOn(mframe_wob,Components(opt.mBkgFunct.c_str()),DrawOption("F"),FillColor(kAzure-9),FillStyle(1001),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
-  ws->pdf("MassPDF")->plotOn(mframe_wob,Components(opt.mBkgFunct.c_str()),LineColor(kBlue),LineStyle(7),LineWidth(5),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
+ // ws->pdf("MassPDF")->plotOn(mframe_wob,DrawOption("F"),FillColor(kBlack),FillStyle(3354),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
+  ws->pdf("MassPDF")->plotOn(mframe_wob,DrawOption("F"),FillColor(kGray+2),FillStyle(3354),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
+  //ws->pdf("MassPDF")->plotOn(mframe_wob,Components(opt.mBkgFunct.c_str()),DrawOption("F"),FillColor(kAzure-9),FillStyle(1001),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
+  ws->pdf("MassPDF")->plotOn(mframe_wob,Components(opt.mBkgFunct.c_str()),DrawOption("F"),FillColor(kBlue-10),FillStyle(1001),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
+  //ws->pdf("MassPDF")->plotOn(mframe_wob,Components(opt.mBkgFunct.c_str()),LineColor(kBlue),LineStyle(7),LineWidth(5),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
+  ws->pdf("MassPDF")->plotOn(mframe_wob,Components(opt.mBkgFunct.c_str()),LineColor(kBlue-2),LineStyle(7),LineWidth(5),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
   ws->pdf("MassPDF")->plotOn(mframe_wob,LineColor(kBlack),LineWidth(2),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
   redDataCut->plotOn(mframe_wob,DataError(RooAbsData::SumW2),XErrorSize(0),MarkerSize(1),Binning(rb));
 
@@ -2071,15 +2077,21 @@ void drawFinalMass(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_fin, f
   mframe->SetMinimum(0);
 
     //// **** Fill color
-    ws->pdf("totPDF_PEE")->plotOn(mframe,DrawOption("F"),FillColor(kBlack),FillStyle(3354),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
+    //ws->pdf("totPDF_PEE")->plotOn(mframe,DrawOption("F"),FillColor(kBlack),FillStyle(3354),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
+    ws->pdf("totPDF_PEE")->plotOn(mframe,DrawOption("F"),FillColor(kGray+2),FillStyle(3354),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
     RooAddPdf tmpPDF("tmpPDF","tmpPDF",RooArgList(*(ws->pdf(opt.mSigFunct.c_str())),*(ws->pdf(opt.mBkgFunct.c_str()))),RooArgList(tmpVar1,tmpVar2));
-    tmpPDF.plotOn(mframe,LineColor(kRed),DrawOption("F"),FillColor(kWhite),FillStyle(1001),Normalization(NSigNP_fin+NBkg_fin,RooAbsReal::NumEvent));
-    tmpPDF.plotOn(mframe,LineColor(kRed),DrawOption("F"),FillColor(kRed),FillStyle(3444),Normalization(NSigNP_fin+NBkg_fin,RooAbsReal::NumEvent));
+    //tmpPDF.plotOn(mframe,LineColor(kRed),DrawOption("F"),FillColor(kWhite),FillStyle(1001),Normalization(NSigNP_fin+NBkg_fin,RooAbsReal::NumEvent));
+    tmpPDF.plotOn(mframe,LineColor(kPink-6),DrawOption("F"),FillColor(kWhite),FillStyle(1001),Normalization(NSigNP_fin+NBkg_fin,RooAbsReal::NumEvent));
+    //tmpPDF.plotOn(mframe,LineColor(kRed),DrawOption("F"),FillColor(kRed),FillStyle(3444),Normalization(NSigNP_fin+NBkg_fin,RooAbsReal::NumEvent));
+    tmpPDF.plotOn(mframe,LineColor(kPink-6),DrawOption("F"),FillColor(kRed-7),FillStyle(3345),Normalization(NSigNP_fin+NBkg_fin,RooAbsReal::NumEvent));
     gStyle->SetHatchesLineWidth(2);
-    ws->pdf("totPDF_PEE")->plotOn(mframe,Components(opt.mBkgFunct.c_str()),DrawOption("F"),FillColor(kAzure-9),FillStyle(1001),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
+    //ws->pdf("totPDF_PEE")->plotOn(mframe,Components(opt.mBkgFunct.c_str()),DrawOption("F"),FillColor(kAzure-9),FillStyle(1001),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
+    ws->pdf("totPDF_PEE")->plotOn(mframe,Components(opt.mBkgFunct.c_str()),DrawOption("F"),FillColor(kBlue-10),FillStyle(1001),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
     //// **** Line color
-    ws->pdf("totPDF_PEE")->plotOn(mframe,Components(opt.mBkgFunct.c_str()),LineColor(kBlue),LineStyle(7),LineWidth(5),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
-    tmpPDF.plotOn(mframe,LineColor(kRed),LineStyle(9),LineWidth(5),Normalization(NSigNP_fin+NBkg_fin,RooAbsReal::NumEvent));
+    //ws->pdf("totPDF_PEE")->plotOn(mframe,Components(opt.mBkgFunct.c_str()),LineColor(kBlue),LineStyle(7),LineWidth(5),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
+    ws->pdf("totPDF_PEE")->plotOn(mframe,Components(opt.mBkgFunct.c_str()),LineColor(kBlue-2),LineStyle(7),LineWidth(5),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
+    //tmpPDF.plotOn(mframe,LineColor(kRed),LineStyle(9),LineWidth(5),Normalization(NSigNP_fin+NBkg_fin,RooAbsReal::NumEvent));
+    tmpPDF.plotOn(mframe,LineColor(kPink-6),LineStyle(11),LineWidth(5),Normalization(NSigNP_fin+NBkg_fin,RooAbsReal::NumEvent));
     ws->pdf("totPDF_PEE")->plotOn(mframe,LineColor(kBlack),LineWidth(2),Normalization(redDataCut->sumEntries(),RooAbsReal::NumEvent));
   redDataCut->plotOn(mframe,DataError(RooAbsData::SumW2),XErrorSize(0),MarkerSize(1),Binning(rb));
 
@@ -2127,7 +2139,8 @@ void drawFinalMass(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_fin, f
 //  ty->DrawLatex(0.20,0.79,reduceDS);
 
   //TLegend * legpaper = new TLegend(0.59,0.53,0.90,0.72,NULL,"brNDC");
-  TLegend * legpaper = new TLegend(0.18,0.53,0.54,0.72,NULL,"brNDC");
+  //TLegend * legpaper = new TLegend(0.17,0.53,0.63,0.72,NULL,"brNDC");
+  TLegend * legpaper = new TLegend(0.17,0.55,0.57,0.75,NULL,"brNDC");
   legpaper->SetFillStyle(0); legpaper->SetBorderSize(0); legpaper->SetShadowColor(0);
   legpaper->SetTextSize(0.035); legpaper->SetTextFont(42);
   legpaper->SetMargin(0.2);
@@ -2356,15 +2369,20 @@ void drawFinalCtau(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* binDat
   RooPlot *tframefill = ws->var("Jpsi_Ct")->frame();
   tframefill->GetYaxis()->SetTitle(Form("Counts / (%.0f #mum)",avgBinWidth*1000));
   redDataCut->plotOn(tframefill,DataError(RooAbsData::SumW2),Binning(rb),MarkerSize(1));
-    ws->pdf("totPDF_PEE")->plotOn(tframefill,DrawOption("F"),FillColor(kBlack),FillStyle(3354),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent));
+    //ws->pdf("totPDF_PEE")->plotOn(tframefill,DrawOption("F"),FillColor(kBlack),FillStyle(3354),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent));
+    ws->pdf("totPDF_PEE")->plotOn(tframefill,DrawOption("F"),FillColor(kGray+2),FillStyle(3354),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent));
     ws->pdf("totPDF_PEE")->plotOn(tframefill,LineColor(kBlack),LineWidth(2),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent));
     RooAddPdf tmpPDF2("tmpPDF2","tmpPDF2",RooArgList(*(ws->pdf("MassCtNP")),*(ws->pdf("MassCtBkg"))),RooArgList(tmpVar1,tmpVar2));
     tmpPDF2.plotOn(tframefill,DrawOption("F"),FillColor(kWhite),FillStyle(1001),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization((NSigNP_fin+NBkg_fin)/redDataCut->sumEntries(),RooAbsReal::NumEvent));
-    tmpPDF2.plotOn(tframefill,DrawOption("F"),FillColor(kRed),FillStyle(3444),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization((NSigNP_fin+NBkg_fin)/redDataCut->sumEntries(),RooAbsReal::NumEvent));
+    //tmpPDF2.plotOn(tframefill,DrawOption("F"),FillColor(kRed),FillStyle(3444),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization((NSigNP_fin+NBkg_fin)/redDataCut->sumEntries(),RooAbsReal::NumEvent));
+    tmpPDF2.plotOn(tframefill,DrawOption("F"),FillColor(kRed-7),FillStyle(3345),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization((NSigNP_fin+NBkg_fin)/redDataCut->sumEntries(),RooAbsReal::NumEvent));
     gStyle->SetHatchesLineWidth(2);
-    ws->pdf("totPDF_PEE")->plotOn(tframefill,Components("MassCtBkg"),DrawOption("F"),FillColor(kAzure-9),FillStyle(1001),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent));
-    ws->pdf("totPDF_PEE")->plotOn(tframefill,Components("MassCtBkg"),LineColor(kBlue),LineWidth(5),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent),LineStyle(7));
-    tmpPDF2.plotOn(tframefill,LineColor(kRed),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization((NSigNP_fin+NBkg_fin)/redDataCut->sumEntries(),RooAbsReal::NumEvent),LineWidth(5),LineStyle(9));
+    //ws->pdf("totPDF_PEE")->plotOn(tframefill,Components("MassCtBkg"),DrawOption("F"),FillColor(kAzure-9),FillStyle(1001),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent));
+    ws->pdf("totPDF_PEE")->plotOn(tframefill,Components("MassCtBkg"),DrawOption("F"),FillColor(kBlue-10),FillStyle(1001),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent));
+    //ws->pdf("totPDF_PEE")->plotOn(tframefill,Components("MassCtBkg"),LineColor(kBlue),LineWidth(5),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent),LineStyle(7));
+    ws->pdf("totPDF_PEE")->plotOn(tframefill,Components("MassCtBkg"),LineColor(kBlue-2),LineWidth(5),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent),LineStyle(7));
+    //tmpPDF2.plotOn(tframefill,LineColor(kRed),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization((NSigNP_fin+NBkg_fin)/redDataCut->sumEntries(),RooAbsReal::NumEvent),LineWidth(5),LineStyle(9));
+    tmpPDF2.plotOn(tframefill,LineColor(kPink-6),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization((NSigNP_fin+NBkg_fin)/redDataCut->sumEntries(),RooAbsReal::NumEvent),LineWidth(5),LineStyle(11));
   
   redDataCut->plotOn(tframefill,DataError(RooAbsData::SumW2),Binning(rb),MarkerSize(1));
 
@@ -2376,7 +2394,9 @@ void drawFinalCtau(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* binDat
   tframefill->SetMinimum(0.5); 
   tframefill->Draw();
   
-  TLegend * legpaper = new TLegend(0.59,0.53,0.90,0.72,NULL,"brNDC");
+  //TLegend * legpaper = new TLegend(0.59,0.53,0.90,0.72,NULL,"brNDC");
+  //TLegend * legpaper = new TLegend(0.54,0.54,0.99,0.74,NULL,"brNDC");
+  TLegend * legpaper = new TLegend(0.59,0.55,0.99,0.75,NULL,"brNDC");
   legpaper->SetFillStyle(0); legpaper->SetBorderSize(0); legpaper->SetShadowColor(0);
   legpaper->SetTextSize(0.035); legpaper->SetTextFont(42);
   legpaper->SetMargin(0.2);
