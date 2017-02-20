@@ -55,10 +55,10 @@ int main (int argc, char* argv[]) {
   //hfake31.SetLineColor(kRed); hfake31.SetMarkerStyle(kCircle); hfake31.SetLineWidth(4); hfake31.SetMarkerColor(kRed); hfake31.SetLineStyle(9); hfake31.SetFillColor(kRed-7); hfake31.SetFillStyle(3444);
   hfake31.SetLineColor(kPink-6); hfake31.SetMarkerStyle(kCircle); hfake31.SetLineWidth(4); hfake31.SetMarkerColor(kPink-6); hfake31.SetLineStyle(12); hfake31.SetFillColor(kRed-7); hfake31.SetFillStyle(3345);
   hfake311 = TH1F("hfake311","hfake311",100,200,300);
-  hfake311.SetLineColor(kPink-6); hfake311.SetMarkerStyle(kCircle); hfake311.SetLineWidth(4); hfake311.SetMarkerColor(kPink-6); hfake311.SetLineStyle(kDashed); hfake311.SetFillColor(kRed-7); hfake311.SetFillStyle(3444);
+  hfake311.SetLineColor(kPink-6); hfake311.SetMarkerStyle(kCircle); hfake311.SetLineWidth(4); hfake311.SetMarkerColor(kPink-6); hfake311.SetLineStyle(12); hfake311.SetFillColor(kRed-7); hfake311.SetFillStyle(3444);
   //// green line (prompt)
   hfake41 = TH1F("hfake41","hfake4",100,200,300);
-  hfake41.SetLineColor(kGreen+1); hfake41.SetMarkerStyle(kCircle); hfake41.SetLineWidth(4); hfake41.SetMarkerColor(kGreen+1); hfake41.SetLineStyle(kDashDotted); hfake41.SetFillColor(kGreen-7); hfake41.SetFillStyle(3444);
+  hfake41.SetLineColor(kGreen+3); hfake41.SetMarkerStyle(kCircle); hfake41.SetLineWidth(4); hfake41.SetMarkerColor(kGreen+3); hfake41.SetLineStyle(kDashDotted); hfake41.SetFillColor(kGreen-7); hfake41.SetFillStyle(3444);
 
   /////////////////////////////////// read MC and Data files ///////////////////////////////////  
   
@@ -2260,9 +2260,9 @@ void drawFinalCtau(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* binDat
 
     ws->pdf("totPDF_PEE")->plotOn(tframe,LineColor(kBlack),LineWidth(2),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent));
     hpulltot = tframe->pullHist(); hpulltot->SetName("hpulltot");
-    ws->pdf("totPDF_PEE")->plotOn(tframe,Components("MassCtBkg"),LineColor(kBlue),LineWidth(5),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent),LineStyle(7));
-    ws->pdf("totPDF_PEE")->plotOn(tframe,Components("MassCtNP"),LineColor(kRed),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent),LineStyle(kDashed));
-    ws->pdf("totPDF_PEE")->plotOn(tframe,Components("MassCtPR"),LineColor(kGreen+1),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent),LineStyle(kDashDotted));
+    ws->pdf("totPDF_PEE")->plotOn(tframe,Components("MassCtBkg"),LineColor(kBlue-2),LineWidth(5),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent),LineStyle(7));
+    ws->pdf("totPDF_PEE")->plotOn(tframe,Components("MassCtNP"),LineColor(kPink-6),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent),LineStyle(12));
+    ws->pdf("totPDF_PEE")->plotOn(tframe,Components("MassCtPR"),LineColor(kGreen+3),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent),LineStyle(kDashDotted));
     ws->pdf("totPDF_PEE")->plotOn(tframe,LineColor(kBlack),LineWidth(2),ProjWData(RooArgList(*(ws->var("Jpsi_CtErr"))),*binDataCtErr,kTRUE),NumCPU(8),Normalization(1,RooAbsReal::NumEvent));
 
   TH1 *hdatact = redDataCut->createHistogram("hdatact",*ws->var("Jpsi_Ct"),Binning(rb));
@@ -2310,7 +2310,8 @@ void drawFinalCtau(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* binDat
   if (opt.EventActivity ==1) ty->DrawLatex(0.91,0.80,opt.ntrkString);
   else if (opt.EventActivity ==2) ty->DrawLatex(0.91,0.80,opt.etString);
 
-  TLegend * leg = new TLegend(0.66,0.56,0.85,0.75,NULL,"brNDC");
+  //TLegend * leg = new TLegend(0.66,0.56,0.85,0.75,NULL,"brNDC");
+  TLegend * leg = new TLegend(0.66,0.56,0.99,0.75,NULL,"brNDC");
   leg->SetFillStyle(0); leg->SetBorderSize(0); leg->SetShadowColor(0);
   leg->SetTextSize(0.035); leg->SetTextFont(42);
   leg->SetMargin(0.2);
@@ -2324,7 +2325,7 @@ void drawFinalCtau(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* binDat
   // KYO : write down Bfrac on plot 
   TLatex *tbfrac = new TLatex();
   tbfrac->SetNDC(); tbfrac->SetTextAlign(12); tbfrac->SetTextSize(0.035);
-  sprintf(reduceDS,"Bfrac. = %.2f #pm %.2f",Bfrac_fin,ErrBfrac_fin);
+  sprintf(reduceDS,"B frac. = %.2f #pm %.2f",Bfrac_fin,ErrBfrac_fin);
   tbfrac->DrawLatex(0.19,0.91,reduceDS);
 
   RooPlot* tframepull =  ws->var("Jpsi_Ct")->frame(Title("Pull")) ;
