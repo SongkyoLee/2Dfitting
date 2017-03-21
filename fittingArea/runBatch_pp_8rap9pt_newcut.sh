@@ -106,7 +106,7 @@ function program {
 ################################################################ 
 ########## Running script with pre-defined binnings
 ################################################################ 
-
+'''
 for sys in ${sysString[@]}; do
   for rap in ${rapbins[@]}; do
     for pt in ${ptbins[@]}; do
@@ -116,30 +116,7 @@ for sys in ${sysString[@]}; do
   program $sys -2.40--1.93 2.0-3.0 $ntrkbins $ethfbins 
   program $sys 1.93-2.40 2.0-3.0 $ntrkbins $ethfbins 
 done
-
+'''
 ######## for paper
-#program "nominal" -2.40--1.93 2.0-3.0 $ntrkbins $ethfbins
-
-#program "sys01_01" 0.00-0.90 8.5-10.0 $ntrkbins $ethfbins
-#program "sys02_01" 0.00-0.90 7.5-8.5 $ntrkbins $ethfbins
-#program "nominal" -0.90-0.00 14.0-30.0  $ntrkbins $ethfbins
-#program "nominal" -2.40--1.93 3.0-4.0 $ntrkbins $ethfbins
-#program "nominal" -2.40--1.93 4.0-5.0 $ntrkbins $ethfbins
-#program "nominal" -2.40--1.93 8.5-10.0 $ntrkbins $ethfbins
-#program "nominal" 1.50-1.93 6.5-7.5 $ntrkbins $ethfbins
-#program "nominal" 1.93-2.40 2.0-3.0 $ntrkbins $ethfbins
-#program "nominal" 1.93-2.40 4.0-5.0 $ntrkbins $ethfbins
-
-#program "sys01_01" 1.93-2.40 14.0-30.0 $ntrkbins $ethfbins
-#program "sys01_02" 1.93-2.40 14.0-30.0 $ntrkbins $ethfbins
-#program "sys01_03" 1.93-2.40 14.0-30.0 $ntrkbins $ethfbins
-#program "sys01_02" -2.40--1.93 5.0-6.5 $ntrkbins $ethfbins
-#program "sys02_01" -1.93--1.50 14.0-30.0 $ntrkbins $ethfbins
-#program "sys02_01" 0.90-1.50 6.5-7.5 $ntrkbins $ethfbins
-#program "sys02_01" 1.50-1.93 5.0-6.5 $ntrkbins $ethfbins
-#for sys in ${sysString[@]}; do
-#  program $sys 1.50-1.93 8.5-10.0 $ntrkbins $ethfbins 
-#  program $sys 1.93-2.40 8.5-10.0 $ntrkbins $ethfbins 
-#  program $sys 0.00-0.90 10.0-14.0 $ntrkbins $ethfbins 
-#done
+program "nominal" -2.40--1.93 2.0-3.0 $ntrkbins $ethfbins
 

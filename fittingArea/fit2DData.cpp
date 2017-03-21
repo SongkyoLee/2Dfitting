@@ -2070,6 +2070,8 @@ void drawFinalMass(RooWorkspace *ws, RooDataSet* redDataCut, float NSigNP_fin, f
   double avgBinWidth = rb.averageBinWidth();
   mframe->GetYaxis()->SetTitle(Form("Counts / (%.0f MeV/c^{2 })",avgBinWidth*1000));
   mframe->GetXaxis()->SetTitle("m_{#mu#mu} (GeV/c^{2})");
+//  mframe->GetXaxis()->SetTitleSize(0.048*1.2); //PAPER
+//  mframe->GetYaxis()->SetTitleSize(0.048*1.2); //PAPER
   mframe->GetXaxis()->CenterTitle(1);
   mframe->GetYaxis()->CenterTitle(1);
   const double max = mframe->GetMaximum() * 1.3;
@@ -2389,8 +2391,11 @@ void drawFinalCtau(RooWorkspace *ws, RooDataSet *redDataCut, RooDataHist* binDat
 
   tframefill->GetXaxis()->SetTitle("#font[12]{l}_{J/#psi} (mm)");
   tframefill->GetXaxis()->CenterTitle(1);
+//  tframefill->GetXaxis()->SetTitleSize(0.048*1.2); //PAPER
+//  tframefill->GetYaxis()->SetTitleSize(0.048*1.2); //PAPER
+//  tframefill->GetYaxis()->SetTitle(Form("Counts / (%.0f #mum)",avgBinWidth*1000));
+  tframefill->GetYaxis()->SetTitle(Form("Counts / <%.0f #mum>",avgBinWidth*1000)); //PAPER
   tframefill->GetYaxis()->CenterTitle(1);
-  tframefill->GetYaxis()->SetTitle(Form("Counts / (%.0f #mum)",avgBinWidth*1000));
   tframefill->SetMaximum(tframefill->GetMaximum()*9); 
   tframefill->SetMinimum(0.5); 
   tframefill->Draw();
